@@ -46,7 +46,9 @@
     --content-width: 60rem;
     --content-width-wide: 72rem;
     --gutter: clamp(1.25rem, 5vw, 2.5rem);
-    --topbar-height: 3.75rem;
+    --topbar-height: 3.5rem;
+    /* The top bar floats this far from the top edge of the viewport. */
+    --topbar-offset: 0.75rem;
 
     /* SF Pro Rounded on Apple devices, a friendly sans elsewhere. */
     --font: ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Nunito',
@@ -113,7 +115,7 @@ html {
     background: var(--bg);
     scroll-behavior: smooth;
     /* Anchors stop below the sticky top bar. */
-    scroll-padding-top: calc(var(--topbar-height) + 1rem);
+    scroll-padding-top: calc(var(--topbar-height) + var(--topbar-offset) + 1rem);
 }
 
 body {
@@ -265,13 +267,12 @@ button {
     background: var(--accent);
     border: 0;
     border-radius: 999px;
-    box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 -3px 0 rgb(0 0 0 / 0.1);
-    transition: background-color 0.15s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.1);
+    transition: background-color 0.15s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .button:hover {
     transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 50%, transparent), inset 0 -3px 0 rgb(0 0 0 / 0.1);
 }
 
 .button:active {
@@ -289,14 +290,14 @@ button {
    4. Top bars: slim site header and sticky app header
    ========================================== */
 
+/* A floating glass capsule with a gap to the viewport edges. The fixed height keeps the page
+   in place when the phone menu opens: the capsule then grows over the content below. */
 .topbar {
     position: sticky;
-    top: 0;
+    top: var(--topbar-offset);
     z-index: 1000;
-    background: var(--surface-glass);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
-    backdrop-filter: saturate(180%) blur(16px);
-    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    height: var(--topbar-height);
+    margin: var(--topbar-offset) var(--gutter) 0;
 }
 
 .topbar-inner {
@@ -305,11 +306,29 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 0 1.5rem;
+    max-width: calc(var(--content-width) - 2 * var(--gutter));
     min-height: var(--topbar-height);
+    padding-inline: 1.25rem 0.5rem;
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    backdrop-filter: saturate(180%) blur(16px);
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+}
+
+/* With the menu open on a phone, the capsule grows into a rounded panel. */
+.topbar-inner:has(.nav-collapse[data-open]) {
+    border-radius: var(--radius);
+}
+
+/* On app pages the capsule floats over the hero, which makes room for it at the top. */
+.app-header {
+    margin-bottom: calc(-1 * (var(--topbar-height) + var(--topbar-offset)));
 }
 
 .app-header .topbar-inner {
-    max-width: var(--content-width-wide);
+    max-width: calc(var(--content-width-wide) - 2 * var(--gutter));
 }
 
 /* Back buttons on the far left: "Apps" in the app header, the owner's name in the site header
@@ -447,7 +466,7 @@ button {
 .nav-collapse {
     display: none;
     flex-basis: 100%;
-    padding-bottom: 0.75rem;
+    padding: 0 0.75rem 1rem 0;
 }
 
 .nav-collapse[data-open] {
@@ -478,7 +497,7 @@ button {
     .nav-collapse[data-open] {
         display: flex;
         flex-basis: auto;
-        padding-bottom: 0;
+        padding: 0;
     }
 
     .nav-collapse .nav-list {
@@ -848,7 +867,7 @@ button {
     /* Above the next section, which the tilted screenshot overlaps on wide screens. */
     z-index: 1;
     isolation: isolate;
-    padding: clamp(3.5rem, 9vw, 5rem) 0 2.5rem;
+    padding: calc(var(--topbar-height) + var(--topbar-offset) + clamp(3rem, 8vw, 4.5rem)) 0 2.5rem;
     color: var(--text);
     text-align: center;
     overflow-x: clip;
@@ -951,7 +970,7 @@ button {
 
 @media (min-width: 992px) {
     .app-hero {
-        padding: 6.5rem 0 3rem;
+        padding: calc(var(--topbar-height) + var(--topbar-offset) + 5.5rem) 0 3rem;
         text-align: left;
     }
 
