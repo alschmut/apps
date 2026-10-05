@@ -1,19 +1,48 @@
+{%- assign owner = site.data.site.owner -%}
+{%- assign is_app = false -%}
+{%- if page.collection == "apps" -%}{%- assign is_app = true -%}{%- endif -%}
+{%- if is_app -%}
+  {%- assign page_title = page.title -%}
+  {%- assign app_dir = '/assets/apps/' | append: page.slug -%}
+  {%- assign social_image = app_dir | append: '/screenshots/' | append: page.screenshots[0].file -%}
+{%- else -%}
+  {%- assign page_title = page.title | append: ' — ' | append: owner.name -%}
+  {%- assign social_image = owner.portrait -%}
+{%- endif -%}
+{%- assign page_description = page.description | default: site.description | strip_newlines | strip -%}
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<base target="_blank">
-
-	<title class="pageTitle">{{ site.page_title }}</title>
-	<meta name="description" content="{{ site.app_description }}">
-
-	<link rel="shortcut icon" href="{{ site.app_icon | relative_url }}">
-
-	<!-- Smart App Banner -->
-	{% if site.enable_smart_app_banner %}
-		<meta name="apple-itunes-app" content="app-id={{ site.ios_app_id }}">
-	{% endif %}
-
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
-	<link rel="stylesheet" href="{{ '/main.css' | relative_url }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title | escape }}</title>
+  <meta name="description" content="{{ page_description | escape }}">
+  <meta name="author" content="{{ owner.name | escape }}">
+{%- if page.noindex %}
+  <meta name="robots" content="noindex">
+{%- else %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+{%- endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ page_description | escape }}">
+  <meta property="og:image" content="{{ social_image | absolute_url }}">
+  <meta name="twitter:card" content="{% if is_app %}summary_large_image{% else %}summary{% endif %}">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)">
+{%- if is_app %}
+  <link rel="icon" type="image/png" href="{{ page.icon_favicon | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ page.icon_touch | relative_url }}">
+{%- else %}
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
+{%- endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  <script defer src="{{ '/assets/js/site.js' | relative_url }}"></script>
+{%- if page.app_store_id %}
+  <meta name="apple-itunes-app" content="app-id={{ page.app_store_id }}">
+{%- endif %}
+{%- if is_app %}
+  <noscript><style>.nav-toggle { display: none; } .nav-collapse { display: flex; }</style></noscript>
+{%- endif %}
 </head>

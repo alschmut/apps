@@ -1,0 +1,18 @@
+owner:
+  name: Alexander Schmutz
+  tagline: iOS developer in Stuttgart, Germany
+  intro: >-
+    I build small, focused apps for iPhone, iPad and Apple Watch in my free time:
+    simple to use, quick to open, and made with care.
+  portrait: /assets/images/portrait.jpg
+contact:
+  lead: Questions about an app, feedback, or an idea? Any of these reach me.
+  channels:
+    - { id: email,    label: Email,    handle: apps@t-schmutz.de,  href: "mailto:apps@t-schmutz.de" }
+    - { id: github,   label: GitHub,   handle: "@alschmut",        href: "https://github.com/alschmut" }
+    - { id: linkedin, label: LinkedIn, handle: alexander-schmutz,  href: "https://www.linkedin.com/in/alexander-schmutz" }
+legal:
+  links:
+    - { label: Impressum,      href: /impressum/ }
+    - { label: Privacy Policy, href: /privacy-policy/ }
+copyright_year: 2026

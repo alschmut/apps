@@ -1,70 +1,40 @@
-<footer>
-	{% if site.your_name %}
-	<p class="footerText">Made with <i class="iconBack fas fa-heart"></i> by {% if site.your_link %}<a href="{{ site.your_link }}">{% endif %}{{ site.your_name }}{% if site.your_link %}</a>{% endif %}{% if site.your_city %} in {{ site.your_city }}{% endif %}</p>
-	{% endif %}
-	<div class="footerIcons">
-
-		{% if site.facebook_username %}
-			<a href="https://facebook.com/{{ site.facebook_username }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fab fa-facebook fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-		{% if site.twitter_username %}
-			<a href="https://twitter.com/{{ site.twitter_username }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fab fa-twitter fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-		{% if site.instagram_username %}
-			<a href="https://instagram.com/{{ site.instagram_username }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fab fa-instagram fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-		{% if site.mastodon_link %}
-			<a rel="me" href="{{ site.mastodon_link }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fab fa-mastodon fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-		{% if site.github_username %}
-			<a href="https://github.com/{{ site.github_username }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fab fa-github fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-		{% if site.email_address %}
-			<a href="mailto:{{ site.email_address }}">
-				<span class="fa-stack fa-1x">
-					<i class="socialIconBack fas fa-circle fa-stack-2x"></i>
-					<i class="socialIconTop fas fa-envelope fa-stack-1x"></i>
-				</span>
-			</a>
-		{% endif %}
-
-	</div>
-	<div class="footerLinks">
-		{% for page in site.pages %}
-			<a href="{{ page.url | relative_url }}" target="_self">{{ page.title }}</a>
-		{% endfor %}
-		{% if site.presskit_download_link %}
-			<a href="{{ site.presskit_download_link }}">Press Kit</a>
-		{% endif %}
-	</div>
+{%- assign data = site.data.site -%}
+{%- if page.collection == "apps" -%}
+<footer class="app-footer">
+  <div class="container">
+    <div class="footer-content">
+      <p class="footer-tagline">{{ page.tagline }}.</p>
+      <ul class="footer-social">
+        {%- for channel in data.contact.channels %}
+        <li>
+          <a class="social-link" href="{{ channel.href }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %} title="{{ channel.label }}: {{ channel.handle }}">
+            {% include icon.html name=channel.id size=18 %}
+            <span class="sr-only">{{ channel.label }}</span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <nav class="footer-links" aria-label="Legal">
+        <a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a>
+        <a href="{{ '/impressum/' | relative_url }}">Impressum</a>
+        <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">Terms of Use</a>
+        <a href="{{ '/' | relative_url }}">More apps</a>
+      </nav>
+      <p class="footer-copy">© {{ data.copyright_year }} {{ data.owner.name }}</p>
+    </div>
+  </div>
 </footer>
+{%- else -%}
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <p class="footer-copy">© {{ data.copyright_year }} {{ data.owner.name }}</p>
+    <nav class="footer-links" aria-label="Legal">
+      {%- for link in data.legal.links %}
+      <a href="{{ link.href | relative_url }}">{{ link.label }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
+</footer>
+{%- endif -%}

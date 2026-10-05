@@ -1,0 +1,17 @@
+{%- assign app = include.app -%}
+<section class="app-row accent-scope" style="--accent: {{ app.accent }}" aria-labelledby="app-{{ app.slug }}">
+  <div class="container app-row-inner">
+    <a class="app-row-icon-link" href="{{ app.url | relative_url }}" tabindex="-1" aria-hidden="true">
+      <img class="app-row-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+    </a>
+    <div class="app-row-text">
+      <h3 id="app-{{ app.slug }}">{{ app.name }}</h3>
+      <p class="app-row-tagline">{{ app.tagline }}</p>
+      <p class="app-row-description">{{ app.description }}</p>
+      <a class="app-row-cta" href="{{ app.url | relative_url }}">
+        <span>{{ app.link_label }}</span>
+        {% include icon.html name="arrow-right" size=18 %}
+      </a>
+    </div>
+  </div>
+</section>

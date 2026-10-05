@@ -1,0 +1,1580 @@
+/* ==========================================================================
+   site.css: the one stylesheet of the site, served as-is (no Sass).
+
+   Design: the neutral light/dark tokens of apps.peterkurzok.de (app-site
+   Base.astro) and the components of karacho.peterkurzok.de (Karacho site.css),
+   re-tokenised so that every app page brings its own accent colour.
+
+   Sections:
+     1. Tokens            6. Home: hero, app rows, contact
+     2. Base              7. App hero
+     3. Buttons           8. Section header, download band, store badges
+     4. Top bars          9. Prose pages
+     5. (reserved)       10. Footers
+                         11. Screenshots  12. Lightbox  13. Features  14. FAQ
+   ========================================================================== */
+
+/* ==========================================
+   1. Tokens
+   ========================================== */
+
+/* Keep --tint-strength, --accent-ink-mix, --accent-ink-base and --bg in sync with the
+   constants at the top of scripts/check-site.mjs, which checks the accent contrast. */
+:root {
+    color-scheme: light dark;
+
+    --bg: #ffffff;
+    --surface: #f5f5f7;
+    --surface-raised: #ffffff;
+    --surface-glass: rgb(255 255 255 / 0.78);
+    --text: #16161a;
+    --text-muted: #62626b;
+    --border: #e2e2e7;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.05), 0 14px 32px rgb(0 0 0 / 0.1);
+    --shadow-device: 0 24px 48px rgb(0 0 0 / 0.18), 0 6px 16px rgb(0 0 0 / 0.08);
+
+    /* Accent: set per app with style="--accent: …" on an .accent-scope element. */
+    --accent: #8e8e93;
+    --on-accent: #16161a;
+    --tint-strength: 7%;
+    --accent-ink-mix: 45%;
+    --accent-ink-base: #000;
+
+    --radius: 1rem;
+    --radius-sm: 0.5rem;
+    /* Approximates Apple's squircle on a square icon */
+    --icon-radius: 22.5%;
+    --content-width: 60rem;
+    --content-width-wide: 72rem;
+    --gutter: clamp(1.25rem, 5vw, 2.5rem);
+    --topbar-height: 3.75rem;
+
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial, sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0b0b0f;
+        --surface: #17171c;
+        --surface-raised: #1c1c22;
+        --surface-glass: rgb(11 11 15 / 0.78);
+        --text: #f2f2f5;
+        --text-muted: #9a9aa4;
+        --border: #2a2a32;
+        --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+        --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.45), 0 14px 32px rgb(0 0 0 / 0.5);
+        --shadow-device: 0 24px 48px rgb(0 0 0 / 0.55), 0 6px 16px rgb(0 0 0 / 0.35);
+
+        --tint-strength: 13%;
+        --accent-ink-mix: 80%;
+        --accent-ink-base: #fff;
+    }
+}
+
+/* --accent-ink must be declared on the element that sets --accent: on :root it would
+   resolve var(--accent) to the default before an app overrides it. */
+.accent-scope {
+    --accent-ink: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--accent-ink-base));
+    --accent-tint: color-mix(in srgb, var(--accent) var(--tint-strength), var(--bg));
+    --accent-line: color-mix(in srgb, var(--accent) 18%, var(--bg));
+}
+
+/* ==========================================
+   2. Base
+   ========================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--bg);
+    scroll-behavior: smooth;
+    /* Anchors stop below the sticky top bar. */
+    scroll-padding-top: calc(var(--topbar-height) + 1rem);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+main {
+    flex: 1 0 auto;
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+    font-family: var(--font-display);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+p {
+    margin: 0 0 1rem;
+    text-wrap: pretty;
+}
+
+img,
+picture,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+img {
+    height: auto;
+}
+
+a {
+    color: inherit;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+::selection {
+    background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.container {
+    width: 100%;
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: 1.75rem;
+}
+
+.skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2000;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(-200%);
+    transition: transform 0.15s ease;
+}
+
+.skip-link:focus-visible {
+    transform: none;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================================
+   3. Buttons
+   ========================================== */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.55rem 1.15rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--on-accent);
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    background: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 85%, var(--text));
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.25);
+    transition: background-color 0.15s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+    background: color-mix(in srgb, var(--accent) 88%, white);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.button:active {
+    transform: none;
+}
+
+.button-small {
+    min-height: 36px;
+    padding: 0.35rem 0.95rem;
+    font-size: 0.875rem;
+    border-radius: 999px;
+}
+
+/* ==========================================
+   4. Top bars: slim site header and sticky app header
+   ========================================== */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    backdrop-filter: saturate(180%) blur(16px);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.topbar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 1.5rem;
+    min-height: var(--topbar-height);
+}
+
+.app-header .topbar-inner {
+    max-width: var(--content-width-wide);
+}
+
+.brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 44px;
+    margin-right: auto;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.brand-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--icon-radius);
+    box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.12);
+}
+
+.brand-name {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.topbar-links,
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--text);
+}
+
+.nav-toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+}
+
+.nav-toggle svg {
+    width: 26px;
+    height: 26px;
+}
+
+.nav-toggle[aria-expanded="true"] {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+/* Below 768px the app navigation is closed until the toggle sets data-open. */
+.nav-collapse {
+    display: none;
+    flex-basis: 100%;
+    padding-bottom: 0.75rem;
+}
+
+.nav-collapse[data-open] {
+    display: block;
+}
+
+.nav-collapse .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.nav-collapse .nav-link {
+    padding-inline: 0;
+}
+
+.nav-collapse .button {
+    margin-top: 0.5rem;
+    width: 100%;
+    min-height: 44px;
+}
+
+@media (min-width: 768px) {
+    .nav-toggle {
+        display: none;
+    }
+
+    .nav-collapse,
+    .nav-collapse[data-open] {
+        display: flex;
+        flex-basis: auto;
+        padding-bottom: 0;
+    }
+
+    .nav-collapse .nav-list {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .nav-collapse .nav-link {
+        padding-inline: 0.5rem;
+    }
+
+    .nav-collapse .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0.55rem;
+        left: 0.5rem;
+        width: 0;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--accent);
+        transition: width 0.25s ease;
+    }
+
+    .nav-collapse .nav-link:hover::after {
+        width: calc(100% - 1rem);
+    }
+
+    .nav-collapse .button {
+        width: auto;
+        margin: 0 0 0 0.5rem;
+        min-height: 36px;
+    }
+}
+
+/* ==========================================
+   5. (reserved for shared components added later)
+   ========================================== */
+
+/* ==========================================
+   6. Home: hero, app rows, contact
+   ========================================== */
+
+.home-hero {
+    position: relative;
+    padding-block: clamp(3rem, 9vw, 5.5rem) clamp(2.5rem, 7vw, 4rem);
+    isolation: isolate;
+}
+
+/* A soft neutral glow behind the portrait. */
+.home-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(40rem 22rem at 30% 0%, var(--surface), transparent 70%);
+    pointer-events: none;
+}
+
+.home-hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.75rem;
+}
+
+.portrait {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow), 0 0 0 6px var(--bg), 0 0 0 7px var(--border);
+}
+
+.home-hero h1 {
+    font-size: clamp(2.25rem, 7vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.home-tagline {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.125rem, 3vw, 1.375rem);
+    font-weight: 500;
+    color: var(--text);
+}
+
+.home-intro {
+    max-width: 44ch;
+    margin: 1rem auto 0;
+    color: var(--text-muted);
+}
+
+.channels {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.channels a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.channels a:hover,
+.channels a:focus-visible {
+    color: var(--text);
+    border-color: var(--text-muted);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+@media (min-width: 46rem) {
+    .home-hero-inner {
+        flex-direction: row;
+        text-align: left;
+        gap: 2.75rem;
+    }
+
+    .portrait {
+        width: 200px;
+        height: 200px;
+    }
+
+    .home-intro {
+        margin-inline: 0;
+    }
+
+    .channels {
+        justify-content: flex-start;
+    }
+}
+
+/* App list */
+
+.apps .section-title {
+    margin-bottom: 1.25rem;
+}
+
+.app-row {
+    padding-block: clamp(2rem, 6vw, 3.25rem);
+    background: var(--accent-tint);
+    border-block: 1px solid var(--accent-line);
+}
+
+/* Collapse the doubled border between consecutive rows */
+.app-row + .app-row {
+    border-top: 0;
+}
+
+.app-row-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+}
+
+.app-row-icon-link {
+    display: block;
+    flex-shrink: 0;
+    border-radius: var(--icon-radius);
+    transition: transform 0.2s ease;
+}
+
+.app-row-icon-link:hover {
+    transform: scale(1.04) rotate(-2deg);
+}
+
+.app-row-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--icon-radius);
+    box-shadow: var(--shadow), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+}
+
+.app-row h3 {
+    font-size: clamp(1.5rem, 4vw, 1.875rem);
+    font-weight: 700;
+}
+
+.app-row-tagline {
+    margin: 0.4rem 0 0;
+    font-weight: 500;
+    color: var(--accent-ink);
+}
+
+.app-row-description {
+    max-width: 52ch;
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+}
+
+.app-row-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    margin-top: 0.6rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+    text-decoration: none;
+}
+
+.app-row-cta .icon {
+    transition: transform 0.15s ease;
+}
+
+.app-row-cta:hover .icon,
+.app-row-cta:focus-visible .icon {
+    transform: translateX(3px);
+}
+
+.app-row-cta:hover span,
+.app-row-cta:focus-visible span {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (min-width: 40rem) {
+    .app-row-inner {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .app-row-icon {
+        width: 128px;
+        height: 128px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-row-icon-link:hover {
+        transform: none;
+    }
+}
+
+/* Contact cards */
+
+.contact {
+    padding-block: clamp(3rem, 8vw, 4.5rem) 0;
+}
+
+.contact-lead {
+    max-width: 52ch;
+    margin: -0.75rem 0 1.75rem;
+    color: var(--text-muted);
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 40rem) {
+    .contact-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.contact-cards a {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-raised);
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.contact-cards a:hover,
+.contact-cards a:focus-visible {
+    border-color: var(--text-muted);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.contact-glyph {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+}
+
+.contact-labels {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.contact-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.contact-handle {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   7. App hero
+   ========================================== */
+
+.app-hero {
+    position: relative;
+    /* Above the next section, which the tilted screenshot overlaps on wide screens. */
+    z-index: 1;
+    padding: clamp(3.5rem, 9vw, 5rem) 0 2.5rem;
+    color: var(--text);
+    text-align: center;
+    background:
+        radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 45%),
+        radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 45%),
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, var(--bg)) 0%, var(--bg) 75%);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: var(--content-width-wide);
+}
+
+.hero-title {
+    margin-bottom: 1.25rem;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+}
+
+.hero-subtitle {
+    max-width: 36rem;
+    margin: 0 auto 2rem;
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--text) 82%, var(--bg));
+}
+
+.hero-text .hero-cta {
+    margin: 0 0 1.5rem;
+}
+
+.hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9375rem;
+    color: color-mix(in srgb, var(--text) 72%, var(--bg));
+}
+
+.hero-trust li + li::before {
+    content: '·';
+    margin-right: 0.5rem;
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+}
+
+/* Below 992px the screenshot stands upright under the text. */
+.hero-image {
+    width: 260px;
+    border-radius: 2rem;
+    box-shadow: var(--shadow-device);
+}
+
+@media (min-width: 992px) {
+    .app-hero {
+        padding: 6.5rem 0 3rem;
+        text-align: left;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .hero-subtitle {
+        margin-left: 0;
+    }
+
+    .hero-trust {
+        justify-content: flex-start;
+    }
+
+    /* Tilted, and hanging 6rem into the section below. */
+    .hero-image {
+        width: 360px;
+        margin-bottom: -6rem;
+        border-radius: 2.75rem;
+        transform: rotate(-4deg);
+    }
+}
+
+/* ==========================================
+   8. Section header, download band, store badges
+   ========================================== */
+
+.section-header {
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.section-header h2 {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+}
+
+.section-description {
+    margin: 0;
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+}
+
+.download-band {
+    padding: clamp(4rem, 9vw, 5.5rem) 0;
+    text-align: center;
+    background:
+        radial-gradient(circle at 15% 30%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 50%),
+        radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 50%),
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 24%, var(--bg)) 0%, var(--bg) 90%);
+    border-top: 1px solid var(--accent-line, var(--border));
+}
+
+.download-band h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+}
+
+.download-text {
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+    font-size: 1.125rem;
+    color: color-mix(in srgb, var(--text) 80%, var(--bg));
+}
+
+.store-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0;
+}
+
+@media (min-width: 992px) {
+    .hero-grid .store-badges {
+        justify-content: flex-start;
+    }
+}
+
+.store-badge-link {
+    display: inline-flex;
+    border-radius: 0.6rem;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.store-badge-link:hover {
+    transform: translateY(-2px);
+}
+
+.store-badge {
+    width: auto;
+    height: 50px;
+    filter: drop-shadow(0 10px 24px rgb(0 0 0 / 0.18));
+}
+
+@media (max-width: 768px) {
+    .store-badge {
+        height: 45px;
+    }
+}
+
+/* ==========================================
+   9. Prose pages: privacy policy, Impressum, 404
+   ========================================== */
+
+.prose {
+    max-width: 42rem;
+    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(1rem, 4vw, 2rem);
+}
+
+.prose h1 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.875rem, 5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.prose h2 {
+    margin: 2.5rem 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 650;
+}
+
+.prose h3 {
+    margin: 1.75rem 0 0.4rem;
+    font-size: 1.0625rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+    margin-block: 0.85rem;
+    color: var(--text-muted);
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.2rem;
+}
+
+.prose li {
+    margin-block: 0.3rem;
+}
+
+.prose strong {
+    color: var(--text);
+}
+
+.prose address {
+    margin-block: 0.85rem;
+    font-style: normal;
+    color: var(--text-muted);
+}
+
+.prose a {
+    color: var(--text);
+    text-decoration-color: color-mix(in srgb, var(--text-muted) 70%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.prose a:hover {
+    text-decoration-color: currentColor;
+}
+
+.prose .updated {
+    margin-top: -0.75rem;
+    font-size: 0.9rem;
+}
+
+/* Tables scroll sideways on a phone instead of widening the page. */
+.prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-block: 1.25rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.prose th,
+.prose td {
+    padding: 0.6rem 0.85rem;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+}
+
+.prose th {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+}
+
+.prose td {
+    color: var(--text-muted);
+}
+
+.prose tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.prose tbody td:first-child {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.not-found {
+    padding-block: clamp(2rem, 10vw, 5rem);
+}
+
+.not-found-code {
+    margin: 0 0 0.75rem;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* ==========================================
+   10. Footers
+   ========================================== */
+
+/* Main and legal pages: app-site style. */
+.site-footer {
+    margin-top: 5rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.site-footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+}
+
+.footer-copy {
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+}
+
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* App pages: Karacho style. */
+.app-footer {
+    padding: 3rem 0 2rem;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.app-footer .container {
+    max-width: var(--content-width-wide);
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-tagline {
+    max-width: 26rem;
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.social-link {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface-raised);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.footer-bottom .footer-links {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.footer-bottom .footer-links a {
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+/* ==========================================
+   11. Screenshots
+   ========================================== */
+
+.app-page {
+    --section-padding-y: clamp(4rem, 9vw, 6rem);
+}
+
+.screenshots-section {
+    padding: var(--section-padding-y) 0;
+    background: var(--surface);
+    border-block: 1px solid var(--border);
+}
+
+/* Room for the tilted hero screenshot that hangs 6rem into this section. */
+@media (min-width: 992px) {
+    .screenshots-section {
+        padding-top: 10rem;
+    }
+}
+
+.screenshots-wrap {
+    max-width: var(--content-width-wide);
+}
+
+.screenshots-container {
+    --shot-width: 300px;
+    position: relative;
+}
+
+.screenshots-scroll {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    /* The vertical padding keeps the card shadows and the hover lift from being cut off. */
+    padding: 1rem 1.5rem 1.5rem;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--text-muted) 45%, transparent) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.screenshot-card {
+    flex: 0 0 auto;
+    width: var(--shot-width);
+    scroll-snap-align: start;
+}
+
+.screenshot-card figure {
+    margin: 0;
+}
+
+.screenshot-trigger {
+    display: block;
+    border-radius: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.screenshot-trigger:hover {
+    transform: translateY(-4px);
+}
+
+.screenshot-trigger:focus-visible {
+    outline-offset: 4px;
+    border-radius: 1.6rem;
+}
+
+.screenshot-image {
+    width: var(--shot-width);
+    border-radius: 1.5rem;
+    background: var(--surface-raised);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s ease;
+}
+
+.screenshot-trigger:hover .screenshot-image {
+    box-shadow: var(--shadow-lift);
+}
+
+.screenshot-card figcaption {
+    margin-top: 0.9rem;
+    padding-inline: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.carousel-arrow {
+    position: absolute;
+    /* Centred on the images, not on images plus captions. */
+    top: calc(1rem + var(--shot-width) * 1303 / 600 / 2);
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--text);
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    transform: translateY(-50%);
+    transition: box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.carousel-arrow:hover {
+    color: var(--accent-ink);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    box-shadow: var(--shadow-lift);
+}
+
+.carousel-prev {
+    left: -0.75rem;
+}
+
+.carousel-next {
+    right: -0.75rem;
+}
+
+/* On a phone the carousel is scrolled by touch. Without JS the arrows do nothing. */
+@media (max-width: 767px) {
+    .screenshots-container {
+        --shot-width: 240px;
+        /* Let the row run to the screen edges. */
+        margin-inline: calc(var(--gutter) * -1);
+    }
+
+    .screenshots-scroll {
+        padding-inline: var(--gutter);
+        scroll-padding-inline: var(--gutter);
+    }
+
+    .carousel-arrow {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .screenshot-trigger:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================
+   12. Lightbox
+   ========================================== */
+
+/* The page behind an open lightbox does not scroll. */
+html:has(dialog[open]) {
+    overflow: hidden;
+}
+
+.lightbox {
+    width: calc(100% - 1rem);
+    max-width: 500px;
+    max-height: calc(100% - 1rem);
+    padding: 0;
+    overflow-y: auto;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.35);
+}
+
+.lightbox::backdrop {
+    background: rgb(0 0 0 / 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+@media (min-width: 576px) {
+    .lightbox {
+        max-height: calc(100% - 3.5rem);
+    }
+}
+
+.lightbox-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.lightbox-caption {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+}
+
+.lightbox-close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 0;
+    color: var(--text-muted);
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lightbox-close:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.lightbox-body {
+    padding: 1rem;
+}
+
+.lightbox-image {
+    width: auto;
+    max-width: 100%;
+    /* The whole screenshot fits on screen: dialog margins, header and padding. */
+    max-height: calc(100dvh - 9rem);
+    margin: 0 auto;
+    border-radius: 1.25rem;
+}
+
+/* ==========================================
+   13. Features
+   ========================================== */
+
+.features-section {
+    padding: var(--section-padding-y) 0;
+}
+
+.features-wrap {
+    max-width: var(--content-width-wide);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 40rem) and (max-width: 55.99rem) {
+    .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 56rem) {
+    .features-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+.feature-card {
+    padding: 1.75rem;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+    box-shadow: var(--shadow-lift);
+}
+
+.feature-icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1.25rem;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 16%, var(--surface-raised));
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 0.875rem;
+}
+
+.feature-title {
+    margin-bottom: 0.6rem;
+    font-size: 1.1875rem;
+    font-weight: 650;
+}
+
+.feature-description {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .feature-card:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================
+   14. FAQ
+   ========================================== */
+
+.faq-section {
+    padding: 0 0 var(--section-padding-y);
+}
+
+.faq-section .section-description a,
+.faq-answer a {
+    color: var(--text);
+    text-decoration-color: color-mix(in srgb, var(--accent) 70%, var(--text-muted));
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.faq-section .section-description a:hover,
+.faq-answer a:hover {
+    text-decoration-color: currentColor;
+}
+
+.faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    overflow: hidden;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+}
+
+/* Grouped corners: the list reads as one rounded card. */
+.faq-item:first-child {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+.faq-item:last-child {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+}
+
+.faq-item + .faq-item {
+    border-top: 0;
+}
+
+.faq-item summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 44px;
+    padding: 1.1rem 1.5rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.15s ease;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary:hover {
+    background: color-mix(in srgb, var(--surface) 70%, var(--surface-raised));
+}
+
+.faq-item summary:focus-visible {
+    outline-offset: -3px;
+}
+
+/* Chevron, drawn in the text colour through a mask. */
+.faq-item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: auto;
+    background: var(--text-muted);
+    -webkit-mask: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e") center / 1.25rem no-repeat;
+    mask: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e") center / 1.25rem no-repeat;
+    transition: transform 0.2s ease-in-out;
+}
+
+.faq-item[open] summary {
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-item[open] summary::after {
+    background: var(--accent-ink);
+    transform: rotate(-180deg);
+}
+
+.faq-body {
+    padding: 1rem 1.5rem 1.25rem;
+}
+
+.faq-answer {
+    margin: 0;
+    color: var(--text-muted);
+}

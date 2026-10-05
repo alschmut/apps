@@ -1,0 +1,130 @@
+---
+layout: base
+header: app
+body_class: app-page
+---
+{%- assign app_dir = '/assets/apps/' | append: page.slug -%}
+{%- assign hero_full = app_dir | append: '/screenshots/' | append: page.hero.image -%}
+{%- assign hero_thumb = app_dir | append: '/screenshots/thumbs/' | append: page.hero.image -%}
+<section id="top" class="app-hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <h1 class="hero-title">{{ page.hero.title }}</h1>
+      <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
+      <div class="store-badges hero-cta">
+        {% include store-badge.html %}
+      </div>
+      <ul class="hero-trust">
+        {%- for entry in page.hero.trust %}
+        <li>{{ entry | escape }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="hero-visual">
+      <img class="hero-image" src="{{ hero_thumb | relative_url }}" srcset="{{ hero_thumb | relative_url }} 600w, {{ hero_full | relative_url }} 1320w" sizes="(min-width: 992px) 360px, 260px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+    </div>
+  </div>
+</section>
+
+<section id="screenshots" class="screenshots-section">
+  <div class="container screenshots-wrap">
+    <div class="section-header">
+      <h2>{{ page.sections.screenshots.title }}</h2>
+      <p class="section-description">{{ page.sections.screenshots.description }}</p>
+    </div>
+    <div class="screenshots-container">
+      <button type="button" class="carousel-arrow carousel-prev" aria-label="Previous screenshot">
+        {% include icon.html name="chevron-left" size=18 %}
+      </button>
+      <ul class="screenshots-scroll" role="list">
+        {%- for shot in page.screenshots %}
+        {%- assign shot_full = app_dir | append: '/screenshots/' | append: shot.file | relative_url -%}
+        {%- assign shot_thumb = app_dir | append: '/screenshots/thumbs/' | append: shot.file | relative_url %}
+        <li class="screenshot-card">
+          <figure>
+            {%- comment -%} An <a>, so that without JS a click still opens the full image. {%- endcomment %}
+            <a class="screenshot-trigger" href="{{ shot_full }}" data-full="{{ shot_full }}" data-caption="{{ shot.caption | escape }}">
+              <img class="screenshot-image" src="{{ shot_thumb }}" width="600" height="1303" alt="{{ shot.alt | escape }}" loading="lazy" decoding="async">
+            </a>
+            <figcaption>{{ shot.caption | escape }}</figcaption>
+          </figure>
+        </li>
+        {%- endfor %}
+      </ul>
+      <button type="button" class="carousel-arrow carousel-next" aria-label="Next screenshot">
+        {% include icon.html name="chevron-right" size=18 %}
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features-section">
+  <div class="container features-wrap">
+    <div class="section-header">
+      <h2>{{ page.sections.features.title }}</h2>
+      <p class="section-description">{{ page.sections.features.description }}</p>
+    </div>
+    <ul class="features-grid" role="list">
+      {%- for feature in page.features %}
+      <li class="feature-card">
+        <div class="feature-icon">{% include icon.html name=feature.icon size=24 %}</div>
+        <h3 class="feature-title">{{ feature.title | escape }}</h3>
+        <p class="feature-description">{{ feature.text | escape }}</p>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+{%- comment -%}
+  The id is "support", not "faq": the App Store support URL may later point at /<app>/#support.
+  Answers are Markdown. markdownify wraps them in <p>, which is removed because the template adds its
+  own; root-relative links such as /privacy-policy/ get the baseurl.
+{%- endcomment -%}
+{%- capture base_href %}href="{{ site.baseurl }}/{% endcapture -%}
+{%- assign support_text = page.sections.support.description | escape -%}
+{%- for channel in site.data.site.contact.channels -%}
+  {%- if channel.id == "email" -%}
+    {%- capture email_link %}<a href="{{ channel.href }}">{{ channel.handle }}</a>{% endcapture -%}
+    {%- assign support_text = support_text | replace: channel.handle, email_link -%}
+  {%- endif -%}
+{%- endfor %}
+<section id="support" class="faq-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ page.sections.support.title }}</h2>
+      <p class="section-description">{{ support_text }}</p>
+    </div>
+    <div class="faq-accordion">
+      {%- for entry in page.faq %}
+      {%- assign answer = entry.a | markdownify | strip | remove: '<p>' | remove: '</p>' | replace: 'href="/', base_href %}
+      {%- comment -%} The shared name closes the open entry when another one opens. {%- endcomment %}
+      <details name="faq" class="faq-item">
+        <summary>{{ entry.q | escape }}</summary>
+        <div class="faq-body"><p class="faq-answer">{{ answer }}</p></div>
+      </details>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="download" class="download-band">
+  <div class="container">
+    <h2>{{ page.sections.download.title }}</h2>
+    <p class="download-text">{{ page.sections.download.text }}</p>
+    <div class="store-badges">
+      {% include store-badge.html %}
+    </div>
+  </div>
+</section>
+{{ content }}
+
+<dialog class="lightbox" aria-labelledby="lightbox-caption">
+  <div class="lightbox-header">
+    <h2 id="lightbox-caption" class="lightbox-caption"></h2>
+    <button type="button" class="lightbox-close" aria-label="Close">{% include icon.html name="x-lg" size=18 %}</button>
+  </div>
+  <div class="lightbox-body">
+    <img class="lightbox-image" alt="">
+  </div>
+</dialog>

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+{% include head.html %}
+<body class="{{ layout.body_class }}{% if page.accent %} accent-scope{% endif %}"{% if page.accent %} style="--accent: {{ page.accent }}; --on-accent: {{ page.on_accent | default: '#16161a' }}"{% endif %}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {%- if layout.header == "site" %}
+  {% include site-header.html %}
+  {%- elsif layout.header == "app" %}
+  {% include app-header.html %}
+  {%- endif %}
+  <main id="main">
+{{ content }}
+  </main>
+  {% include footer.html %}
+</body>
+</html>
