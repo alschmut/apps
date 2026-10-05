@@ -25,6 +25,7 @@ const MIN_CONTRAST = 4.5;
 const expectedFiles = [
   'index.html',
   'easy-dice/index.html',
+  'tear-tales/index.html',
   'privacy-policy/index.html',
   'impressum/index.html',
   '404.html',
@@ -165,9 +166,11 @@ check(
   `missing in ${missingLegal.join(', ')}`,
 );
 
-// Smart App Banner on the app page only
-const banner = '<meta name="apple-itunes-app" content="app-id=1514806286">';
-check((html.get('easy-dice/index.html') ?? '').includes(banner), 'easy-dice/index.html has the Smart App Banner', 'missing');
+// Smart App Banner on the app pages only
+for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '6499500073']]) {
+  const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
+  check((html.get(`${page}/index.html`) ?? '').includes(banner), `${page}/index.html has the Smart App Banner`, 'missing');
+}
 check(
   !(html.get('index.html') ?? '').includes('name="apple-itunes-app"'),
   'index.html has no Smart App Banner',

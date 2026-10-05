@@ -2,7 +2,8 @@
 
 The website for all of Alexander Schmutz's apps for iPhone, iPad and Apple Watch: a main page with a
 short introduction, the list of apps and contact details, one page per app (starting with
-[Easy Dice](https://alschmut.github.io/apps/easy-dice/)), and one shared privacy policy and
+[Easy Dice](https://alschmut.github.io/apps/easy-dice/) and
+[Tear Tales](https://alschmut.github.io/apps/tear-tales/)), and one shared privacy policy and
 Impressum.
 
 Live: <https://alschmut.github.io/apps/>. The site will later replace the WordPress site at
@@ -44,7 +45,7 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
   file, including `#fragment` targets;
 - nothing is loaded from a third party (scripts, stylesheets, icons, images, CSS `url()`);
 - every page except the 404 page links to the Impressum and the privacy policy;
-- the Smart App Banner tag is on the Easy Dice page and not on the main page;
+- the Smart App Banner tag is on each app page and not on the main page;
 - for every app in `_apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
   `assets/apps/<id>/screenshots/` and in its `thumbs/` folder, and `hero.image` is one of them;
 - every app page has the anchors `#features`, `#screenshots`, `#support` and `#download` (the header nav

@@ -2,7 +2,7 @@
 layout: prose
 permalink: /privacy-policy/
 title: Privacy Policy
-description: "What the apps of Alexander Schmutz, such as Easy Dice, and this website collect, which services receive data, and your rights."
+description: "What the apps of Alexander Schmutz, such as Easy Dice and Tear Tales, and this website collect, which services receive data, and your rights."
 ---
 
 # Privacy Policy
@@ -33,6 +33,7 @@ scripts and no images from other servers.
 | App | Analytics | Crash reports | Ads | In-app purchases |
 |---|---|---|---|---|
 | Easy Dice | Mixpanel | Sentry | Google AdMob or Guild Ads | Apple |
+| Tear Tales | Mixpanel | Sentry | Guild Ads | Apple |
 
 When I publish a new app or an app starts using another service, it is added to this table and
 described below.
@@ -90,7 +91,8 @@ information: [Google Privacy Policy](https://policies.google.com/privacy) and
 
 ## Advertising (Guild Ads)
 
-Some installs of Easy Dice show a banner from Guild Ads instead of AdMob. Guild
+The free version of Tear Tales, and some installs of Easy Dice instead of AdMob, show a banner from
+Guild Ads. Guild
 ([guildads.com](https://guildads.com)) is the sole controller of the data its SDK collects.
 
 Guild Ads receives the app-specific vendor identifier (IDFV), never the advertising identifier;
@@ -103,7 +105,7 @@ cross-app tracking. More information: [guildads.com](https://guildads.com).
 
 ## In-app purchases
 
-Easy Dice Pro, and any purchase I may offer in future, is handled entirely by Apple through the App
+Easy Dice Pro, Tear Tales Pro, and any purchase I may offer in future, are handled entirely by Apple through the App
 Store. I receive no payment details and no personal information about you, only anonymous sales reports
 from Apple. To know whether a purchase is unlocked, the app asks the App Store on your device. Apple's
 handling of your data is described in [Apple's Privacy Policy](https://www.apple.com/legal/privacy/).
@@ -112,6 +114,15 @@ handling of your data is described in [Apple's Privacy Policy](https://www.apple
 
 Your settings, such as the number of dice, the dice type, the background or whether sounds are on, are
 stored on your device and stay there. Deleting the app removes them.
+
+## Your records in Tear Tales (iCloud)
+
+The records you write in Tear Tales (date, intensity, tags and notes) are stored on your device and,
+if you are signed in to iCloud, synced through your own iCloud account by Apple so that they are
+available on all your devices. I have no access to them, and they are never sent to me or to any of
+the services above. Deleting the app removes them from the device; records in iCloud can be removed
+in your device's iCloud settings. Apple's handling of iCloud data is described in
+[Apple's Privacy Policy](https://www.apple.com/legal/privacy/).
 
 ## Contacting me
 
