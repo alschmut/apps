@@ -16,8 +16,8 @@ const appPageIds = ['features', 'screenshots', 'support', 'download'];
 // Keep in sync with the :root tokens in assets/css/site.css (--accent-ink-mix,
 // --accent-ink-base, --tint-strength, --bg, in light and in dark mode).
 const MODES = {
-  light: { inkMix: 0.45, inkBase: '#000000', tintStrength: 0.07, bg: '#ffffff' },
-  dark: { inkMix: 0.8, inkBase: '#ffffff', tintStrength: 0.13, bg: '#0b0b0f' },
+  light: { inkMix: 0.45, inkBase: '#000000', tintStrength: 0.07, bg: '#f8f7fb' },
+  dark: { inkMix: 0.8, inkBase: '#ffffff', tintStrength: 0.13, bg: '#13121a' },
 };
 const DEFAULT_ON_ACCENT = '#16161a';
 const MIN_CONTRAST = 4.5;
