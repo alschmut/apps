@@ -5,7 +5,7 @@
       <img class="app-row-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
     </a>
     <div class="app-row-text">
-      <h3 id="app-{{ app.slug }}">{{ app.name }}</h3>
+      <h3 id="app-{{ app.slug }}"><a class="app-row-title-link" href="{{ app.url | relative_url }}" tabindex="-1">{{ app.name }}</a></h3>
       <p class="app-row-tagline">{{ app.tagline }}</p>
       <p class="app-row-description">{{ app.description }}</p>
       <a class="app-row-cta" href="{{ app.url | relative_url }}">
