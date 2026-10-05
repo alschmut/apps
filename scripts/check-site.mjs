@@ -48,7 +48,7 @@ if (!existsSync(siteDir)) {
   process.exit(1);
 }
 
-// baseurl from _config.yml, e.g. "/EasyDice-Web" or "" for a root domain.
+// baseurl from _config.yml, e.g. "/apps" or "" for a root domain.
 const config = await readFile(path.join(root, '_config.yml'), 'utf8');
 const baseurl = (config.match(/^baseurl:\s*["']?([^"'\s#]*)["']?/m)?.[1] ?? '').replace(/\/$/, '');
 

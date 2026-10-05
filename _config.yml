@@ -6,9 +6,9 @@ description: >-
   Stuttgart, Germany.
 
 url: https://alschmut.github.io
-# The site is served from https://alschmut.github.io/EasyDice-Web/.
+# The site is served from https://alschmut.github.io/apps/.
 # For a custom domain, emptying baseurl (baseurl: "") is all that is needed; add the domain to CNAME.
-baseurl: /EasyDice-Web
+baseurl: /apps
 
 # GitHub Pages applies jekyll-theme-primer by default; this site brings its own layouts and CSS.
 theme: null

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Builds or serves the site in Docker with the Ruby version GitHub Pages uses.
 #   scripts/jekyll.sh build   → _site/
-#   scripts/jekyll.sh serve   → http://localhost:4000/EasyDice-Web/
+#   scripts/jekyll.sh serve   → http://localhost:4000/apps/
 # Gems are cached in the named Docker volume "easydice-web-gems".
 set -eu
 
@@ -32,5 +32,5 @@ if [ -t 0 ] && [ -t 1 ]; then TTY="-it"; fi
 
 # shellcheck disable=SC2086
 exec docker run --rm ${TTY} -v "$PWD":/srv/site -v easydice-web-gems:/usr/local/bundle -w /srv/site \
-  -e PAGES_REPO_NWO=alschmut/EasyDice-Web \
+  -e PAGES_REPO_NWO=alschmut/apps \
   ${PORTS} ruby:3.3 sh -c "bundle install --quiet && bundle exec jekyll $CMD $ARGS"

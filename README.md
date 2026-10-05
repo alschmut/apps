@@ -2,10 +2,10 @@
 
 The website for all of Alexander Schmutz's apps for iPhone, iPad and Apple Watch: a main page with a
 short introduction, the list of apps and contact details, one page per app (starting with
-[Easy Dice](https://alschmut.github.io/EasyDice-Web/easy-dice/)), and one shared privacy policy and
+[Easy Dice](https://alschmut.github.io/apps/easy-dice/)), and one shared privacy policy and
 Impressum.
 
-Live: <https://alschmut.github.io/EasyDice-Web/>. The site will later replace the WordPress site at
+Live: <https://alschmut.github.io/apps/>. The site will later replace the WordPress site at
 apps.t-schmutz.de.
 
 ## How it deploys
@@ -14,7 +14,7 @@ A push to `master` deploys the site through GitHub Pages' classic Jekyll build (
 There is no GitHub Actions workflow; Pages builds with its own pinned versions (Jekyll 3.10, the
 `github-pages` gem and its whitelisted plugins; this site uses `jekyll-sitemap`).
 
-The site currently lives under the `baseurl` `/EasyDice-Web`. Every internal link and asset goes through
+The site currently lives under the `baseurl` `/apps`. Every internal link and asset goes through
 Jekyll's `relative_url` filter, so switching to a custom domain needs two changes only:
 
 1. set `baseurl: ""` in `_config.yml`;
@@ -26,7 +26,7 @@ Docker is required: the local Ruby differs from the one GitHub Pages uses, so th
 `ruby:3.3` container. Gems are cached in the Docker volume `easydice-web-gems`.
 
 ```sh
-scripts/jekyll.sh serve   # http://localhost:4000/EasyDice-Web/  (rebuilds on change)
+scripts/jekyll.sh serve   # http://localhost:4000/apps/  (rebuilds on change)
 scripts/jekyll.sh build   # writes _site/
 ```
 
