@@ -1,5 +1,9 @@
 <header class="topbar app-header">
   <nav class="container topbar-inner" aria-label="Main">
+    <a class="home-link" href="{{ '/' | relative_url }}" title="More apps">
+      {% include icon.html name="chevron-left" size=14 %}
+      <span>Apps</span>
+    </a>
     <a class="brand-link" href="{{ page.url | relative_url }}">
       <img class="brand-icon" src="{{ page.icon | relative_url }}" alt="" width="28" height="28">
       <span class="brand-name">{{ page.name }}</span>

@@ -298,6 +298,43 @@ button {
     max-width: var(--content-width-wide);
 }
 
+/* "Home" button on the far left of the app header: back to the list of all apps. */
+.home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 44px;
+    /* Pulls the brand in from the 1.5rem .topbar-inner gap, so the divider has 0.875rem on both sides. */
+    margin-right: -0.625rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+/* Divider to the brand, shorter than the 44px tap target. */
+.home-link::after {
+    content: '';
+    width: 1px;
+    height: 22px;
+    margin-left: 0.575rem;
+    background: var(--border);
+}
+
+.home-link:hover {
+    color: var(--text);
+}
+
+.home-link .icon {
+    transition: transform 0.2s ease;
+}
+
+.home-link:hover .icon {
+    transform: translateX(-2px);
+}
+
 .brand-link {
     display: inline-flex;
     align-items: center;
