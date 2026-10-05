@@ -1,7 +1,8 @@
 <header class="topbar site-header">
   <div class="container topbar-inner">
-    <a class="brand-link" href="{{ '/' | relative_url }}">
-      <span class="brand-name">{{ site.data.site.owner.name }}</span>
+    <a class="back-link" href="{{ '/' | relative_url }}">
+      {% include icon.html name="chevron-left" size=14 %}
+      <span>{{ site.data.site.owner.name }}</span>
     </a>
     <nav aria-label="Main">
       <ul class="topbar-links">
