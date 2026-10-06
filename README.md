@@ -11,7 +11,7 @@ apps.t-schmutz.de.
 
 ## How it deploys
 
-A push to `master` deploys the site through GitHub Pages' classic Jekyll build ("Deploy from a branch").
+A push to `main` deploys the site through GitHub Pages' classic Jekyll build ("Deploy from a branch").
 There is no GitHub Actions workflow; Pages builds with its own pinned versions (Jekyll 3.10, the
 `github-pages` gem and its whitelisted plugins; this site uses `jekyll-sitemap`).
 
