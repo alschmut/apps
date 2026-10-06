@@ -882,7 +882,7 @@ button {
    ========================================== */
 
 .app-hero {
-    padding: calc(var(--topbar-height) + var(--topbar-offset) + clamp(2rem, 5vw, 3rem)) 0 0;
+    padding: calc(var(--topbar-height) + var(--topbar-offset) + clamp(2.75rem, 6.5vw, 4rem)) 0 0;
     text-align: center;
     overflow-x: clip;
 }
@@ -1038,7 +1038,7 @@ button {
 
 @media (min-width: 992px) {
     .app-hero {
-        padding-bottom: 1rem;
+        padding-top: calc(var(--topbar-height) + var(--topbar-offset) + 6rem);
         text-align: left;
     }
 
