@@ -1,6 +1,6 @@
 ---
 order: 1
-name: Easy Dice
+app_name: Easy Dice
 title: "Easy Dice: Simple, modern dice"           # <title>
 description: >-                                     # meta description + app row text
   Roll one to six dice with a tap — D2 to D100, with sound, vibration and the total at a glance.

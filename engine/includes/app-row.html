@@ -5,7 +5,8 @@
   (see .app-tile-link::after).
 {%- endcomment -%}
 {%- assign app = include.app -%}
-{%- assign shots_dir = '/assets/apps/' | append: app.slug | append: '/screenshots/' -%}
+{%- assign app_id = app.path | split: '/' | last | remove: '.md' -%}
+{%- assign shots_dir = '/assets/apps/' | append: app_id | append: '/screenshots/' -%}
 {%- assign shot = shots_dir | append: app.hero.image -%}
 {%- assign second_shot = app.screenshots | where_exp: "s", "s.file != app.hero.image" | first -%}
 <li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
@@ -16,11 +17,11 @@
       <p class="app-tile-status">{% include icon.html name="archive" size=12 %}No longer available</p>
       {%- endif %}
     </div>
-    <h3 id="app-{{ app.slug }}">{{ app.name }}</h3>
+    <h3 id="app-{{ app_id }}">{{ app.app_name }}</h3>
     <p class="app-tile-tagline">{{ app.tagline }}</p>
     <p class="app-tile-description">{{ app.description }}</p>
     <a class="app-tile-link" href="{{ app.url | relative_url }}">
-      <span>Learn more<span class="sr-only"> about {{ app.name }}</span></span>
+      <span>Learn more<span class="sr-only"> about {{ app.app_name }}</span></span>
       {% include icon.html name="arrow-right" size=16 %}
     </a>
   </div>

@@ -1,6 +1,6 @@
 ---
 order: 2
-name: Tear Tales
+app_name: Tear Tales
 title: "Tear Tales: Document your crying moments"  # <title>
 description: >-                                     # meta description + app row text
   A private journal for your sad moments: note when you cried, how much and why, see your patterns

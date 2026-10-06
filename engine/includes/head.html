@@ -1,9 +1,10 @@
 {%- assign owner = site.data.site.owner -%}
 {%- assign is_app = false -%}
-{%- if page.collection == "apps" -%}{%- assign is_app = true -%}{%- endif -%}
+{%- if page.layout == "app" -%}{%- assign is_app = true -%}{%- endif -%}
 {%- if is_app -%}
   {%- assign page_title = page.title -%}
-  {%- assign app_dir = '/assets/apps/' | append: page.slug -%}
+  {%- assign app_id = page.path | split: '/' | last | remove: '.md' -%}
+  {%- assign app_dir = '/assets/apps/' | append: app_id -%}
   {%- assign social_image = app_dir | append: '/screenshots/' | append: page.screenshots[0].file -%}
 {%- else -%}
   {%- assign page_title = page.title | append: ' — ' | append: owner.name -%}

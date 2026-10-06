@@ -1,4 +1,5 @@
-# Site settings. Content lives in _data/site.yml (owner, contact, legal) and _apps/*.md (one file per app).
+# Site settings. The content lives in data/: site.yml (owner, contact, legal), apps/<id>.md (one file per
+# app) and one Markdown file per other page. engine/ turns it into the site.
 
 title: Alexander Schmutz — Apps
 description: >-
@@ -21,25 +22,30 @@ kramdown:
 plugins:
   - jekyll-sitemap
 
-collections:
-  apps:
-    output: true
-    permalink: /:name/
+# The engine's templates. Jekyll's default folder names start with an underscore.
+layouts_dir: engine/layouts
+includes_dir: engine/includes
+data_dir: data
 
+# Every file in data/apps/ is an app page at /<file name>/.
 defaults:
   - scope:
-      path: ""
-      type: apps
+      path: data/apps
     values:
       layout: app
+      permalink: /:basename/
 
+# data/*.yml is read as site.data, not published. engine/ is published only for robots.txt.
 exclude:
+  - data/*.yml
+  - engine/layouts
+  - engine/includes
+  - engine/scripts
   - README.md
   - LICENSE
   - Gemfile
   - Gemfile.lock
   - CNAME
   - docs
-  - scripts
   - vendor
   - node_modules

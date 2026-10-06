@@ -1,12 +1,12 @@
 // Verifies the Jekyll build in _site/ against the URL contract of the site.
-// Run after a build:  scripts/jekyll.sh build && node scripts/check-site.mjs
+// Run after a build:  engine/scripts/jekyll.sh build && node engine/scripts/check-site.mjs
 // Node 22, built-ins only. Prints one ✓/✗ line per check and exits 1 on any failure.
 import { existsSync } from 'node:fs';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const siteDir = path.join(root, '_site');
 const sizeLimit = 2 * 1024 * 1024;
 const screenshotLimit = 200 * 1024;
@@ -37,7 +37,7 @@ const expectedFiles = [
   'assets/css/site.css',
   'assets/js/site.js',
 ];
-const absentPaths = ['privacypolicy', 'main.css', 'assets/portrait.jpg', '_originals', 'docs', 'scripts'];
+const absentPaths = ['privacypolicy', 'main.css', 'assets/portrait.jpg', '_originals', 'docs', 'scripts', 'engine', 'data'];
 
 let failures = 0;
 const pass = (message) => console.log(`✓ ${message}`);
@@ -48,7 +48,7 @@ const fail = (message) => {
 const check = (ok, message, problem = '') => (ok ? pass(message) : fail(`${message}   ${problem}`.trimEnd()));
 
 if (!existsSync(siteDir)) {
-  console.log('✗ _site/ does not exist; run scripts/jekyll.sh build first');
+  console.log('✗ _site/ does not exist; run engine/scripts/jekyll.sh build first');
   process.exit(1);
 }
 
@@ -197,16 +197,16 @@ const contrast = (a, b) => {
 const frontMatter = (source) => source.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
 const field = (source, key) => source.match(new RegExp(`^${key}:\\s*["']?(#[0-9a-fA-F]{3,6})["']?`, 'm'))?.[1];
 
-const appsDir = path.join(root, '_apps');
+const appsDir = path.join(root, 'data', 'apps');
 const appFiles = existsSync(appsDir) ? (await readdir(appsDir)).filter((file) => file.endsWith('.md')).sort() : [];
-check(appFiles.length > 0, `${appFiles.length} apps in _apps/`, 'none found');
+check(appFiles.length > 0, `${appFiles.length} apps in data/apps/`, 'none found');
 for (const appFile of appFiles) {
   const slug = appFile.replace(/\.md$/, '');
   const data = frontMatter(await readFile(path.join(appsDir, appFile), 'utf8'));
   const accentValue = field(data, 'accent');
   const accent = accentValue && hex(accentValue);
   if (!accent) {
-    fail(`${slug}: accent colour   missing or not a hex colour in _apps/${appFile}`);
+    fail(`${slug}: accent colour   missing or not a hex colour in data/apps/${appFile}`);
     continue;
   }
   const ratios = Object.fromEntries(
@@ -244,7 +244,7 @@ for (const appFile of appFiles) {
   if (!heroImage || !listed.includes(heroImage)) problems.push(`hero.image "${heroImage ?? ''}" is not one of them`);
   check(
     problems.length === 0,
-    `${listed.length} screenshot files match the screenshots of _apps/${appFile}`,
+    `${listed.length} screenshot files match the screenshots of data/apps/${appFile}`,
     problems.join('; '),
   );
 

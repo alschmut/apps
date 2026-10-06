@@ -3,7 +3,8 @@ layout: base
 header: app
 body_class: app-page
 ---
-{%- assign app_dir = '/assets/apps/' | append: page.slug -%}
+{%- assign app_id = page.path | split: '/' | last | remove: '.md' -%}
+{%- assign app_dir = '/assets/apps/' | append: app_id -%}
 {%- assign shots_dir = app_dir | append: '/screenshots/' -%}
 {%- comment -%} The hero shows the hero screenshot in front and the first two others behind it. {%- endcomment -%}
 {%- assign side_shots = page.screenshots | where_exp: "shot", "shot.file != page.hero.image" -%}
@@ -13,7 +14,7 @@ body_class: app-page
       <div class="hero-app">
         <img class="hero-app-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128">
         <div>
-          <p class="hero-app-name">{{ page.name }}</p>
+          <p class="hero-app-name">{{ page.app_name }}</p>
           <p class="hero-app-tagline">{{ page.tagline }}</p>
         </div>
       </div>

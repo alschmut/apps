@@ -17,7 +17,7 @@ body_class: home
 
 <section id="apps" class="apps container" aria-labelledby="apps-heading">
   <h2 class="section-title" id="apps-heading">Apps</h2>
-  {%- assign apps = site.apps | sort: "order" -%}
+  {%- assign apps = site.pages | where: "layout", "app" | sort: "order" -%}
   {%- assign current_apps = apps | where_exp: "app", "app.discontinued != true" -%}
   {%- assign past_apps = apps | where: "discontinued", true %}
   <ul class="app-grid" role="list">

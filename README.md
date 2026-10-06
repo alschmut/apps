@@ -27,26 +27,26 @@ Docker is required: the local Ruby differs from the one GitHub Pages uses, so th
 `ruby:3.3` container. Gems are cached in the Docker volume `easydice-web-gems`.
 
 ```sh
-scripts/jekyll.sh serve   # http://localhost:4000/apps/  (rebuilds on change)
-scripts/jekyll.sh build   # writes _site/
+engine/scripts/jekyll.sh serve   # http://localhost:4000/apps/  (rebuilds on change)
+engine/scripts/jekyll.sh build   # writes _site/
 ```
 
 ## Checks
 
 ```sh
-scripts/jekyll.sh build && node scripts/check-site.mjs
+engine/scripts/jekyll.sh build && node engine/scripts/check-site.mjs
 ```
 
-`scripts/check-site.mjs` (Node 22, no dependencies) checks the build in `_site/`:
+`engine/scripts/check-site.mjs` (Node 22, no dependencies) checks the build in `_site/`:
 
 - the expected pages and files exist, and old or private paths (`/privacypolicy/`, `_originals/`,
-  `docs/`, `scripts/`, …) are not published;
+  `docs/`, `scripts/`, `engine/`, `data/`, …) are not published;
 - every internal `href`, `src` and `srcset` starts with the `baseurl` and resolves to a
   file, including `#fragment` targets;
 - nothing is loaded from a third party (scripts, stylesheets, icons, images, CSS `url()`);
 - every page except the 404 page links to the Impressum and the privacy policy;
 - the Smart App Banner tag is on each app page and not on the main page;
-- for every app in `_apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
+- for every app in `data/apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
   `assets/apps/<id>/screenshots/`, and `hero.image` is one of them;
 - every app page has the anchors `#features`, `#screenshots`, `#support` and `#download` (the header nav
   links to them, and the App Store support URL may point at `/<id>/#support`); a past app
@@ -58,18 +58,27 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
 
 ## Where content lives
 
+The repository has three parts: `data/` holds the content as plain YAML and Markdown, `assets/` the
+images, styles and script, and `engine/` the templates and scripts that turn both into the site.
+
 | What | Where |
 |---|---|
-| Name, tagline, intro, portrait, contact channels, legal links, copyright year | `_data/site.yml` |
-| Everything about one app: name, texts, accent colour, App Store id, hero, features, FAQ, screenshots | `_apps/<id>.md` (front matter) |
+| Name, tagline, intro, portrait, contact channels, legal links, copyright year | `data/site.yml` |
+| Everything about one app: name, texts, accent colour, App Store id, hero, features, FAQ, screenshots | `data/apps/<id>.md` (front matter only) |
+| Main page | `data/index.md` (title and description; its texts are in `data/site.yml`) |
+| Privacy policy | `data/privacy-policy.md` |
+| Impressum | `data/impressum.md` |
+| Not-found page | `data/404.md` |
 | App icons and screenshots | `assets/apps/<id>/` |
-| Privacy policy | `privacy-policy.md` |
-| Impressum | `impressum.md` |
-| Not-found page | `404.html` |
-| Page structure | `_layouts/` (`base`, `home`, `app`, `prose`) and `_includes/` |
 | Styles (plain CSS, light and dark) | `assets/css/site.css` |
-| Script (navigation toggle, screenshot carousel arrows) | `assets/js/site.js` |
-| Site settings (URL, baseurl, collections) | `_config.yml` |
+| Script (screenshot carousel arrows) | `assets/js/site.js` |
+| Page structure and the fixed texts of the pages | `engine/layouts/` (`base`, `home`, `app`, `prose`, `not-found`) and `engine/includes/` |
+| Build, preview and checks | `engine/scripts/` |
+| Site settings (URL, baseurl, folders) | `_config.yml` (GitHub Pages reads it from the root) |
+
+The app files end in `.md` although they only hold YAML: GitHub Pages' Jekyll makes a page only from a
+page file, not from a data file. Every file in `data/apps/` becomes the page `/<file name>/`; the
+file name is the app's id. Jekyll reserves `name` for the file name, so an app's name is `app_name`.
 
 ## URL contract
 
@@ -87,8 +96,8 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 ## Adding an app
 
 1. Pick an id, for example `my-app`. It becomes the URL `/my-app/` and the asset folder.
-2. Copy `_apps/easy-dice.md` to `_apps/my-app.md` and fill in its front matter: `order` (position on the
-   main page), `name`, `title`, `description`, `tagline`, `accent`, the `icon*` paths, `app_store_id`,
+2. Copy `data/apps/easy-dice.md` to `data/apps/my-app.md` and fill in its front matter: `order` (position
+   on the main page), `app_name`, `title`, `description`, `tagline`, `accent`, the `icon*` paths, `app_store_id`,
    `app_store_url`, `hero`, `sections`, `features`, `faq` and `screenshots`.
 3. Make the icons from the 1024 px App Store icon:
 
@@ -112,18 +121,18 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 
    If a JPG is larger than 200 KiB (photographic backgrounds such as wood or a starry sky), make it
    again with `formatOptions 70`. The layout assumes iPhone screenshots of 1320 × 2868 px, which
-   become 600 × 1303 px; for another aspect ratio, adjust the `height` of the screenshot `<img>` in `_layouts/app.html`.
+   become 600 × 1303 px; for another aspect ratio, adjust the `height` of the screenshot `<img>` in `engine/layouts/app.html`.
 
-5. Add the app's services to the table in `privacy-policy.md` (see below).
+5. Add the app's services to the table in `data/privacy-policy.md` (see below).
 6. Run the checks. The main page lists the new app automatically; no layout or CSS change is needed.
 
 ### When an app leaves the App Store
 
 Set `discontinued: true` in its front matter and remove `app_store_id` and `app_store_url` (see
-`_apps/app-analytics.md`). The main page then lists it under "Past projects" with a "No longer
+`data/apps/app-analytics.md`). The main page then lists it under "Past projects" with a "No longer
 available" label, and its page shows "No longer on the App Store" in place of the App Store badge,
 drops the support section and the "Get the app" button, and ends with a card made from
-`sections.retired` (`title`, `text`) in place of the download card. Update `scripts/check-site.mjs`,
+`sections.retired` (`title`, `text`) in place of the download card. Update `engine/scripts/check-site.mjs`,
 which lists the app pages with and without a Smart App Banner.
 
 ## Editing the legal texts
@@ -137,7 +146,7 @@ which lists the app pages with and without a Smart App Banner.
 ## Credits
 
 - Icons: [Bootstrap Icons](https://icons.getbootstrap.com) (MIT licence), inlined as SVG in
-  `_includes/icon.html`.
+  `engine/includes/icon.html`.
 - The App Store badge is used according to
   [Apple's App Store marketing guidelines](https://developer.apple.com/app-store/marketing/guidelines/).
 - Code licensed under the MIT licence, see `LICENSE`. Texts, portrait, app icons and screenshots

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Builds or serves the site in Docker with the Ruby version GitHub Pages uses.
-#   scripts/jekyll.sh build   → _site/
-#   scripts/jekyll.sh serve   → http://localhost:4000/apps/
+#   engine/scripts/jekyll.sh build   → _site/
+#   engine/scripts/jekyll.sh serve   → http://localhost:4000/apps/
 # Gems are cached in the named Docker volume "easydice-web-gems".
 set -eu
 
@@ -24,7 +24,7 @@ case "$CMD" in
     ;;
 esac
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 # An interactive terminal gets -it, so Ctrl-C stops `serve`; CI and scripts run without a TTY.
 TTY=""

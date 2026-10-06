@@ -20,7 +20,7 @@
    ========================================== */
 
 /* Keep --tint-strength, --accent-ink-mix, --accent-ink-base and --bg in sync with the
-   constants at the top of scripts/check-site.mjs, which checks the accent contrast. */
+   constants at the top of engine/scripts/check-site.mjs, which checks the accent contrast. */
 :root {
     color-scheme: light dark;
 
