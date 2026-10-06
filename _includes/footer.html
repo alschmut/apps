@@ -1,32 +1,5 @@
 {%- assign data = site.data.site -%}
-{%- if page.collection == "apps" -%}
-<footer class="app-footer">
-  <div class="container">
-    <div class="footer-content">
-      <p class="footer-tagline">{{ page.tagline }}.</p>
-      <ul class="footer-social">
-        {%- for channel in data.contact.channels %}
-        <li>
-          <a class="social-link" href="{{ channel.href }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %} title="{{ channel.label }}: {{ channel.handle }}">
-            {% include icon.html name=channel.id size=18 %}
-            <span class="sr-only">{{ channel.label }}</span>
-          </a>
-        </li>
-        {%- endfor %}
-      </ul>
-    </div>
-    <div class="footer-bottom">
-      <nav class="footer-links" aria-label="Legal">
-        <a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a>
-        <a href="{{ '/impressum/' | relative_url }}">Impressum</a>
-        <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">Terms of Use</a>
-        <a href="{{ '/' | relative_url }}">More apps</a>
-      </nav>
-      <p class="footer-copy">© {{ data.copyright_year }} {{ data.owner.name }}</p>
-    </div>
-  </div>
-</footer>
-{%- else -%}
+{%- comment -%} One line, the same on every page. {%- endcomment -%}
 <footer class="site-footer">
   <div class="container site-footer-inner">
     <p class="footer-copy">© {{ data.copyright_year }} {{ data.owner.name }}</p>
@@ -37,4 +10,3 @@
     </nav>
   </div>
 </footer>
-{%- endif -%}

@@ -1,5 +1,5 @@
 <header class="topbar app-header">
-  <nav class="container topbar-inner" aria-label="Main">
+  <nav class="container topbar-inner glass" aria-label="Main">
     <a class="home-link" href="{{ '/' | relative_url }}" title="More apps">
       {% include icon.html name="chevron-left" size=14 %}
       <span>Apps</span>
@@ -16,8 +16,8 @@
     <div id="app-nav" class="nav-collapse">
       <ul class="nav-list">
         {%- comment -%} Fragment-only: these sections exist on the app page only. {%- endcomment %}
-        <li><a class="nav-link" href="#screenshots">Screenshots</a></li>
         <li><a class="nav-link" href="#features">Features</a></li>
+        <li><a class="nav-link" href="#screenshots">Screenshots</a></li>
         <li><a class="nav-link" href="#support">Support</a></li>
         <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
       </ul>

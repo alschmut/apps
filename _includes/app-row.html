@@ -1,17 +1,22 @@
+{%- comment -%}
+  One app on the home page: a glass tile with the icon and the texts, and the hero screenshot beside
+  them, cut off just above its bottom edge. The whole tile is clickable: the link stretches over it
+  (see .app-tile-link::after).
+{%- endcomment -%}
 {%- assign app = include.app -%}
-<section class="app-row accent-scope" style="--accent: {{ app.accent }}" aria-labelledby="app-{{ app.slug }}">
-  <div class="container app-row-inner">
-    <a class="app-row-icon-link" href="{{ app.url | relative_url }}" tabindex="-1" aria-hidden="true">
-      <img class="app-row-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+{%- assign shot = '/assets/apps/' | append: app.slug | append: '/screenshots/thumbs/' | append: app.hero.image -%}
+<li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
+  <div class="app-tile-body">
+    <img class="app-tile-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+    <h3 id="app-{{ app.slug }}">{{ app.name }}</h3>
+    <p class="app-tile-tagline">{{ app.tagline }}</p>
+    <p class="app-tile-description">{{ app.description }}</p>
+    <a class="app-tile-link" href="{{ app.url | relative_url }}">
+      <span>Learn more<span class="sr-only"> about {{ app.name }}</span></span>
+      {% include icon.html name="arrow-right" size=16 %}
     </a>
-    <div class="app-row-text">
-      <h3 id="app-{{ app.slug }}"><a class="app-row-title-link" href="{{ app.url | relative_url }}" tabindex="-1">{{ app.name }}</a></h3>
-      <p class="app-row-tagline">{{ app.tagline }}</p>
-      <p class="app-row-description">{{ app.description }}</p>
-      <a class="app-row-cta" href="{{ app.url | relative_url }}">
-        <span>{{ app.link_label }}</span>
-        {% include icon.html name="arrow-right" size=18 %}
-      </a>
-    </div>
   </div>
-</section>
+  <div class="app-tile-preview" aria-hidden="true">
+    <img src="{{ shot | relative_url }}" alt="" width="600" height="1303" loading="lazy" decoding="async">
+  </div>
+</li>

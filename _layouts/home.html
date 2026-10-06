@@ -7,47 +7,39 @@ body_class: home
 <header class="home-hero">
   <div class="container home-hero-inner">
     <img class="portrait" src="{{ data.owner.portrait | relative_url }}" alt="Portrait of {{ data.owner.name }}" width="200" height="200" fetchpriority="high">
-    <div class="home-hero-text">
-      <h1>{{ data.owner.name }}</h1>
-      <p class="home-tagline">{{ data.owner.tagline }}</p>
-      <p class="home-intro">{{ data.owner.intro }}</p>
-      <ul class="channels">
-        {%- for channel in data.contact.channels %}
-        <li>
-          <a href="{{ channel.href }}" title="{{ channel.label }}: {{ channel.handle }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %}>
-            {% include icon.html name=channel.id size=22 %}
-            <span class="sr-only">{{ channel.label }}</span>
-          </a>
-        </li>
-        {%- endfor %}
-      </ul>
-    </div>
+    <p class="chip glass">{{ data.owner.tagline }}</p>
+    <h1>{{ data.owner.greeting }}</h1>
+    <p class="home-intro">{{ data.owner.intro }}</p>
   </div>
 </header>
 
-<section id="apps" class="apps" aria-labelledby="apps-heading">
-  <h2 class="section-title container" id="apps-heading">Apps</h2>
-  {%- assign apps = site.apps | sort: "order" -%}
-  {%- for app in apps %}
-  {% include app-row.html app=app %}
-  {%- endfor %}
+<section id="apps" class="apps container" aria-labelledby="apps-heading">
+  <h2 class="section-title" id="apps-heading">Apps</h2>
+  <ul class="app-grid" role="list">
+    {%- assign apps = site.apps | sort: "order" -%}
+    {%- for app in apps %}
+    {% include app-row.html app=app %}
+    {%- endfor %}
+  </ul>
 </section>
 
 <section id="contact" class="contact container" aria-labelledby="contact-heading">
-  <h2 class="section-title" id="contact-heading">Contact</h2>
-  <p class="contact-lead">{{ data.contact.lead }}</p>
-  <ul class="contact-cards">
-    {%- for channel in data.contact.channels %}
-    <li>
-      <a href="{{ channel.href }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %}>
-        <span class="contact-glyph">{% include icon.html name=channel.id size=20 %}</span>
-        <span class="contact-labels">
-          <span class="contact-label">{{ channel.label }}</span>
-          <span class="contact-handle">{{ channel.handle }}</span>
-        </span>
-      </a>
-    </li>
-    {%- endfor %}
-  </ul>
+  <div class="contact-card glass">
+    <h2 class="section-title" id="contact-heading">Say hello</h2>
+    <p class="contact-lead">{{ data.contact.lead }}</p>
+    <ul class="contact-links" role="list">
+      {%- for channel in data.contact.channels %}
+      <li>
+        <a class="contact-link glass" href="{{ channel.href }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %}>
+          <span class="contact-glyph">{% include icon.html name=channel.id size=18 %}</span>
+          <span class="contact-labels">
+            <span class="contact-label">{{ channel.label }}</span>
+            <span class="contact-handle">{{ channel.handle }}</span>
+          </span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
 </section>
 {{ content }}

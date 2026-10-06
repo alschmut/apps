@@ -13,7 +13,6 @@ icon_touch: /assets/apps/tear-tales/icon-180.png
 icon_favicon: /assets/apps/tear-tales/icon-64.png
 app_store_id: "6499500073"
 app_store_url: https://apps.apple.com/app/id6499500073
-link_label: More about Tear Tales
 hero:
   title: The stories behind your tears.
   subtitle: >-

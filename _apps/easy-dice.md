@@ -13,7 +13,6 @@ icon_touch: /assets/apps/easy-dice/icon-180.png
 icon_favicon: /assets/apps/easy-dice/icon-64.png
 app_store_id: "1514806286"
 app_store_url: https://apps.apple.com/app/id1514806286
-link_label: More about Easy Dice
 hero:
   title: Roll the dice. Any dice.
   subtitle: >-

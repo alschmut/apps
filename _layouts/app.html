@@ -4,42 +4,67 @@ header: app
 body_class: app-page
 ---
 {%- assign app_dir = '/assets/apps/' | append: page.slug -%}
-{%- assign hero_full = app_dir | append: '/screenshots/' | append: page.hero.image -%}
-{%- assign hero_thumb = app_dir | append: '/screenshots/thumbs/' | append: page.hero.image -%}
+{%- assign shots_dir = app_dir | append: '/screenshots/' -%}
+{%- assign thumbs_dir = app_dir | append: '/screenshots/thumbs/' -%}
+{%- comment -%} The hero shows the hero screenshot in front and the first two others behind it. {%- endcomment -%}
+{%- assign side_shots = page.screenshots | where_exp: "shot", "shot.file != page.hero.image" -%}
 <section id="top" class="app-hero">
-  <div class="container hero-grid">
-    <div class="hero-text">
-      <h1 class="hero-title">{{ page.hero.title }}</h1>
-      <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
-      <div class="store-badges hero-cta">
-        {% include store-badge.html %}
-      </div>
-      <ul class="hero-trust">
-        {%- for entry in page.hero.trust %}
-        <li>{{ entry | escape }}</li>
-        {%- endfor %}
-      </ul>
+  <div class="container hero-inner">
+    <p class="chip glass hero-chip">
+      <img src="{{ page.icon_favicon | relative_url }}" alt="" width="20" height="20">
+      <span>{{ page.name }}</span>
+    </p>
+    <h1 class="hero-title">{{ page.hero.title }}</h1>
+    <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
+    <div class="store-badges hero-cta">
+      {% include store-badge.html %}
     </div>
-    <div class="hero-visual">
-      <img class="hero-image" src="{{ hero_thumb | relative_url }}" srcset="{{ hero_thumb | relative_url }} 600w, {{ hero_full | relative_url }} 1320w" sizes="(min-width: 992px) 360px, 260px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+    <ul class="hero-trust" role="list">
+      {%- for entry in page.hero.trust %}
+      <li>{% include icon.html name="check" size=14 %}{{ entry | escape }}</li>
+      {%- endfor %}
+    </ul>
+  </div>
+  <div class="hero-visual">
+    {%- for shot in side_shots limit: 2 %}
+    <img class="hero-side hero-side-{{ forloop.index }}" src="{{ thumbs_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
+    {%- endfor %}
+    <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 300px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+  </div>
+</section>
+
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ page.sections.features.title }}</h2>
+      <p class="section-description">{{ page.sections.features.description }}</p>
     </div>
+    <ul class="features-grid" role="list">
+      {%- for feature in page.features %}
+      <li class="feature-card glass">
+        <div class="feature-icon">{% include icon.html name=feature.icon size=24 %}</div>
+        <h3 class="feature-title">{{ feature.title | escape }}</h3>
+        <p class="feature-description">{{ feature.text | escape }}</p>
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 
 <section id="screenshots" class="screenshots-section">
-  <div class="container screenshots-wrap">
+  <div class="container">
     <div class="section-header">
       <h2>{{ page.sections.screenshots.title }}</h2>
       <p class="section-description">{{ page.sections.screenshots.description }}</p>
     </div>
     <div class="screenshots-container">
-      <button type="button" class="carousel-arrow carousel-prev" aria-label="Previous screenshot">
+      <button type="button" class="carousel-arrow carousel-prev glass" aria-label="Previous screenshot">
         {% include icon.html name="chevron-left" size=18 %}
       </button>
       <ul class="screenshots-scroll" role="list">
         {%- for shot in page.screenshots %}
-        {%- assign shot_full = app_dir | append: '/screenshots/' | append: shot.file | relative_url -%}
-        {%- assign shot_thumb = app_dir | append: '/screenshots/thumbs/' | append: shot.file | relative_url %}
+        {%- assign shot_full = shots_dir | append: shot.file | relative_url -%}
+        {%- assign shot_thumb = thumbs_dir | append: shot.file | relative_url %}
         <li class="screenshot-card">
           <figure>
             {%- comment -%} An <a>, so that without JS a click still opens the full image. {%- endcomment %}
@@ -51,28 +76,10 @@ body_class: app-page
         </li>
         {%- endfor %}
       </ul>
-      <button type="button" class="carousel-arrow carousel-next" aria-label="Next screenshot">
+      <button type="button" class="carousel-arrow carousel-next glass" aria-label="Next screenshot">
         {% include icon.html name="chevron-right" size=18 %}
       </button>
     </div>
-  </div>
-</section>
-
-<section id="features" class="features-section">
-  <div class="container features-wrap">
-    <div class="section-header">
-      <h2>{{ page.sections.features.title }}</h2>
-      <p class="section-description">{{ page.sections.features.description }}</p>
-    </div>
-    <ul class="features-grid" role="list">
-      {%- for feature in page.features %}
-      <li class="feature-card">
-        <div class="feature-icon">{% include icon.html name=feature.icon size=30 %}</div>
-        <h3 class="feature-title">{{ feature.title | escape }}</h3>
-        <p class="feature-description">{{ feature.text | escape }}</p>
-      </li>
-      {%- endfor %}
-    </ul>
   </div>
 </section>
 
@@ -82,24 +89,24 @@ body_class: app-page
   own; root-relative links such as /privacy-policy/ get the baseurl.
 {%- endcomment -%}
 {%- capture base_href %}href="{{ site.baseurl }}/{% endcapture -%}
-{%- assign support_text = page.sections.support.description | escape -%}
-{%- for channel in site.data.site.contact.channels -%}
-  {%- if channel.id == "email" -%}
-    {%- capture email_link %}<a href="{{ channel.href }}">{{ channel.handle }}</a>{% endcapture -%}
-    {%- assign support_text = support_text | replace: channel.handle, email_link -%}
-  {%- endif -%}
-{%- endfor %}
+{%- assign support_email = site.data.site.contact.channels | where: "id", "email" | first -%}
 <section id="support" class="faq-section">
-  <div class="container">
-    <div class="section-header">
+  <div class="container faq-layout">
+    <div class="faq-intro">
       <h2>{{ page.sections.support.title }}</h2>
-      <p class="section-description">{{ support_text }}</p>
+      <p class="section-description">{{ page.sections.support.description | escape }}</p>
+      {%- if support_email %}
+      <a class="button button-glass glass" href="{{ support_email.href }}">
+        {% include icon.html name="email" size=16 %}
+        <span>Write to me</span>
+      </a>
+      {%- endif %}
     </div>
     <div class="faq-accordion">
       {%- for entry in page.faq %}
       {%- assign answer = entry.a | markdownify | strip | remove: '<p>' | remove: '</p>' | replace: 'href="/', base_href %}
       {%- comment -%} The shared name closes the open entry when another one opens. {%- endcomment %}
-      <details name="faq" class="faq-item">
+      <details name="faq" class="faq-item glass">
         <summary>{{ entry.q | escape }}</summary>
         <div class="faq-body"><p class="faq-answer">{{ answer }}</p></div>
       </details>
@@ -108,8 +115,9 @@ body_class: app-page
   </div>
 </section>
 
-<section id="download" class="download-band">
-  <div class="container">
+<section id="download" class="download-section container">
+  <div class="download-card glass">
+    <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
     <h2>{{ page.sections.download.title }}</h2>
     <p class="download-text">{{ page.sections.download.text }}</p>
     <div class="store-badges">
