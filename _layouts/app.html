@@ -38,24 +38,6 @@ body_class: app-page
   </div>
 </section>
 
-<section id="features" class="features-section">
-  <div class="container">
-    <div class="section-header">
-      <h2>{{ page.sections.features.title }}</h2>
-      <p class="section-description">{{ page.sections.features.description }}</p>
-    </div>
-    <ul class="features-grid" role="list">
-      {%- for feature in page.features %}
-      <li class="feature-card glass">
-        <div class="feature-icon">{% include icon.html name=feature.icon size=24 %}</div>
-        <h3 class="feature-title">{{ feature.title | escape }}</h3>
-        <p class="feature-description">{{ feature.text | escape }}</p>
-      </li>
-      {%- endfor %}
-    </ul>
-  </div>
-</section>
-
 <section id="screenshots" class="screenshots-section">
   <div class="container">
     <div class="section-header">
@@ -85,6 +67,24 @@ body_class: app-page
         {% include icon.html name="chevron-right" size=18 %}
       </button>
     </div>
+  </div>
+</section>
+
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ page.sections.features.title }}</h2>
+      <p class="section-description">{{ page.sections.features.description }}</p>
+    </div>
+    <ul class="features-grid" role="list">
+      {%- for feature in page.features %}
+      <li class="feature-card glass">
+        <div class="feature-icon">{% include icon.html name=feature.icon size=24 %}</div>
+        <h3 class="feature-title">{{ feature.title | escape }}</h3>
+        <p class="feature-description">{{ feature.text | escape }}</p>
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 
