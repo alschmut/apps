@@ -9,27 +9,32 @@ body_class: app-page
 {%- comment -%} The hero shows the hero screenshot in front and the first two others behind it. {%- endcomment -%}
 {%- assign side_shots = page.screenshots | where_exp: "shot", "shot.file != page.hero.image" -%}
 <section id="top" class="app-hero">
-  <div class="container hero-inner">
-    <p class="chip glass hero-chip">
-      <img src="{{ page.icon_favicon | relative_url }}" alt="" width="20" height="20">
-      <span>{{ page.name }}</span>
-    </p>
-    <h1 class="hero-title">{{ page.hero.title }}</h1>
-    <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
-    <div class="store-badges hero-cta">
-      {% include store-badge.html %}
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="hero-app">
+        <img class="hero-app-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128">
+        <div>
+          <p class="hero-app-name">{{ page.name }}</p>
+          <p class="hero-app-tagline">{{ page.tagline }}</p>
+        </div>
+      </div>
+      <h1 class="hero-title">{{ page.hero.title }}</h1>
+      <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
+      <div class="store-badges hero-cta">
+        {% include store-badge.html %}
+      </div>
+      <ul class="hero-trust" role="list">
+        {%- for entry in page.hero.trust %}
+        <li>{% include icon.html name="check" size=14 %}{{ entry | escape }}</li>
+        {%- endfor %}
+      </ul>
     </div>
-    <ul class="hero-trust" role="list">
-      {%- for entry in page.hero.trust %}
-      <li>{% include icon.html name="check" size=14 %}{{ entry | escape }}</li>
+    <div class="hero-visual">
+      {%- for shot in side_shots limit: 2 %}
+      <img class="hero-side hero-side-{{ forloop.index }}" src="{{ thumbs_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
       {%- endfor %}
-    </ul>
-  </div>
-  <div class="hero-visual">
-    {%- for shot in side_shots limit: 2 %}
-    <img class="hero-side hero-side-{{ forloop.index }}" src="{{ thumbs_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
-    {%- endfor %}
-    <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 300px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+      <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 250px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+    </div>
   </div>
 </section>
 
