@@ -621,6 +621,28 @@ button {
     letter-spacing: -0.04em;
 }
 
+/* A wave next to the name. */
+.home-hero h1::after {
+    content: '👋';
+    display: inline-block;
+    margin-left: 0.25em;
+    letter-spacing: 0;
+    transform-origin: 70% 80%;
+    animation: wave 2.4s ease-in-out 0.6s 2;
+}
+
+@keyframes wave {
+    0%, 60%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(16deg); }
+    20%, 40% { transform: rotate(-8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero h1::after {
+        animation: none;
+    }
+}
+
 .home-intro {
     max-width: 34rem;
     margin: 0;
