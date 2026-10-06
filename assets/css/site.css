@@ -65,7 +65,8 @@
     --content-width: 68rem;
     --gutter: clamp(1.25rem, 5vw, 2.5rem);
     --topbar-height: 3.5rem;
-    --topbar-offset: 0.75rem;
+    /* Below the status bar or the Dynamic Island when the page runs edge to edge (viewport-fit=cover). */
+    --topbar-offset: calc(0.75rem + env(safe-area-inset-top, 0px));
     --section-space: clamp(4.5rem, 10vw, 7rem);
 
     --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -131,6 +132,9 @@ html {
     text-size-adjust: 100%;
     background: var(--bg);
     scroll-behavior: smooth;
+    /* The page runs edge to edge (viewport-fit=cover), so the wallpaper also fills the strips
+       beside the notch of an iPhone held sideways; the content stays clear of them. */
+    padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
     /* Anchors stop below the sticky top bar. */
     scroll-padding-top: calc(var(--topbar-height) + var(--topbar-offset) + 1.5rem);
 }
@@ -139,6 +143,8 @@ body {
     position: relative;
     margin: 0;
     min-height: 100vh;
+    /* On iOS 100vh is the height with the toolbars hidden, so short pages would scroll. */
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     color: var(--text);
@@ -374,8 +380,7 @@ button {
    4. Top bars: slim site header and sticky app header
    ========================================== */
 
-/* A floating glass capsule. The fixed height keeps the page in place when the phone menu
-   opens: the capsule then grows over the content below. */
+/* A floating glass capsule. */
 .topbar {
     position: sticky;
     top: var(--topbar-offset);
@@ -386,7 +391,6 @@ button {
 
 .topbar-inner {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0 1.5rem;
@@ -395,10 +399,6 @@ button {
     padding-inline: 1.25rem 0.5rem;
     background: var(--glass-fill-strong);
     border-radius: 999px;
-}
-
-.topbar-inner:has(.nav-collapse[data-open]) {
-    border-radius: var(--radius);
 }
 
 .app-header {
@@ -498,78 +498,23 @@ button {
     }
 }
 
-.nav-toggle {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    color: var(--text);
-    background: transparent;
-    border: 0;
-    border-radius: 50%;
-}
-
-.nav-toggle svg {
-    width: 24px;
-    height: 24px;
-}
-
-.nav-toggle[aria-expanded="true"] {
-    background: color-mix(in srgb, var(--text) 8%, transparent);
-}
-
-/* Below 768px the app navigation is closed until the toggle sets data-open. */
-.nav-collapse {
+/* The app header's section links. Below 768px they are hidden and only the "Get the app"
+   button shows; on a phone the sections are a short scroll away. */
+.nav-section {
     display: none;
-    flex-basis: 100%;
-    padding: 0 0.75rem 1rem 0;
 }
 
-.nav-collapse[data-open] {
-    display: block;
-}
-
-.nav-collapse .nav-list {
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.nav-collapse .nav-link {
-    padding-inline: 0;
-}
-
-.nav-collapse .button {
-    margin-top: 0.5rem;
-    width: 100%;
-    min-height: 44px;
+.app-header .button {
+    margin-left: 0.5rem;
 }
 
 @media (min-width: 768px) {
-    .nav-toggle {
-        display: none;
+    .nav-section {
+        display: list-item;
     }
 
-    .nav-collapse,
-    .nav-collapse[data-open] {
-        display: flex;
-        flex-basis: auto;
-        padding: 0;
-    }
-
-    .nav-collapse .nav-list {
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .nav-collapse .nav-link {
+    .app-header .nav-link {
         padding-inline: 0.85rem;
-    }
-
-    .nav-collapse .button {
-        width: auto;
-        margin: 0 0 0 0.5rem;
-        min-height: 36px;
     }
 }
 
@@ -801,16 +746,38 @@ button {
     box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
-/* On a narrow phone the screenshot goes under the text. */
-@media (max-width: 26rem) {
+/* Only shown on a phone, next to the hero screenshot. */
+.app-tile-preview-extra {
+    display: none;
+}
+
+/* On a phone two smaller screenshots sit side by side under the text, shown whole, with some
+   room below them before the tile ends. */
+@media (max-width: 39.99rem) {
     .app-tile {
         grid-template-columns: 1fr;
         gap: 0;
+        padding-bottom: 1.75rem;
     }
 
     .app-tile-preview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        aspect-ratio: auto;
         justify-self: center;
-        width: 11rem;
+        width: 100%;
+        max-width: 22rem;
+        /* Inside the 5px frame of the screenshots. */
+        padding-inline: 5px;
+    }
+
+    .app-tile-preview img {
+        border-radius: 1.25rem;
+    }
+
+    .app-tile-preview-extra {
+        display: block;
     }
 }
 
@@ -1070,6 +1037,25 @@ button {
     display: none;
 }
 
+/* On a phone the hero shows no screenshot: the carousel follows right below. The icon then
+   sits centred above the app's name. */
+@media (max-width: 39.99rem) {
+    .hero-visual {
+        display: none;
+    }
+
+    .hero-app {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Narrower than the text below, so it reads as part of the app's name. */
+    .hero-app-tagline {
+        padding-inline: 2rem;
+        text-wrap: balance;
+    }
+}
+
 @media (min-width: 40rem) {
     .hero-side {
         display: block;
@@ -1237,7 +1223,8 @@ button {
 }
 
 .prose-sheet {
-    padding: clamp(1.75rem, 6vw, 3.5rem);
+    --sheet-padding: clamp(1.5rem, 6vw, 3.5rem);
+    padding: var(--sheet-padding);
     border-radius: var(--radius-lg);
     background: var(--glass-fill-strong);
 }
@@ -1336,6 +1323,27 @@ button {
     color: var(--text-muted);
 }
 
+/* On a phone the table runs to the sheet's edges, like the screenshot carousel, so it reads as
+   scrollable instead of cut off; its first and last columns still line up with the text. */
+@media (max-width: 40rem) {
+    .prose-sheet table {
+        max-width: none;
+        margin-inline: calc(-1 * var(--sheet-padding));
+        border-inline: 0;
+        border-radius: 0;
+    }
+
+    .prose-sheet th:first-child,
+    .prose-sheet td:first-child {
+        padding-left: var(--sheet-padding);
+    }
+
+    .prose-sheet th:last-child,
+    .prose-sheet td:last-child {
+        padding-right: var(--sheet-padding);
+    }
+}
+
 .prose tbody tr:last-child td {
     border-bottom: 0;
 }
@@ -1366,7 +1374,7 @@ button {
 
 .site-footer {
     margin-top: var(--section-space);
-    padding-bottom: 2rem;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
     font-size: 0.875rem;
     color: var(--text-muted);
 }
@@ -1481,6 +1489,24 @@ button {
 
 .screenshots-section {
     padding-top: var(--section-space);
+}
+
+/* On a phone the carousel follows the hero text directly: its header is only read out by
+   screen readers (like .sr-only), and the gap above it is smaller. */
+@media (max-width: 39.99rem) {
+    .screenshots-section {
+        padding-top: 3rem;
+    }
+
+    .screenshots-section .section-header {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
 }
 
 .screenshots-container {

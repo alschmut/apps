@@ -5,21 +5,17 @@
       <span>Apps</span>
     </a>
     <span class="brand-name">{{ page.name }}</span>
-    <button type="button" class="nav-toggle" aria-controls="app-nav" aria-expanded="false" aria-label="Toggle navigation">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
-        <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/>
-      </svg>
-    </button>
-    <div id="app-nav" class="nav-collapse">
-      <ul class="nav-list">
-        {%- comment -%} Fragment-only: these sections exist on the app page only. {%- endcomment %}
-        <li><a class="nav-link" href="#screenshots">Screenshots</a></li>
-        <li><a class="nav-link" href="#features">Features</a></li>
-        {%- unless page.discontinued %}
-        <li><a class="nav-link" href="#support">Support</a></li>
-        <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
-        {%- endunless %}
-      </ul>
-    </div>
+    {%- comment -%}
+      Fragment-only: these sections exist on the app page only. On a phone only the
+      "Get the app" button shows (see .nav-section).
+    {%- endcomment %}
+    <ul class="nav-list">
+      <li class="nav-section"><a class="nav-link" href="#screenshots">Screenshots</a></li>
+      <li class="nav-section"><a class="nav-link" href="#features">Features</a></li>
+      {%- unless page.discontinued %}
+      <li class="nav-section"><a class="nav-link" href="#support">Support</a></li>
+      <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
+      {%- endunless %}
+    </ul>
   </nav>
 </header>

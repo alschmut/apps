@@ -12,7 +12,7 @@
 {%- assign page_description = page.description | default: site.description | strip_newlines | strip -%}
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{ page_title | escape }}</title>
   <meta name="description" content="{{ page_description | escape }}">
   <meta name="author" content="{{ owner.name | escape }}">
@@ -41,8 +41,5 @@
   <script defer src="{{ '/assets/js/site.js' | relative_url }}"></script>
 {%- if page.app_store_id %}
   <meta name="apple-itunes-app" content="app-id={{ page.app_store_id }}">
-{%- endif %}
-{%- if is_app %}
-  <noscript><style>.nav-toggle { display: none; } .nav-collapse { display: flex; }</style></noscript>
 {%- endif %}
 </head>

@@ -1,10 +1,13 @@
 {%- comment -%}
   One app on the home page: a glass tile with the icon and the texts, and the hero screenshot beside
-  them, cut off just above its bottom edge. The whole tile is clickable: the link stretches over it
+  them, cut off just above its bottom edge. On a phone a second screenshot joins it, side by
+  side under the texts. The whole tile is clickable: the link stretches over it
   (see .app-tile-link::after).
 {%- endcomment -%}
 {%- assign app = include.app -%}
-{%- assign shot = '/assets/apps/' | append: app.slug | append: '/screenshots/' | append: app.hero.image -%}
+{%- assign shots_dir = '/assets/apps/' | append: app.slug | append: '/screenshots/' -%}
+{%- assign shot = shots_dir | append: app.hero.image -%}
+{%- assign second_shot = app.screenshots | where_exp: "s", "s.file != app.hero.image" | first -%}
 <li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
   <div class="app-tile-body">
     <div class="app-tile-top">
@@ -23,5 +26,8 @@
   </div>
   <div class="app-tile-preview" aria-hidden="true">
     <img src="{{ shot | relative_url }}" alt="" width="600" height="1303" loading="lazy" decoding="async">
+    {%- if second_shot %}
+    <img class="app-tile-preview-extra" src="{{ shots_dir | append: second_shot.file | relative_url }}" alt="" width="600" height="1303" loading="lazy" decoding="async">
+    {%- endif %}
   </div>
 </li>
