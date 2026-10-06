@@ -7,7 +7,6 @@ description: >-                                     # meta description + app row
   widgets for your Home Screen. No longer available since App Center was retired.
 tagline: Your App Center analytics on iPhone and iPad
 accent: "#EA455A"
-# on_accent: "#16161a"                              # optional, default
 icon: /assets/apps/app-analytics/icon-256.png
 icon_touch: /assets/apps/app-analytics/icon-180.png
 icon_favicon: /assets/apps/app-analytics/icon-64.png

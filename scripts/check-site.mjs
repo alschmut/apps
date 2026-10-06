@@ -20,7 +20,8 @@ const MODES = {
   light: { inkMix: 0.45, inkBase: '#000000', tintStrength: 0.07, bg: '#f8f7fb' },
   dark: { inkMix: 0.8, inkBase: '#ffffff', tintStrength: 0.13, bg: '#13121a' },
 };
-const DEFAULT_ON_ACCENT = '#16161a';
+// Keep in sync with --on-accent in assets/css/site.css.
+const ON_ACCENT = '#16161a';
 const MIN_CONTRAST = 4.5;
 
 const expectedFiles = [
@@ -208,7 +209,6 @@ for (const appFile of appFiles) {
     fail(`${slug}: accent colour   missing or not a hex colour in _apps/${appFile}`);
     continue;
   }
-  const onAccent = hex(field(data, 'on_accent') ?? DEFAULT_ON_ACCENT);
   const ratios = Object.fromEntries(
     Object.entries(MODES).map(([mode, m]) => {
       const ink = mix(accent, hex(m.inkBase), m.inkMix);
@@ -216,7 +216,7 @@ for (const appFile of appFiles) {
       return [mode, contrast(ink, tint)];
     }),
   );
-  const onAccentRatio = contrast(onAccent, accent);
+  const onAccentRatio = contrast(hex(ON_ACCENT), accent);
   const ok = ratios.light >= MIN_CONTRAST && ratios.dark >= MIN_CONTRAST && onAccentRatio >= MIN_CONTRAST;
   check(
     ok,

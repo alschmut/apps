@@ -88,9 +88,8 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 
 1. Pick an id, for example `my-app`. It becomes the URL `/my-app/` and the asset folder.
 2. Copy `_apps/easy-dice.md` to `_apps/my-app.md` and fill in its front matter: `order` (position on the
-   main page), `name`, `title`, `description`, `tagline`, `accent` (and `on_accent` if dark text on the
-   accent is hard to read), the `icon*` paths, `app_store_id`, `app_store_url`, `hero`,
-   `sections`, `features`, `faq` and `screenshots`.
+   main page), `name`, `title`, `description`, `tagline`, `accent`, the `icon*` paths, `app_store_id`,
+   `app_store_url`, `hero`, `sections`, `features`, `faq` and `screenshots`.
 3. Make the icons from the 1024 px App Store icon:
 
    ```sh

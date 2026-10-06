@@ -7,7 +7,6 @@ description: >-                                     # meta description + app row
   On iPhone, iPad and right on your wrist with Apple Watch.
 tagline: Simple, modern dice for iPhone, iPad and Apple Watch
 accent: "#FFCC00"
-# on_accent: "#16161a"                              # optional, default
 icon: /assets/apps/easy-dice/icon-256.png
 icon_touch: /assets/apps/easy-dice/icon-180.png
 icon_favicon: /assets/apps/easy-dice/icon-64.png

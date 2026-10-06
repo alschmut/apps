@@ -7,7 +7,6 @@ description: >-                                     # meta description + app row
   in a year chart, and keep sensitive notes locked behind Face ID.
 tagline: Your private diary of crying moments
 accent: "#FB8500"
-# on_accent: "#16161a"                              # optional, default
 icon: /assets/apps/tear-tales/icon-256.png
 icon_touch: /assets/apps/tear-tales/icon-180.png
 icon_favicon: /assets/apps/tear-tales/icon-64.png
