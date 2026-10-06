@@ -518,6 +518,47 @@ button {
     }
 }
 
+/* On a phone the back button is round and without its label (still read out), with the app's
+   name right next to it. */
+@media (max-width: 767.98px) {
+    .app-header .topbar-inner {
+        gap: 0.75rem;
+        padding-inline: 0.5rem;
+    }
+
+    .app-header .home-link {
+        justify-content: center;
+        width: 40px;
+        min-height: 40px;
+        margin: 0;
+        color: var(--text);
+        background: color-mix(in srgb, var(--text) 7%, transparent);
+        border-radius: 50%;
+    }
+
+    .app-header .home-link::after {
+        display: none;
+    }
+
+    .app-header .home-link .icon {
+        width: 16px;
+        height: 16px;
+        /* The chevron's visual centre is right of its box centre. */
+        margin-left: -2px;
+    }
+
+    .home-link-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+}
+
 /* ==========================================
    5. Chips
    ========================================== */
