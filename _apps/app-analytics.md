@@ -4,7 +4,7 @@ name: App Analytics
 title: "App Analytics: A past app for Microsoft App Center"  # <title>
 description: >-                                     # meta description + app row text
   The analytics and crash reports of your Microsoft App Center apps on iPhone and iPad, with
-  widgets for your Home Screen. No longer available since App Center was retired.
+  widgets for your Home Screen.
 tagline: Your App Center analytics on iPhone and iPad
 accent: "#EA455A"
 icon: /assets/apps/app-analytics/icon-256.png
