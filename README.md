@@ -49,7 +49,8 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
 - for every app in `_apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
   `assets/apps/<id>/screenshots/` and in its `thumbs/` folder, and `hero.image` is one of them;
 - every app page has the anchors `#features`, `#screenshots`, `#support` and `#download` (the header nav
-  links to them, and the App Store support URL may point at `/<id>/#support`);
+  links to them, and the App Store support URL may point at `/<id>/#support`); a past app
+  (`discontinued: true`) has `#features`, `#screenshots` and `#retired` instead, and no Smart App Banner;
 - every full-size screenshot is at most 1.5 MiB and every thumbnail at most 200 KiB;
 - every app's accent colour, as text, has a contrast of at least 4.5:1 in light and dark mode, and the
   text on accent-coloured buttons too;
@@ -119,6 +120,15 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 
 5. Add the app's services to the table in `privacy-policy.md` (see below).
 6. Run the checks. The main page lists the new app automatically; no layout or CSS change is needed.
+
+### When an app leaves the App Store
+
+Set `discontinued: true` in its front matter and remove `app_store_id` and `app_store_url` (see
+`_apps/app-analytics.md`). The main page then lists it under "Past projects" with a "No longer
+available" label, and its page shows "No longer on the App Store" in place of the App Store badge,
+drops the support section and the "Get the app" button, and ends with a card made from
+`sections.retired` (`title`, `text`) in place of the download card. Update `scripts/check-site.mjs`,
+which lists the app pages with and without a Smart App Banner.
 
 ## Editing the legal texts
 

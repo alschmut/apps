@@ -15,13 +15,27 @@ body_class: home
 
 <section id="apps" class="apps container" aria-labelledby="apps-heading">
   <h2 class="section-title" id="apps-heading">Apps</h2>
+  {%- assign apps = site.apps | sort: "order" -%}
+  {%- assign current_apps = apps | where_exp: "app", "app.discontinued != true" -%}
+  {%- assign past_apps = apps | where: "discontinued", true %}
   <ul class="app-grid" role="list">
-    {%- assign apps = site.apps | sort: "order" -%}
-    {%- for app in apps %}
+    {%- for app in current_apps %}
     {% include app-row.html app=app %}
     {%- endfor %}
   </ul>
 </section>
+{%- if past_apps.size > 0 %}
+
+<section id="past-projects" class="apps past-apps container" aria-labelledby="past-projects-heading">
+  <h2 class="section-title" id="past-projects-heading">Past projects</h2>
+  <p class="section-lead">Apps that are no longer on the App Store.</p>
+  <ul class="app-grid" role="list">
+    {%- for app in past_apps %}
+    {% include app-row.html app=app %}
+    {%- endfor %}
+  </ul>
+</section>
+{%- endif %}
 
 <section id="contact" class="contact container" aria-labelledby="contact-heading">
   <div class="contact-card glass">

@@ -7,7 +7,12 @@
 {%- assign shot = '/assets/apps/' | append: app.slug | append: '/screenshots/thumbs/' | append: app.hero.image -%}
 <li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
   <div class="app-tile-body">
-    <img class="app-tile-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+    <div class="app-tile-top">
+      <img class="app-tile-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+      {%- if app.discontinued %}
+      <p class="app-tile-status">{% include icon.html name="archive" size=12 %}No longer available</p>
+      {%- endif %}
+    </div>
     <h3 id="app-{{ app.slug }}">{{ app.name }}</h3>
     <p class="app-tile-tagline">{{ app.tagline }}</p>
     <p class="app-tile-description">{{ app.description }}</p>

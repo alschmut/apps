@@ -20,9 +20,16 @@ body_class: app-page
       </div>
       <h1 class="hero-title">{{ page.hero.title }}</h1>
       <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
+      {%- if page.discontinued %}
+      <p class="retired-note glass hero-cta">
+        {% include icon.html name="archive" size=16 %}
+        <span>No longer on the App Store</span>
+      </p>
+      {%- else %}
       <div class="store-badges hero-cta">
         {% include store-badge.html %}
       </div>
+      {%- endif %}
       <ul class="hero-trust" role="list">
         {%- for entry in page.hero.trust %}
         <li>{% include icon.html name="check" size=14 %}{{ entry | escape }}</li>
@@ -93,6 +100,7 @@ body_class: app-page
   Answers are Markdown. markdownify wraps them in <p>, which is removed because the template adds its
   own; root-relative links such as /privacy-policy/ get the baseurl.
 {%- endcomment -%}
+{%- unless page.discontinued -%}
 {%- capture base_href %}href="{{ site.baseurl }}/{% endcapture -%}
 {%- assign support_email = site.data.site.contact.channels | where: "id", "email" | first -%}
 <section id="support" class="faq-section">
@@ -119,7 +127,21 @@ body_class: app-page
     </div>
   </div>
 </section>
+{%- endunless %}
 
+{%- if page.discontinued %}
+<section id="retired" class="download-section container">
+  <div class="download-card glass">
+    <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
+    <h2>{{ page.sections.retired.title }}</h2>
+    <p class="download-text">{{ page.sections.retired.text }}</p>
+    <a class="button button-glass glass" href="{{ '/#apps' | relative_url }}">
+      <span>See my current apps</span>
+      {% include icon.html name="arrow-right" size=16 %}
+    </a>
+  </div>
+</section>
+{%- else %}
 <section id="download" class="download-section container">
   <div class="download-card glass">
     <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
@@ -130,6 +152,7 @@ body_class: app-page
     </div>
   </div>
 </section>
+{%- endif %}
 {{ content }}
 
 <dialog class="lightbox" aria-labelledby="lightbox-caption">

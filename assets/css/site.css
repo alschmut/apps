@@ -672,10 +672,21 @@ button {
     padding-bottom: 1.5rem;
 }
 
+/* The icon, and the label of a past app at the other end of the row, next to the screenshot and
+   level with the top of both. */
+.app-tile-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    align-self: stretch;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+}
+
 .app-tile-icon {
     width: 56px;
     height: 56px;
-    margin-bottom: 1rem;
     border-radius: var(--icon-radius);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
 }
@@ -753,6 +764,32 @@ button {
         justify-self: center;
         width: 11rem;
     }
+}
+
+/* Past projects: apps that are no longer on the App Store, below the current ones. */
+
+.past-apps {
+    padding-top: var(--section-space);
+}
+
+.section-lead {
+    margin: -0.75rem 0 1.5rem;
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+}
+
+.app-tile-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--glass-fill-strong);
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--border);
 }
 
 /* Contact */
@@ -913,6 +950,23 @@ button {
 /* Two classes, so that the margin: 0 of .store-badges further down does not win. */
 .store-badges.hero-cta {
     margin-bottom: 1.75rem;
+}
+
+/* In place of the App Store badge when the app is no longer on the App Store. */
+.retired-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1.75rem;
+    padding: 0.65rem 1.15rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    border-radius: 999px;
+}
+
+.retired-note .icon {
+    color: var(--accent-ink);
 }
 
 .hero-trust {

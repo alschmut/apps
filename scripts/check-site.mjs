@@ -12,6 +12,8 @@ const sizeLimit = 2 * 1024 * 1024;
 const screenshotLimit = 1.5 * 1024 * 1024;
 const thumbLimit = 200 * 1024;
 const appPageIds = ['features', 'screenshots', 'support', 'download'];
+// An app that is no longer on the App Store (discontinued: true) has no support or download section.
+const pastAppPageIds = ['features', 'screenshots', 'retired'];
 
 // Keep in sync with the :root tokens in assets/css/site.css (--accent-ink-mix,
 // --accent-ink-base, --tint-strength, --bg, in light and in dark mode).
@@ -26,6 +28,7 @@ const expectedFiles = [
   'index.html',
   'easy-dice/index.html',
   'tear-tales/index.html',
+  'app-analytics/index.html',
   'privacy-policy/index.html',
   'impressum/index.html',
   '404.html',
@@ -171,11 +174,9 @@ for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '649950
   const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
   check((html.get(`${page}/index.html`) ?? '').includes(banner), `${page}/index.html has the Smart App Banner`, 'missing');
 }
-check(
-  !(html.get('index.html') ?? '').includes('name="apple-itunes-app"'),
-  'index.html has no Smart App Banner',
-  'found one',
-);
+for (const page of ['index.html', 'app-analytics/index.html']) {
+  check(!(html.get(page) ?? '').includes('name="apple-itunes-app"'), `${page} has no Smart App Banner`, 'found one');
+}
 
 // Accent contrast of every app, computed like color-mix(in srgb, …)
 const hex = (value) => {
@@ -253,10 +254,11 @@ for (const appFile of appFiles) {
 
   const page = `${slug}/index.html`;
   const content = html.get(page) ?? '';
-  const missingIds = appPageIds.filter((id) => !hasId(content, id));
+  const ids = /^discontinued:\s*true\b/m.test(data) ? pastAppPageIds : appPageIds;
+  const missingIds = ids.filter((id) => !hasId(content, id));
   check(
     html.has(page) && missingIds.length === 0,
-    `${page} has the anchors #${appPageIds.join(', #')}`,
+    `${page} has the anchors #${ids.join(', #')}`,
     html.has(page) ? `missing #${missingIds.join(', #')}` : 'page missing',
   );
 
