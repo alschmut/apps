@@ -33,7 +33,7 @@ body_class: app-page
       {%- for shot in side_shots limit: 2 %}
       <img class="hero-side hero-side-{{ forloop.index }}" src="{{ thumbs_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
       {%- endfor %}
-      <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 250px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+      <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 230px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
     </div>
   </div>
 </section>

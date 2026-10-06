@@ -737,7 +737,7 @@ button {
     aspect-ratio: 600 / 1068;
 }
 
-/* Framed like the screenshots in the app hero. */
+/* Framed like the screenshots on the app pages. */
 .app-tile-preview img {
     width: 100%;
     border-radius: 1.5rem;
@@ -960,17 +960,16 @@ button {
     top: 0;
     width: 240px;
     border-radius: 2rem;
+    outline: 6px solid var(--shot-frame);
     box-shadow: 0 30px 60px color-mix(in srgb, var(--accent) 25%, rgb(0 0 0 / 0.25));
 }
 
 .hero-image {
     z-index: 1;
-    outline: 6px solid var(--shot-frame);
 }
 
 .hero-side {
     display: none;
-    opacity: 0.9;
 }
 
 @media (min-width: 40rem) {
@@ -1011,11 +1010,12 @@ button {
         justify-content: flex-start;
     }
 
-    /* The whole fan is visible, so no fade. The screenshots shrink on narrower screens, and
-       the height leaves room for the tilted side screenshots, which sit 3rem lower. */
+    /* The whole fan is visible, so no fade. The screenshots shrink on narrower screens. The
+       fan sits 2rem down in a box 4rem taller than the hero image, so the hero image is
+       centred next to the text and the tilted side screenshots, 3rem lower, still fit. */
     .hero-visual {
-        --shot-width: clamp(200px, 17.5vw, 250px);
-        height: calc(var(--shot-width) * 1303 / 600 + 4.5rem);
+        --shot-width: clamp(190px, 16vw, 230px);
+        height: calc(var(--shot-width) * 1303 / 600 + 4rem);
         margin-top: 0;
         -webkit-mask-image: none;
         mask-image: none;
@@ -1023,8 +1023,14 @@ button {
 
     .hero-image,
     .hero-side {
+        top: 2rem;
         width: var(--shot-width);
-        border-radius: 2.25rem;
+        border-radius: 2.125rem;
+    }
+
+    /* The hero image sits a little lower than the fan's top, so it reads as centred. */
+    .hero-image {
+        top: 2.75rem;
     }
 
     .hero-side-1 {
@@ -1388,8 +1394,8 @@ button {
     display: flex;
     gap: 1.5rem;
     margin: 0;
-    /* The vertical padding keeps the shadows from being cut off. */
-    padding: 0.5rem 1.5rem 2rem;
+    /* The vertical padding keeps the frames and shadows from being cut off. */
+    padding: 0.75rem 1.5rem 2rem;
     list-style: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -1426,6 +1432,7 @@ button {
 .screenshot-image {
     width: var(--shot-width);
     border-radius: 1.75rem;
+    outline: 5px solid var(--shot-frame);
     box-shadow: var(--glass-shadow);
 }
 
