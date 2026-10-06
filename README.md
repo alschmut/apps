@@ -41,17 +41,17 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
 
 - the expected pages and files exist, and old or private paths (`/privacypolicy/`, `_originals/`,
   `docs/`, `scripts/`, …) are not published;
-- every internal `href`, `src`, `srcset` and `data-full` starts with the `baseurl` and resolves to a
+- every internal `href`, `src` and `srcset` starts with the `baseurl` and resolves to a
   file, including `#fragment` targets;
 - nothing is loaded from a third party (scripts, stylesheets, icons, images, CSS `url()`);
 - every page except the 404 page links to the Impressum and the privacy policy;
 - the Smart App Banner tag is on each app page and not on the main page;
 - for every app in `_apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
-  `assets/apps/<id>/screenshots/` and in its `thumbs/` folder, and `hero.image` is one of them;
+  `assets/apps/<id>/screenshots/`, and `hero.image` is one of them;
 - every app page has the anchors `#features`, `#screenshots`, `#support` and `#download` (the header nav
   links to them, and the App Store support URL may point at `/<id>/#support`); a past app
   (`discontinued: true`) has `#features`, `#screenshots` and `#retired` instead, and no Smart App Banner;
-- every full-size screenshot is at most 1.5 MiB and every thumbnail at most 200 KiB;
+- every screenshot is at most 200 KiB;
 - every app's accent colour, as text, has a contrast of at least 4.5:1 in light and dark mode, and the
   text on accent-coloured buttons too;
 - no file is larger than 2 MiB.
@@ -68,7 +68,7 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
 | Not-found page | `404.html` |
 | Page structure | `_layouts/` (`base`, `home`, `app`, `prose`) and `_includes/` |
 | Styles (plain CSS, light and dark) | `assets/css/site.css` |
-| Script (navigation toggle, screenshot carousel arrows, lightbox) | `assets/js/site.js` |
+| Script (navigation toggle, screenshot carousel arrows) | `assets/js/site.js` |
 | Site settings (URL, baseurl, collections) | `_config.yml` |
 | Unpublished originals (full-size portrait) | `_originals/` |
 
@@ -95,28 +95,26 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 3. Make the icons from the 1024 px App Store icon:
 
    ```sh
-   mkdir -p assets/apps/my-app/screenshots/thumbs
+   mkdir -p assets/apps/my-app/screenshots
    for n in 256 180 64; do
      sips -s format png -Z $n "AppIcon-1024.png" --out assets/apps/my-app/icon-$n.png
    done
    ```
 
-4. Make each screenshot as a full-size JPG and a 600 px thumbnail with the same name. Name the files
+4. Make each screenshot as a 600 px wide JPG. Name the files
    `NN-short-description.jpg` (`01-single-d6.jpg`, `02-wood-d10.jpg`, …). The carousel follows the
    order of the `screenshots:` list; the number keeps the folder in the same order. Each entry there has the `file`, an `alt` text describing the image, and a
-   `caption` that is shown under the image and in the lightbox. `hero.image` names the one used in the
+   `caption` that is shown under the image. `hero.image` names the one used in the
    hero.
 
    ```sh
-   sips -s format jpeg -s formatOptions 82 "screenshot.png" --out assets/apps/my-app/screenshots/01-name.jpg
    sips -s format jpeg -s formatOptions 78 --resampleWidth 600 "screenshot.png" \
-     --out assets/apps/my-app/screenshots/thumbs/01-name.jpg
+     --out assets/apps/my-app/screenshots/01-name.jpg
    ```
 
-   If a full JPG is larger than 1.5 MiB (photographic backgrounds such as wood or a starry sky), make
-   it again with `formatOptions 72`; if a thumbnail is larger than 200 KiB, use `formatOptions 70`.
-   The layout assumes iPhone screenshots of 1320 × 2868 px, whose thumbnails are 600 × 1303 px; for
-   another aspect ratio, adjust the `height` of the screenshot `<img>` in `_layouts/app.html`.
+   If a JPG is larger than 200 KiB (photographic backgrounds such as wood or a starry sky), make it
+   again with `formatOptions 70`. The layout assumes iPhone screenshots of 1320 × 2868 px, which
+   become 600 × 1303 px; for another aspect ratio, adjust the `height` of the screenshot `<img>` in `_layouts/app.html`.
 
 5. Add the app's services to the table in `privacy-policy.md` (see below).
 6. Run the checks. The main page lists the new app automatically; no layout or CSS change is needed.

@@ -12,7 +12,7 @@
      3. Glass, buttons      8. Section header, download card, store badges
      4. Top bars            9. Prose pages
      5. Chips              10. Footers
-                           11. Features  12. Screenshots  13. Lightbox  14. FAQ
+                           11. Features  12. Screenshots  13. FAQ
    ========================================================================== */
 
 /* ==========================================
@@ -1469,16 +1469,6 @@ button {
     margin: 0;
 }
 
-.screenshot-trigger {
-    display: block;
-    border-radius: 1.75rem;
-    transition: transform 0.4s var(--ease-spring);
-}
-
-.screenshot-trigger:hover {
-    transform: translateY(-4px);
-}
-
 .screenshot-image {
     width: var(--shot-width);
     border-radius: 1.75rem;
@@ -1542,97 +1532,8 @@ button {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .screenshot-trigger:hover {
-        transform: none;
-    }
-}
-
 /* ==========================================
-   13. Lightbox
-   ========================================== */
-
-/* The page behind an open lightbox does not scroll. */
-html:has(dialog[open]) {
-    overflow: hidden;
-}
-
-.lightbox {
-    width: calc(100% - 1rem);
-    max-width: 480px;
-    max-height: calc(100% - 1rem);
-    padding: 0;
-    overflow-y: auto;
-    color: var(--text);
-    background: var(--glass-fill-strong);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-rim-soft);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 30px 80px rgb(0 0 0 / 0.35);
-}
-
-.lightbox::backdrop {
-    background: rgb(10 8 20 / 0.45);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-}
-
-@media (min-width: 576px) {
-    .lightbox {
-        max-height: calc(100% - 3.5rem);
-    }
-}
-
-.lightbox-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0.5rem 0.25rem 1.5rem;
-}
-
-.lightbox-caption {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1.35;
-}
-
-.lightbox-close {
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    margin-left: auto;
-    padding: 0;
-    color: var(--text-muted);
-    background: transparent;
-    border: 0;
-    border-radius: 50%;
-    transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.lightbox-close:hover {
-    color: var(--text);
-    background: color-mix(in srgb, var(--text) 8%, transparent);
-}
-
-.lightbox-body {
-    padding: 0.5rem 1rem 1rem;
-}
-
-.lightbox-image {
-    width: auto;
-    max-width: 100%;
-    /* The whole screenshot fits on screen: dialog margins, header and padding. */
-    max-height: calc(100dvh - 9rem);
-    margin: 0 auto;
-    border-radius: 1.5rem;
-}
-
-/* ==========================================
-   14. FAQ
+   13. FAQ
    ========================================== */
 
 .faq-section {

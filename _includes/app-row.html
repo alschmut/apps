@@ -4,7 +4,7 @@
   (see .app-tile-link::after).
 {%- endcomment -%}
 {%- assign app = include.app -%}
-{%- assign shot = '/assets/apps/' | append: app.slug | append: '/screenshots/thumbs/' | append: app.hero.image -%}
+{%- assign shot = '/assets/apps/' | append: app.slug | append: '/screenshots/' | append: app.hero.image -%}
 <li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
   <div class="app-tile-body">
     <div class="app-tile-top">

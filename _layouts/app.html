@@ -5,7 +5,6 @@ body_class: app-page
 ---
 {%- assign app_dir = '/assets/apps/' | append: page.slug -%}
 {%- assign shots_dir = app_dir | append: '/screenshots/' -%}
-{%- assign thumbs_dir = app_dir | append: '/screenshots/thumbs/' -%}
 {%- comment -%} The hero shows the hero screenshot in front and the first two others behind it. {%- endcomment -%}
 {%- assign side_shots = page.screenshots | where_exp: "shot", "shot.file != page.hero.image" -%}
 <section id="top" class="app-hero">
@@ -38,9 +37,9 @@ body_class: app-page
     </div>
     <div class="hero-visual">
       {%- for shot in side_shots limit: 2 %}
-      <img class="hero-side hero-side-{{ forloop.index }}" src="{{ thumbs_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
+      <img class="hero-side hero-side-{{ forloop.index }}" src="{{ shots_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
       {%- endfor %}
-      <img class="hero-image" src="{{ thumbs_dir | append: page.hero.image | relative_url }}" srcset="{{ thumbs_dir | append: page.hero.image | relative_url }} 600w, {{ shots_dir | append: page.hero.image | relative_url }} 1320w" sizes="(min-width: 992px) 230px, 240px" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+      <img class="hero-image" src="{{ shots_dir | append: page.hero.image | relative_url }}" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
     </div>
   </div>
 </section>
@@ -57,14 +56,9 @@ body_class: app-page
       </button>
       <ul class="screenshots-scroll" role="list">
         {%- for shot in page.screenshots %}
-        {%- assign shot_full = shots_dir | append: shot.file | relative_url -%}
-        {%- assign shot_thumb = thumbs_dir | append: shot.file | relative_url %}
         <li class="screenshot-card">
           <figure>
-            {%- comment -%} An <a>, so that without JS a click still opens the full image. {%- endcomment %}
-            <a class="screenshot-trigger" href="{{ shot_full }}" data-full="{{ shot_full }}" data-caption="{{ shot.caption | escape }}">
-              <img class="screenshot-image" src="{{ shot_thumb }}" width="600" height="1303" alt="{{ shot.alt | escape }}" loading="lazy" decoding="async">
-            </a>
+            <img class="screenshot-image" src="{{ shots_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="{{ shot.alt | escape }}" loading="lazy" decoding="async">
             <figcaption>{{ shot.caption | escape }}</figcaption>
           </figure>
         </li>
@@ -155,12 +149,3 @@ body_class: app-page
 {%- endif %}
 {{ content }}
 
-<dialog class="lightbox" aria-labelledby="lightbox-caption">
-  <div class="lightbox-header">
-    <h2 id="lightbox-caption" class="lightbox-caption"></h2>
-    <button type="button" class="lightbox-close" aria-label="Close">{% include icon.html name="x-lg" size=18 %}</button>
-  </div>
-  <div class="lightbox-body">
-    <img class="lightbox-image" alt="">
-  </div>
-</dialog>

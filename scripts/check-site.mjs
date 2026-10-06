@@ -9,8 +9,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const siteDir = path.join(root, '_site');
 const sizeLimit = 2 * 1024 * 1024;
-const screenshotLimit = 1.5 * 1024 * 1024;
-const thumbLimit = 200 * 1024;
+const screenshotLimit = 200 * 1024;
 const appPageIds = ['features', 'screenshots', 'support', 'download'];
 // An app that is no longer on the App Store (discontinued: true) has no support or download section.
 const pastAppPageIds = ['features', 'screenshots', 'retired'];
@@ -74,7 +73,7 @@ const htmlFiles = files.filter((file) => file.endsWith('.html'));
 const html = new Map(await Promise.all(htmlFiles.map(async (file) => [file, await read(file)])));
 const css = fileSet.has('assets/css/site.css') ? await read('assets/css/site.css') : '';
 
-// Internal links: href, src, srcset and data-full
+// Internal links: href, src and srcset
 const isExternal = (target) => /^(https?:|mailto:|tel:)/i.test(target);
 const pageFor = (pathname) => {
   const relative = pathname.replace(/^\//, '');
@@ -86,7 +85,7 @@ let links = 0;
 const linkProblems = [];
 for (const [file, content] of html) {
   const targets = [];
-  for (const [, attribute, value] of content.matchAll(/\s(href|src|srcset|data-full)="([^"]*)"/g)) {
+  for (const [, attribute, value] of content.matchAll(/\s(href|src|srcset)="([^"]*)"/g)) {
     if (attribute === 'srcset') {
       for (const candidate of value.split(',')) {
         const url = candidate.trim().split(/\s+/)[0];
@@ -230,7 +229,6 @@ for (const appFile of appFiles) {
 const jpgsIn = async (dir) =>
   existsSync(dir) ? (await readdir(dir)).filter((file) => file.toLowerCase().endsWith('.jpg')).sort() : [];
 const sameSet = (a, b) => a.length === b.length && a.every((value, i) => value === b[i]);
-const mib = (bytes) => `${(bytes / 1024 / 1024).toFixed(2)} MiB`;
 const kib = (bytes) => `${Math.round(bytes / 1024)} KiB`;
 for (const appFile of appFiles) {
   const slug = appFile.replace(/\.md$/, '');
@@ -238,13 +236,11 @@ for (const appFile of appFiles) {
 
   const listed = [...data.matchAll(/\bfile:\s*["']?([^"'\s,}]+\.jpg)/g)].map((match) => match[1]).sort();
   const shotsDir = path.join(root, 'assets', 'apps', slug, 'screenshots');
-  const fullFiles = await jpgsIn(shotsDir);
-  const thumbFiles = await jpgsIn(path.join(shotsDir, 'thumbs'));
+  const shotFiles = await jpgsIn(shotsDir);
   const heroImage = data.match(/^\s+image:\s*["']?([^"'\s#]+)/m)?.[1];
   const problems = [];
   if (listed.length === 0) problems.push('no screenshots listed');
-  if (!sameSet(listed, fullFiles)) problems.push(`screenshots/ has [${fullFiles.join(', ')}]`);
-  if (!sameSet(listed, thumbFiles)) problems.push(`screenshots/thumbs/ has [${thumbFiles.join(', ')}]`);
+  if (!sameSet(listed, shotFiles)) problems.push(`screenshots/ has [${shotFiles.join(', ')}]`);
   if (!heroImage || !listed.includes(heroImage)) problems.push(`hero.image "${heroImage ?? ''}" is not one of them`);
   check(
     problems.length === 0,
@@ -263,14 +259,12 @@ for (const appFile of appFiles) {
   );
 
   const sizeOf = async (file) => (await stat(file)).size;
-  const fullSizes = await Promise.all(fullFiles.map((file) => sizeOf(path.join(shotsDir, file))));
-  const thumbSizes = await Promise.all(thumbFiles.map((file) => sizeOf(path.join(shotsDir, 'thumbs', file))));
-  const bigFull = fullFiles.filter((_, i) => fullSizes[i] > screenshotLimit);
-  const bigThumbs = thumbFiles.filter((_, i) => thumbSizes[i] > thumbLimit);
+  const shotSizes = await Promise.all(shotFiles.map((file) => sizeOf(path.join(shotsDir, file))));
+  const bigShots = shotFiles.filter((_, i) => shotSizes[i] > screenshotLimit);
   check(
-    bigFull.length === 0 && bigThumbs.length === 0,
-    `${slug}: largest screenshot ${mib(Math.max(0, ...fullSizes))} (limit 1.5 MiB), largest thumbnail ${kib(Math.max(0, ...thumbSizes))} (limit 200 KiB)`,
-    `too large: ${[...bigFull, ...bigThumbs.map((file) => `thumbs/${file}`)].join(', ')}`,
+    bigShots.length === 0,
+    `${slug}: largest screenshot ${kib(Math.max(0, ...shotSizes))} (limit 200 KiB)`,
+    `too large: ${bigShots.join(', ')}`,
   );
 }
 
