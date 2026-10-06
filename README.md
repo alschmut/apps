@@ -70,7 +70,6 @@ scripts/jekyll.sh build && node scripts/check-site.mjs
 | Styles (plain CSS, light and dark) | `assets/css/site.css` |
 | Script (navigation toggle, screenshot carousel arrows) | `assets/js/site.js` |
 | Site settings (URL, baseurl, collections) | `_config.yml` |
-| Unpublished originals (full-size portrait) | `_originals/` |
 
 ## URL contract
 
