@@ -7,9 +7,11 @@ body_class: home
 <header class="home-hero">
   <div class="container home-hero-inner">
     <img class="portrait" src="{{ data.owner.portrait | relative_url }}" alt="Portrait of {{ data.owner.name }}" width="200" height="200" fetchpriority="high">
-    <p class="chip glass">{{ data.owner.tagline }}</p>
-    <h1>{{ data.owner.greeting }}</h1>
-    <p class="home-intro">{{ data.owner.intro }}</p>
+    <div class="home-hero-text">
+      <p class="chip glass">{{ data.owner.tagline }}</p>
+      <h1>{{ data.owner.greeting }}</h1>
+      <p class="home-intro">{{ data.owner.intro }}</p>
+    </div>
   </div>
 </header>
 
