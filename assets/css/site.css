@@ -595,7 +595,7 @@ button {
    ========================================== */
 
 .home-hero {
-    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(2rem, 5vw, 3rem);
+    padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2.5rem, 6vw, 4rem);
 }
 
 /* On a phone the portrait sits centred above the text; from 640px it is on the left of it. */
@@ -616,8 +616,8 @@ button {
 
 .portrait {
     flex-shrink: 0;
-    width: 128px;
-    height: 128px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 0 0 4px var(--glass-fill-strong), var(--glass-shadow-lift);
@@ -636,8 +636,8 @@ button {
     }
 
     .portrait {
-        width: clamp(160px, 20vw, 200px);
-        height: clamp(160px, 20vw, 200px);
+        width: clamp(144px, 18vw, 180px);
+        height: clamp(144px, 18vw, 180px);
     }
 }
 
