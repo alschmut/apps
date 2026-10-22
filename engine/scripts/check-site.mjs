@@ -29,6 +29,7 @@ const expectedFiles = [
   'easy-dice/index.html',
   'tear-tales/index.html',
   'app-analytics/index.html',
+  'family-tree/index.html',
   'privacy-policy/index.html',
   'impressum/index.html',
   '404.html',
@@ -174,7 +175,7 @@ for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '649950
   const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
   check((html.get(`${page}/index.html`) ?? '').includes(banner), `${page}/index.html has the Smart App Banner`, 'missing');
 }
-for (const page of ['index.html', 'app-analytics/index.html']) {
+for (const page of ['index.html', 'app-analytics/index.html', 'family-tree/index.html']) {
   check(!(html.get(page) ?? '').includes('name="apple-itunes-app"'), `${page} has no Smart App Banner`, 'found one');
 }
 
@@ -234,17 +235,29 @@ for (const appFile of appFiles) {
   const slug = appFile.replace(/\.md$/, '');
   const data = frontMatter(await readFile(path.join(appsDir, appFile), 'utf8'));
 
-  const listed = [...data.matchAll(/\bfile:\s*["']?([^"'\s,}]+\.jpg)/g)].map((match) => match[1]).sort();
+  // screenshots: lists the plain iPhone screenshots; screenshots_ipad: the iPad ones of the carousel.
+  // With framed_screenshots: true the carousel's files are in screenshots/framed/.
+  const filesIn = (list) =>
+    [...(data.match(new RegExp(`^${list}:\\n((?:\\s+-.*\\n?)*)`, 'm'))?.[1] ?? '').matchAll(/\bfile:\s*["']?([^"'\s,}]+\.jpg)/g)]
+      .map((match) => match[1]);
+  const iphoneFiles = filesIn('screenshots');
+  const ipadFiles = filesIn('screenshots_ipad');
+  const framed = /^framed_screenshots:\s*true\b/m.test(data);
+  const listed = (framed ? iphoneFiles : [...iphoneFiles, ...ipadFiles]).sort();
   const shotsDir = path.join(root, 'assets', 'apps', slug, 'screenshots');
+  const framedDir = path.join(shotsDir, 'framed');
   const shotFiles = await jpgsIn(shotsDir);
+  const framedFiles = await jpgsIn(framedDir);
+  const framedListed = framed ? [...iphoneFiles, ...ipadFiles].sort() : [];
   const heroImage = data.match(/^\s+image:\s*["']?([^"'\s#]+)/m)?.[1];
   const problems = [];
   if (listed.length === 0) problems.push('no screenshots listed');
   if (!sameSet(listed, shotFiles)) problems.push(`screenshots/ has [${shotFiles.join(', ')}]`);
-  if (!heroImage || !listed.includes(heroImage)) problems.push(`hero.image "${heroImage ?? ''}" is not one of them`);
+  if (!sameSet(framedListed, framedFiles)) problems.push(`screenshots/framed/ has [${framedFiles.join(', ')}]`);
+  if (!heroImage || !iphoneFiles.includes(heroImage)) problems.push(`hero.image "${heroImage ?? ''}" is not one of them`);
   check(
     problems.length === 0,
-    `${listed.length} screenshot files match the screenshots of data/apps/${appFile}`,
+    `${listed.length + framedListed.length} screenshot files match the screenshots of data/apps/${appFile}`,
     problems.join('; '),
   );
 
@@ -259,8 +272,9 @@ for (const appFile of appFiles) {
   );
 
   const sizeOf = async (file) => (await stat(file)).size;
-  const shotSizes = await Promise.all(shotFiles.map((file) => sizeOf(path.join(shotsDir, file))));
-  const bigShots = shotFiles.filter((_, i) => shotSizes[i] > screenshotLimit);
+  const allShots = [...shotFiles.map((file) => path.join(shotsDir, file)), ...framedFiles.map((file) => path.join(framedDir, file))];
+  const shotSizes = await Promise.all(allShots.map(sizeOf));
+  const bigShots = allShots.filter((_, i) => shotSizes[i] > screenshotLimit).map((file) => path.relative(shotsDir, file));
   check(
     bigShots.length === 0,
     `${slug}: largest screenshot ${kib(Math.max(0, ...shotSizes))} (limit 200 KiB)`,

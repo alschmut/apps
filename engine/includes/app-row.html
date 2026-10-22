@@ -15,6 +15,8 @@
       <img class="app-tile-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
       {%- if app.discontinued %}
       <p class="app-tile-status">{% include icon.html name="archive" size=12 %}No longer available</p>
+      {%- elsif app.coming_soon %}
+      <p class="app-tile-status">{% include icon.html name="hourglass-split" size=12 %}Coming soon</p>
       {%- endif %}
     </div>
     <h3 id="app-{{ app_id }}">{{ app.app_name }}</h3>

@@ -1008,8 +1008,8 @@ button {
     margin-bottom: 1.75rem;
 }
 
-/* In place of the App Store badge when the app is no longer on the App Store. */
-.retired-note {
+/* In place of the App Store badge when the app is not, or not yet, on the App Store. */
+.store-note {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -1021,7 +1021,7 @@ button {
     border-radius: 999px;
 }
 
-.retired-note .icon {
+.store-note .icon {
     color: var(--accent-ink);
 }
 
@@ -1555,6 +1555,58 @@ button {
     position: relative;
 }
 
+/* iPhone or iPad, for apps with iPad screenshots. Radio buttons in a segmented control: the
+   unchecked device's row is hidden with :has(), so it works without JS. */
+.device-picker {
+    display: flex;
+    width: fit-content;
+    gap: 0.25rem;
+    margin: 0 auto 1.5rem;
+    padding: 0.25rem;
+    border: 0;
+    border-radius: 999px;
+}
+
+.device-picker label {
+    padding: 0.45rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.device-picker input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.device-picker label:has(input:checked) {
+    color: var(--on-accent);
+    background: var(--accent);
+}
+
+.device-picker label:has(input:focus-visible) {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+}
+
+.screenshots-scroll[data-device="ipad"],
+.screenshots-section:has(.device-picker input[value="ipad"]:checked) .screenshots-scroll[data-device="iphone"] {
+    display: none;
+}
+
+.screenshots-section:has(.device-picker input[value="ipad"]:checked) .screenshots-scroll[data-device="ipad"] {
+    display: flex;
+}
+
+/* As tall as the iPhone screenshots, so the arrows stay centred; narrower than the screen on a phone. */
+.screenshots-scroll[data-device="ipad"] :is(.screenshot-card, .screenshot-image) {
+    width: min(var(--shot-width) * 1303 / 600 * 900 / 1200, 100vw - 2 * var(--gutter) - 2rem);
+}
+
 .screenshots-scroll {
     display: flex;
     gap: 1.5rem;
@@ -1589,6 +1641,12 @@ button {
     border-radius: 1.75rem;
     outline: 5px solid var(--shot-frame);
     box-shadow: var(--glass-shadow);
+}
+
+/* Framed App Store screenshots bring their own device frame and background. */
+.is-framed .screenshot-image {
+    border-radius: 1rem;
+    outline: 0;
 }
 
 .screenshot-card figcaption {

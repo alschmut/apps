@@ -2,12 +2,12 @@
 layout: prose
 permalink: /privacy-policy/
 title: Privacy Policy
-description: "What the apps of Alexander Schmutz, such as Easy Dice and Tear Tales, and this website collect, which services receive data, and your rights."
+description: "What the apps of Alexander Schmutz, such as Easy Dice, Tear Tales and Family Tree, and this website collect, which services receive data, and your rights."
 ---
 
 # Privacy Policy
 
-<p class="updated">Last updated: 5 October 2026</p>
+<p class="updated">Last updated: 22 October 2026</p>
 
 This is one privacy policy for this website and for all of my apps. It explains what each app and the
 website collect, which services receive data, why, and what you can do about it.
@@ -34,6 +34,7 @@ scripts and no images from other servers.
 |---|---|---|---|---|
 | Easy Dice | Mixpanel | Sentry | Google AdMob or Guild Ads | Apple |
 | Tear Tales | Mixpanel | Sentry | Guild Ads | Apple |
+| Family Tree | Mixpanel | Sentry | none | Apple |
 
 When I publish a new app or an app starts using another service, it is added to this table and
 described below.

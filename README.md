@@ -46,11 +46,13 @@ engine/scripts/jekyll.sh build && node engine/scripts/check-site.mjs
 - nothing is loaded from a third party (scripts, stylesheets, icons, images, CSS `url()`);
 - every page except the 404 page links to the Impressum and the privacy policy;
 - the Smart App Banner tag is on each app page and not on the main page;
-- for every app in `data/apps/`, the `file:` entries under `screenshots:` are exactly the `.jpg` files in
-  `assets/apps/<id>/screenshots/`, and `hero.image` is one of them;
+- for every app in `data/apps/`, the `file:` entries under `screenshots:` and `screenshots_ipad:` are exactly the
+  `.jpg` files in `assets/apps/<id>/screenshots/` (the carousel's in `screenshots/framed/` with
+  `framed_screenshots: true`), and `hero.image` is one of the plain ones;
 - every app page has the anchors `#features`, `#screenshots`, `#support` and `#download` (the header nav
   links to them, and the App Store support URL may point at `/<id>/#support`); a past app
   (`discontinued: true`) has `#features`, `#screenshots` and `#retired` instead, and no Smart App Banner;
+  an app that is not released yet (`coming_soon: true`) has no Smart App Banner;
 - every screenshot is at most 200 KiB;
 - every app's accent colour, as text, has a contrast of at least 4.5:1 in light and dark mode, and the
   text on accent-coloured buttons too;
@@ -123,8 +125,23 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
    again with `formatOptions 70`. The layout assumes iPhone screenshots of 1320 × 2868 px, which
    become 600 × 1303 px; for another aspect ratio, adjust the `height` of the screenshot `<img>` in `engine/layouts/app.html`.
 
+   To show the framed App Store screenshots in the carousel, set `framed_screenshots: true` and put them, made
+   the same way, in `assets/apps/my-app/screenshots/framed/` under the same file names; leave out the
+   `caption`s, as each framed screenshot has its title. The hero and the main page keep the plain screenshots.
+
+   For an iPad app, add iPad screenshots as 900 px wide JPGs named `ipad-NN-….jpg` and list them under
+   `screenshots_ipad:`; they go in `screenshots/framed/` with `framed_screenshots`. The carousel then shows an
+   iPhone / iPad picker above it.
+
 5. Add the app's services to the table in `data/privacy-policy.md` (see below).
 6. Run the checks. The main page lists the new app automatically; no layout or CSS change is needed.
+
+### Before an app is on the App Store
+
+Set `coming_soon: true` and leave out `app_store_id` and `app_store_url` (see `data/apps/family-tree.md`).
+The page and the main page then show "Coming soon" in place of the App Store badge, and the "Get the app"
+button is hidden. Once the app is released, add both fields, remove the flag, and move the page in
+`engine/scripts/check-site.mjs` to the list of pages with a Smart App Banner.
 
 ### When an app leaves the App Store
 

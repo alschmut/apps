@@ -14,8 +14,10 @@
       <li class="nav-section"><a class="nav-link" href="#features">Features</a></li>
       {%- unless page.discontinued %}
       <li class="nav-section"><a class="nav-link" href="#support">Support</a></li>
-      <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
       {%- endunless %}
+      {%- if page.app_store_url %}
+      <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
+      {%- endif %}
     </ul>
   </nav>
 </header>

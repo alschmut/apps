@@ -6,6 +6,19 @@ body_class: app-page
 {%- assign app_id = page.path | split: '/' | last | remove: '.md' -%}
 {%- assign app_dir = '/assets/apps/' | append: app_id -%}
 {%- assign shots_dir = app_dir | append: '/screenshots/' -%}
+{%- comment -%}
+  With framed_screenshots the carousel shows the framed App Store screenshots in screenshots/framed/;
+  the hero and the main page keep the plain ones.
+{%- endcomment -%}
+{%- if page.framed_screenshots -%}
+  {%- assign carousel_dir = shots_dir | append: 'framed/' -%}
+  {%- assign iphone_height = 1300 -%}
+  {%- assign ipad_height = 1201 -%}
+{%- else -%}
+  {%- assign carousel_dir = shots_dir -%}
+  {%- assign iphone_height = 1303 -%}
+  {%- assign ipad_height = 1200 -%}
+{%- endif -%}
 {%- comment -%} The hero shows the hero screenshot in front and the first two others behind it. {%- endcomment -%}
 {%- assign side_shots = page.screenshots | where_exp: "shot", "shot.file != page.hero.image" -%}
 <section id="top" class="app-hero">
@@ -21,9 +34,14 @@ body_class: app-page
       <h1 class="hero-title">{{ page.hero.title }}</h1>
       <p class="hero-subtitle">{{ page.hero.subtitle }}</p>
       {%- if page.discontinued %}
-      <p class="retired-note glass hero-cta">
+      <p class="store-note glass hero-cta">
         {% include icon.html name="archive" size=16 %}
         <span>No longer on the App Store</span>
+      </p>
+      {%- elsif page.coming_soon %}
+      <p class="store-note glass hero-cta">
+        {% include icon.html name="hourglass-split" size=16 %}
+        <span>Coming soon to the App Store</span>
       </p>
       {%- else %}
       <div class="store-badges hero-cta">
@@ -51,20 +69,22 @@ body_class: app-page
       <h2>{{ page.sections.screenshots.title }}</h2>
       <p class="section-description">{{ page.sections.screenshots.description }}</p>
     </div>
+    {%- if page.screenshots_ipad %}
+    {%- comment -%} Radio buttons, so the picker works without JS (see .device-picker). {%- endcomment %}
+    <fieldset class="device-picker glass">
+      <legend class="sr-only">Screenshots for</legend>
+      <label><input type="radio" name="device" value="iphone" checked><span>iPhone</span></label>
+      <label><input type="radio" name="device" value="ipad"><span>iPad</span></label>
+    </fieldset>
+    {%- endif %}
     <div class="screenshots-container">
       <button type="button" class="carousel-arrow carousel-prev glass" aria-label="Previous screenshot">
         {% include icon.html name="chevron-left" size=18 %}
       </button>
-      <ul class="screenshots-scroll" role="list">
-        {%- for shot in page.screenshots %}
-        <li class="screenshot-card">
-          <figure>
-            <img class="screenshot-image" src="{{ shots_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="{{ shot.alt | escape }}" loading="lazy" decoding="async">
-            <figcaption>{{ shot.caption | escape }}</figcaption>
-          </figure>
-        </li>
-        {%- endfor %}
-      </ul>
+      {% include screenshot-list.html shots=page.screenshots dir=carousel_dir device="iphone" width=600 height=iphone_height framed=page.framed_screenshots %}
+      {%- if page.screenshots_ipad %}
+      {% include screenshot-list.html shots=page.screenshots_ipad dir=carousel_dir device="ipad" width=900 height=ipad_height framed=page.framed_screenshots %}
+      {%- endif %}
       <button type="button" class="carousel-arrow carousel-next glass" aria-label="Next screenshot">
         {% include icon.html name="chevron-right" size=18 %}
       </button>
@@ -142,9 +162,16 @@ body_class: app-page
     <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
     <h2>{{ page.sections.download.title }}</h2>
     <p class="download-text">{{ page.sections.download.text }}</p>
+    {%- if page.coming_soon %}
+    <p class="store-note glass">
+      {% include icon.html name="hourglass-split" size=16 %}
+      <span>Coming soon to the App Store</span>
+    </p>
+    {%- else %}
     <div class="store-badges">
       {% include store-badge.html %}
     </div>
+    {%- endif %}
   </div>
 </section>
 {%- endif %}

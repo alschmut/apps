@@ -47,11 +47,21 @@ faq:
     a: Tear Tales has no account. It uses usage analytics, which you can switch off in Settings, and crash reports to improve the app, and the free version shows a sponsor banner. The content of your records is never sent to me. The [privacy policy](/privacy-policy/) explains each service.
   - q: How do I get in touch?
     a: Write to [apps@t-schmutz.de](mailto:apps@t-schmutz.de), or use "Give feedback" in the app's Settings.
+# The carousel shows the framed App Store screenshots in screenshots/framed/, without captions; the
+# hero and the main page show the plain ones. With iPad screenshots the carousel gets an iPhone / iPad picker.
+framed_screenshots: true
 screenshots:
-  - { file: 01-calendar.jpg,      alt: "A calendar with crying moments marked by emoji on their days",   caption: "Every crying moment in your calendar" }
-  - { file: 02-records-list.jpg,  alt: "A list of records with tags, dates and notes, one of them hidden", caption: "All your records, with private notes hidden" }
-  - { file: 03-statistics.jpg,    alt: "A bar chart of 38 crying moments over the year",                 caption: "See your patterns, filtered by intensity and tags" }
-  - { file: 04-new-record.jpg,    alt: "The New Record screen with date, intensity, tags and a note",     caption: "Capture your tears with intensity, note and tags" }
-  - { file: 05-welcome.jpg,       alt: "The welcome screen listing the app's features",                   caption: "Synced via iCloud, up to date on all your devices" }
-  - { file: 06-settings.jpg,      alt: "The Settings screen with Tear Tales Pro, Private Mode and tags",  caption: "Private Mode, tags, import and export in Settings" }
+  - { file: 01-calendar.jpg,      alt: "A calendar with crying moments marked by emoji on their days" }
+  - { file: 02-records-list.jpg,  alt: "A list of records with tags, dates and notes, one of them hidden" }
+  - { file: 03-statistics.jpg,    alt: "A bar chart of 38 crying moments over the year" }
+  - { file: 04-new-record.jpg,    alt: "The New Record screen with date, intensity, tags and a note" }
+  - { file: 05-welcome.jpg,       alt: "The welcome screen listing the app's features" }
+  - { file: 06-settings.jpg,      alt: "The Settings screen with Tear Tales Pro, Private Mode and tags" }
+screenshots_ipad:
+  - { file: ipad-01-calendar.jpg,      alt: "A calendar with crying moments marked by emoji on their days, on iPad" }
+  - { file: ipad-02-records-list.jpg,  alt: "A list of records with tags, dates and notes, one of them hidden, on iPad" }
+  - { file: ipad-03-statistics.jpg,    alt: "A bar chart of crying moments over the year, on iPad" }
+  - { file: ipad-04-new-record.jpg,    alt: "The New Record screen with date, intensity, tags and a note, on iPad" }
+  - { file: ipad-05-welcome.jpg,       alt: "The welcome screen listing the app's features, on iPad" }
+  - { file: ipad-06-settings.jpg,      alt: "The Settings screen with Tear Tales Pro, Private Mode and tags, on iPad" }
 ---
