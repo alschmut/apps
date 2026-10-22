@@ -1750,6 +1750,14 @@ button {
     text-underline-offset: 3px;
 }
 
+/* The questions and answers are not selectable, so tapping a question does not select its text.
+   Links in the answers still work. */
+.faq-item summary,
+.faq-answer {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 .faq-item summary {
     display: flex;
     align-items: center;
