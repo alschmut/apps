@@ -21,7 +21,7 @@ const MODES = {
   dark: { inkMix: 0.8, inkBase: '#ffffff', tintStrength: 0.13, bg: '#13121a' },
 };
 // Keep in sync with --on-accent in assets/css/site.css.
-const ON_ACCENT = '#16161a';
+const ON_ACCENT = '#000000';
 const MIN_CONTRAST = 4.5;
 
 const expectedFiles = [

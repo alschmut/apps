@@ -52,7 +52,7 @@
 
     /* Accent: set per app with style="--accent: …" on an .accent-scope element. */
     --accent: #6e5bff;
-    --on-accent: #16161a;
+    --on-accent: #000;
     --tint-strength: 7%;
     --accent-ink-mix: 45%;
     --accent-ink-base: #000;
@@ -373,7 +373,7 @@ button {
 .app-header .button {
     color: var(--on-accent);
     background: var(--accent);
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 40%, transparent);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 /* ==========================================

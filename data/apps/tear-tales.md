@@ -6,7 +6,7 @@ description: >-                                     # meta description + app row
   A private journal for your sad moments: note when you cried, how much and why, see your patterns
   in a year chart, and keep sensitive notes locked behind Face ID.
 tagline: Your private diary of crying moments
-accent: "#FB8500"
+accent: "#FF9500"
 icon: /assets/apps/tear-tales/icon-256.png
 icon_touch: /assets/apps/tear-tales/icon-180.png
 icon_favicon: /assets/apps/tear-tales/icon-64.png
