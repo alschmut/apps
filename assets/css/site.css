@@ -787,6 +787,22 @@ button {
     box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
+/* Between phone and two columns a tile spans the full width and has room to spare: the screenshot is
+   shown whole, with the same room below it as at the sides, and the link sits level with its bottom. */
+@media (min-width: 40rem) and (max-width: 47.99rem) {
+    .app-tile {
+        padding-bottom: 1.75rem;
+    }
+
+    .app-tile-body {
+        padding-bottom: 0;
+    }
+
+    .app-tile-preview {
+        aspect-ratio: auto;
+    }
+}
+
 /* Only shown on a phone, next to the hero screenshot. */
 .app-tile-preview-extra {
     display: none;
