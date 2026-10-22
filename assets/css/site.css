@@ -681,7 +681,7 @@ button {
     width: 56px;
     height: 56px;
     border-radius: var(--icon-radius);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 14%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
 }
 
 .app-tile h3 {
@@ -946,7 +946,7 @@ button {
     height: 64px;
     flex-shrink: 0;
     border-radius: var(--icon-radius);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 14%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
 }
 
 .hero-app-name {
@@ -1189,7 +1189,7 @@ button {
     height: 96px;
     margin-bottom: 1.5rem;
     border-radius: var(--icon-radius);
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 25%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+    box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 16%, transparent), 0 0 0 0.5px rgb(0 0 0 / 0.08);
 }
 
 .download-text {
