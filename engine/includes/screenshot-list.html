@@ -3,7 +3,7 @@
   screenshots folder), device ("iphone" or "ipad"), width and height of the JPGs, and framed (true for
   App Store screenshots with a device frame and a title: no frame around them and no caption under them).
 {%- endcomment -%}
-<ul class="screenshots-scroll{% if include.framed %} is-framed{% endif %}" data-device="{{ include.device }}" role="list">
+<ul class="screenshots-scroll{% if include.framed %} is-framed{% endif %}" data-device="{{ include.device }}" style="--shot-ratio: {{ include.width }} / {{ include.height }}" role="list">
   {%- for shot in include.shots %}
   <li class="screenshot-card">
     <figure>

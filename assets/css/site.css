@@ -1583,9 +1583,11 @@ button {
     pointer-events: none;
 }
 
+/* Neutral like an iOS segmented control, so the text reads well with any accent colour. */
 .device-picker label:has(input:checked) {
-    color: var(--on-accent);
-    background: var(--accent);
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 12%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 8%, transparent);
 }
 
 .device-picker label:has(input:focus-visible) {
@@ -1602,9 +1604,10 @@ button {
     display: flex;
 }
 
-/* As tall as the iPhone screenshots, so the arrows stay centred; narrower than the screen on a phone. */
+/* As tall as the iPhone screenshots, so the arrows stay centred; narrower than the screen on a phone.
+   --shot-ratio (width / height of the iPad screenshots) is set on the list, portrait or landscape. */
 .screenshots-scroll[data-device="ipad"] :is(.screenshot-card, .screenshot-image) {
-    width: min(var(--shot-width) * 1303 / 600 * 900 / 1200, 100vw - 2 * var(--gutter) - 2rem);
+    width: min(var(--shot-width) * 1303 / 600 * var(--shot-ratio), 100vw - 2 * var(--gutter) - 2rem);
 }
 
 .screenshots-scroll {

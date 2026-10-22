@@ -131,7 +131,8 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 
    For an iPad app, add iPad screenshots as 900 px wide JPGs named `ipad-NN-….jpg` and list them under
    `screenshots_ipad:`; they go in `screenshots/framed/` with `framed_screenshots`. The carousel then shows an
-   iPhone / iPad picker above it.
+   iPhone / iPad picker above it. For landscape iPad screenshots, make them 1200 px wide and set
+   `ipad_landscape: true`.
 
 5. Add the app's services to the table in `data/privacy-policy.md` (see below).
 6. Run the checks. The main page lists the new app automatically; no layout or CSS change is needed.

@@ -32,14 +32,28 @@ features:
   - { icon: bug,      title: Crashes,              text: "See crashes grouped by app version, with the stack trace and the number of affected users. Part of Premium." }
   - { icon: globe,    title: Your audience,        text: "Find out the countries, languages, iOS versions, app versions and device models of your users." }
   - { icon: grid-1x2, title: Home Screen widgets,  text: "Keep active users, a custom event or crashes on your Home Screen with customisable widgets. Part of Premium." }
+# The carousel shows the framed App Store screenshots in screenshots/framed/, without captions; the
+# hero and the main page show the plain ones. With iPad screenshots the carousel gets an iPhone / iPad picker.
+framed_screenshots: true
+ipad_landscape: true
 screenshots:
-  - { file: 01-active-users.jpg,   alt: "Charts of the active users, events and crashes of an app",  caption: "Active users, events and crashes of an app" }
-  - { file: 02-apps.jpg,           alt: "The list of apps of an App Center account",                 caption: "All the apps of your App Center account" }
-  - { file: 03-widgets.jpg,        alt: "Widgets with charts on the Home Screen",                    caption: "Widgets for your Home Screen" }
-  - { file: 04-event.jpg,          alt: "A custom event with its count, users and properties",      caption: "A custom event and its properties" }
-  - { file: 05-versions.jpg,       alt: "Charts of countries, iOS versions and app versions",       caption: "Countries, iOS versions and app versions" }
-  - { file: 06-crashes.jpg,        alt: "A chart of crashes and a list of crash groups",            caption: "Crashes, grouped by app version" }
-  - { file: 07-crash-group.jpg,    alt: "A crash group with its reports and affected users",        caption: "The details of a crash group" }
-  - { file: 08-accounts.jpg,       alt: "Two linked App Center accounts",                           caption: "Switch between several accounts" }
-  - { file: 09-settings.jpg,       alt: "The Settings screen with App Analytics Premium",           caption: "Premium and Settings" }
+  - { file: 01-active-users.jpg,   alt: "Charts of the active users, events and crashes of an app" }
+  - { file: 02-apps.jpg,           alt: "The list of apps of an App Center account" }
+  - { file: 03-widgets.jpg,        alt: "Widgets with charts on the Home Screen" }
+  - { file: 04-event.jpg,          alt: "A custom event with its count, users and properties" }
+  - { file: 05-versions.jpg,       alt: "Charts of countries, iOS versions and app versions" }
+  - { file: 06-crashes.jpg,        alt: "A chart of crashes and a list of crash groups" }
+  - { file: 07-crash-group.jpg,    alt: "A crash group with its reports and affected users" }
+  - { file: 08-accounts.jpg,       alt: "Two linked App Center accounts" }
+  - { file: 09-settings.jpg,       alt: "The Settings screen with App Analytics Premium" }
+screenshots_ipad:
+  - { file: ipad-01-active-users.jpg,   alt: "The list of apps beside charts of active users and crashes, on iPad" }
+  - { file: ipad-02-apps.jpg,           alt: "The list of apps of an App Center account, on iPad" }
+  - { file: ipad-03-widgets.jpg,        alt: "Widgets with charts on the Home Screen, on iPad" }
+  - { file: ipad-04-event.jpg,          alt: "A custom event with its count, users and properties, on iPad" }
+  - { file: ipad-05-versions.jpg,       alt: "Charts of countries, iOS versions and app versions, on iPad" }
+  - { file: ipad-06-crashes.jpg,        alt: "A chart of crashes and a list of crash groups, on iPad" }
+  - { file: ipad-07-crash-group.jpg,    alt: "A crash group with its reports and affected users, on iPad" }
+  - { file: ipad-08-accounts.jpg,       alt: "Two linked App Center accounts, on iPad" }
+  - { file: ipad-09-settings.jpg,       alt: "The Settings screen with App Analytics Premium, on iPad" }
 ---
