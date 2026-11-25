@@ -267,11 +267,15 @@ button {
     color: var(--bg);
     font-weight: 600;
     text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
     transform: translateY(-200%);
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
 .skip-link:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
     transform: none;
     outline-offset: 2px;
 }
