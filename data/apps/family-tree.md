@@ -6,7 +6,7 @@ description: >-                                     # meta description + app row
   Turns your contacts into a family tree: add parents, children and partners once, and they are
   saved right in Contacts, on all your devices. No account, nothing to type twice.
 tagline: Your family tree from Contacts
-accent: "#E8B800"
+accent: "#4A7DB8"
 icon: /assets/apps/family-tree/icon-256.png
 icon_touch: /assets/apps/family-tree/icon-180.png
 icon_favicon: /assets/apps/family-tree/icon-64.png
@@ -14,7 +14,7 @@ icon_favicon: /assets/apps/family-tree/icon-64.png
 # App Store badge, and no "Get the app" button. Add both and remove this flag once it is released.
 coming_soon: true
 hero:
-  title: The family you already carry around.
+  title: Your contacts, as a family tree.
   subtitle: >-
     Family Tree draws your family from the mother, father, child and partner entries in your
     contacts. Add relatives once: they are saved right in Contacts, so your tree is on all your
