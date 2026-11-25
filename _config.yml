@@ -42,6 +42,9 @@ exclude:
   - engine/includes
   - engine/scripts
   - README.md
+  - CLAUDE.md
+  - skills-lock.json
+  - skills
   - LICENSE
   - Gemfile
   - Gemfile.lock
