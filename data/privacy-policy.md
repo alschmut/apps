@@ -7,7 +7,7 @@ description: "What the apps of Alexander Schmutz, such as Easy Dice, Tear Tales 
 
 # Privacy Policy
 
-<p class="updated">Last updated: 22 October 2026</p>
+<p class="updated">Last updated: 25 November 2026</p>
 
 This is one privacy policy for this website and for all of my apps. It explains what each app and the
 website collect, which services receive data, why, and what you can do about it.
@@ -32,8 +32,8 @@ scripts and no images from other servers.
 
 | App | Analytics | Crash reports | Ads | In-app purchases |
 |---|---|---|---|---|
-| Easy Dice | Mixpanel | Sentry | Google AdMob or Guild Ads | Apple |
-| Tear Tales | Mixpanel | Sentry | Guild Ads | Apple |
+| Easy Dice | Mixpanel | Sentry | Kickstart Exchange | Apple |
+| Tear Tales | Mixpanel | Sentry | Kickstart Exchange | Apple |
 | Family Tree | Mixpanel | Sentry | none | Apple |
 
 When I publish a new app or an app starts using another service, it is added to this table and
@@ -71,38 +71,24 @@ reports; my legitimate interest is a stable app. For feedback you send, Art. 6(1
 transferred to the USA under the EU–US Data Privacy Framework or the EU standard contractual clauses. More
 information: [Sentry Privacy Policy](https://sentry.io/privacy/).
 
-## Advertising (Google AdMob)
+## Advertising (Kickstart Exchange)
 
-The free version of Easy Dice shows a small ad banner. On most installs it is provided by Google AdMob,
-a service of Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.
+The free versions of Easy Dice and Tear Tales show a small banner for another app, provided by
+Kickstart Exchange, a service of Hudson Heavy Industries Ltd, 37 Great Pulteney Street, Bath, BA2 4DA,
+United Kingdom. The banner appears on iOS 18 and later and disappears with the Pro version of the app.
 
-If you are in the European Economic Area or the United Kingdom, Google's consent dialog (the User
-Messaging Platform) asks for your consent before personalised ads are shown. Without your consent, only
-non-personalised ads are shown.
+Kickstart Exchange matches apps, not people: the banner is chosen for the app it appears in, and the
+service does not track you or your device across apps or build profiles. To show a banner, it receives
+details about the app, not about you: the app's bundle ID, platform, app and build version, the SDK
+version and the country of your App Store account. To confirm that the app is a genuine App Store
+install, it also receives the app's Apple-signed App Transaction, checks it and discards it right away
+without storing it. It records shown and tapped banners at app level, not linked to a person or device,
+and keeps these records for about 30 days. A tap on the banner opens the advertised app in the App Store.
 
-To show and measure ads, Google receives device information, your IP address, advertising and usage data
-such as which ads were shown and tapped, and, only if you allow tracking in the iOS prompt, the
-advertising identifier (IDFA) of your device.
-
-Legal basis: Art. 6(1)(a) GDPR (your consent) for personalised ads; otherwise Art. 6(1)(f) GDPR, my
-legitimate interest being financing the free app through ads. Google may process data outside the EU,
-including in the USA, under the EU–US Data Privacy Framework or the EU standard contractual clauses. More
-information: [Google Privacy Policy](https://policies.google.com/privacy) and
-[How Google uses information from sites or apps that use its services](https://policies.google.com/technologies/partner-sites).
-
-## Advertising (Guild Ads)
-
-The free version of Tear Tales, and some installs of Easy Dice instead of AdMob, show a banner from
-Guild Ads. Guild
-([guildads.com](https://guildads.com)) is the sole controller of the data its SDK collects.
-
-Guild Ads receives the app-specific vendor identifier (IDFV), never the advertising identifier;
-the ad impressions and taps with the placement where the ad was shown; and coarse device context: the
-device model, operating system version, locale, time zone, and the app's bundle ID and version.
-
-The ads are contextual: they are chosen for the app they appear in, and there is no tracking across apps.
-Legal basis: Art. 6(1)(f) GDPR; my legitimate interest is financing the free app through ads without
-cross-app tracking. More information: [guildads.com](https://guildads.com).
+Requests pass through Cloudflare, which processes your IP address to deliver them; Kickstart Exchange
+does not store it. Legal basis: Art. 6(1)(f) GDPR; my legitimate interest is financing the free app
+through ads without tracking. The United Kingdom has an EU adequacy decision. More information:
+[Kickstart Exchange privacy notice](https://exchange.kickstart.tools/privacy).
 
 ## In-app purchases
 
