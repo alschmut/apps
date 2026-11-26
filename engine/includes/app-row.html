@@ -33,9 +33,10 @@
     </a>
   </div>
   <div class="app-tile-preview" aria-hidden="true">
-    <img src="{{ shot | relative_url }}" alt="" width="600" height="1303" loading="lazy" decoding="async">
+    {% include iphone.html src=shot alt="" %}
     {%- if second_shot %}
-    <img class="app-tile-preview-extra" src="{{ shots_dir | append: second_shot.file | relative_url }}" alt="" width="600" height="1303" loading="lazy" decoding="async">
+    {%- assign second_src = shots_dir | append: second_shot.file %}
+    {% include iphone.html class="app-tile-preview-extra" src=second_src alt="" %}
     {%- endif %}
   </div>
 </li>

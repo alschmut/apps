@@ -62,9 +62,12 @@ body_class: app-page
     </div>
     <div class="hero-visual">
       {%- for shot in side_shots limit: 2 %}
-      <img class="hero-side hero-side-{{ forloop.index }}" src="{{ shots_dir | append: shot.file | relative_url }}" width="600" height="1303" alt="" loading="lazy" decoding="async">
+      {%- assign side_src = shots_dir | append: shot.file %}
+      {%- assign side_class = 'hero-side hero-side-' | append: forloop.index %}
+      {% include iphone.html class=side_class src=side_src alt="" %}
       {%- endfor %}
-      <img class="hero-image" src="{{ shots_dir | append: page.hero.image | relative_url }}" width="600" height="1303" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+      {%- assign hero_src = shots_dir | append: page.hero.image %}
+      {% include iphone.html class="hero-image" src=hero_src alt=page.hero.image_alt priority=true %}
     </div>
   </div>
 </section>

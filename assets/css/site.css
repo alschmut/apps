@@ -599,6 +599,34 @@ button {
 }
 
 
+/* A screenshot in a real iPhone 14 Pro Max frame (assets/images/iphone-frame.png, 1421 x 2909 at full
+   size, with the Dynamic Island). The screen is 1290 x 2796 at 67, 55: exactly the screenshots'
+   aspect ratio. The frame lies on top, so its rounded screen edge hides the screenshot's corners.
+   The shadow follows the frame's outline. */
+.iphone {
+    position: relative;
+    display: block;
+    aspect-ratio: 1421 / 2909;
+    filter: drop-shadow(var(--iphone-shadow, 0 8px 18px rgb(0 0 0 / 0.18)));
+}
+
+.iphone img {
+    position: absolute;
+    top: calc(55 / 2909 * 100%);
+    left: calc(67 / 1421 * 100%);
+    width: calc(1290 / 1421 * 100%);
+    height: calc(2796 / 2909 * 100%);
+    border-radius: 12% / 5.5%;
+}
+
+.iphone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("../images/iphone-frame.png") center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
 /* App tiles: a two-column grid of glass cards. */
 
 .app-grid {
@@ -617,9 +645,9 @@ button {
 }
 
 /* Text on the left, the hero screenshot on the right. The preview box is 82% as tall as the
-   screenshot and the tile cuts off the rest, so at least that much of it is always visible. */
+   iPhone and the tile cuts off the rest, so at least that much of it is always visible. */
 .app-tile {
-    --preview-width: 8.5rem;
+    --preview-width: 9.25rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--preview-width);
     gap: 1.5rem;
@@ -715,16 +743,13 @@ button {
 
 .app-tile-preview {
     position: relative;
-    aspect-ratio: 600 / 1068;
+    aspect-ratio: 1421 / 2385;
 }
 
-/* Framed like the screenshots on the app pages. */
-.app-tile-preview img {
+/* A small, soft glow in the app's colour. */
+.app-tile-preview .iphone {
+    --iphone-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 30%, transparent);
     width: 100%;
-    border-radius: 1.5rem;
-    outline: 5px solid var(--shot-frame);
-    /* A small, soft glow in the app's colour. */
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 /* Between phone and two columns a tile spans the full width and has room to spare: the screenshot is
@@ -765,12 +790,6 @@ button {
         justify-self: center;
         width: 100%;
         max-width: 22rem;
-        /* Inside the 5px frame of the screenshots. */
-        padding-inline: 5px;
-    }
-
-    .app-tile-preview img {
-        border-radius: 1.25rem;
     }
 
     .app-tile-preview-extra {
@@ -1020,12 +1039,10 @@ button {
 
 .hero-image,
 .hero-side {
+    --iphone-shadow: 0 24px 36px color-mix(in srgb, var(--accent) 25%, rgb(0 0 0 / 0.25));
     position: absolute;
     top: 0;
-    width: 240px;
-    border-radius: 2rem;
-    outline: 6px solid var(--shot-frame);
-    box-shadow: 0 30px 60px color-mix(in srgb, var(--accent) 25%, rgb(0 0 0 / 0.25));
+    width: 264px;
 }
 
 .hero-image {
@@ -1097,8 +1114,8 @@ button {
        fan sits 2rem down in a box 4rem taller than the hero image, so the hero image is
        centred next to the text and the tilted side screenshots, 3rem lower, still fit. */
     .hero-visual {
-        --shot-width: clamp(190px, 16vw, 230px);
-        height: calc(var(--shot-width) * 1303 / 600 + 4rem);
+        --shot-width: clamp(210px, 17.6vw, 253px);
+        height: calc(var(--shot-width) * 2909 / 1421 + 4rem);
         margin-top: 0;
         -webkit-mask-image: none;
         mask-image: none;
@@ -1108,7 +1125,6 @@ button {
     .hero-side {
         top: 2rem;
         width: var(--shot-width);
-        border-radius: 2.125rem;
     }
 
     /* The hero image sits a little lower than the fan's top, so it reads as centred. */

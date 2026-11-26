@@ -1,0 +1,5 @@
+{%- comment -%}
+  A screenshot in a real iPhone 14 Pro Max frame (see .iphone). Parameters: class (on the frame),
+  src, alt, and priority (true for the image that loads first; the others load lazily).
+{%- endcomment -%}
+<span class="iphone {{ include.class }}"><img src="{{ include.src | relative_url }}" width="600" height="1303" alt="{{ include.alt | escape }}" {% if include.priority %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async"></span>
