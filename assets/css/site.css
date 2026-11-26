@@ -340,15 +340,16 @@ button {
     font-size: 0.875rem;
 }
 
-/* The accent button in the app header. */
-.app-header .button {
-    color: var(--on-accent);
-    background: var(--accent);
-    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 25%, transparent);
+/* The accent button: "Get the app" in the app header, and "Pre-Order Now" before a release.
+   An app can give it its own colours with button and on_button in its front matter. */
+.button-accent {
+    color: var(--on-button, var(--on-accent));
+    background: var(--button, var(--accent));
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--button, var(--accent)) 25%, transparent);
 }
 
-.app-header .button:hover {
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+.button-accent:hover {
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--button, var(--accent)) 30%, transparent);
 }
 
 /* ==========================================
@@ -1187,6 +1188,25 @@ button {
     gap: 1rem;
     justify-content: center;
     margin: 0;
+}
+
+/* Before the release date: the "Pre-Order Now" button and the release date beside it. */
+.store-badges:has(.release-note) {
+    align-items: center;
+}
+
+.release-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.release-note .icon {
+    color: var(--accent-ink);
 }
 
 .store-badge-link {

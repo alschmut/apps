@@ -16,7 +16,8 @@
       <li class="nav-section"><a class="nav-link" href="#support">Support</a></li>
       {%- endunless %}
       {%- if page.app_store_url %}
-      <li><a class="button button-small" href="{{ page.app_store_url }}" rel="noopener">Get the app</a></li>
+      {%- include release-state.html %}
+      <li><a class="button button-small button-accent" href="{{ page.app_store_url }}" rel="noopener">{% if preorder %}Pre-Order Now{% else %}Get the app{% endif %}</a></li>
       {%- endif %}
     </ul>
   </nav>

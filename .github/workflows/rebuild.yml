@@ -1,0 +1,20 @@
+# GitHub Pages builds the site only on a push. This asks it to rebuild every night, shortly after
+# midnight in Berlin, so content that depends on the date (an app's release_date) switches on its own.
+name: Rebuild the site
+
+on:
+  schedule:
+    - cron: "15 23 * * *" # 00:15 in Berlin in winter, 01:15 in summer
+  workflow_dispatch:
+
+permissions:
+  pages: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request a GitHub Pages build
+        run: gh api --method POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}

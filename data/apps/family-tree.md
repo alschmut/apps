@@ -7,12 +7,17 @@ description: >-                                     # meta description + app row
   saved right in Contacts, on all your devices. No account, nothing to type twice.
 tagline: Your family tree from Contacts
 accent: "#4A7DB8"
+# The buttons take the navy of the icon, with white text.
+button: "#2B4269"
+on_button: "#FFFFFF"
 icon: /assets/apps/family-tree/icon-256.png
 icon_touch: /assets/apps/family-tree/icon-180.png
 icon_favicon: /assets/apps/family-tree/icon-64.png
-# Not yet on the App Store: no app_store_id or app_store_url, a "Coming soon" label in place of the
-# App Store badge, and no "Get the app" button. Add both and remove this flag once it is released.
-coming_soon: true
+app_store_id: "6814184164"
+app_store_url: https://apps.apple.com/app/id6814184164
+# Until this date the app is up for pre-order: "Pre-Order Now" in place of the App Store badge and
+# the "Get the app" button, and sections.download_preorder in place of sections.download.
+release_date: 2026-12-20
 hero:
   title: Your contacts, as a family tree.
   subtitle: >-
@@ -26,7 +31,8 @@ sections:
   screenshots: { title: A look at Family Tree, description: "A tree of every generation, relatives added in a few taps, and a PDF to share." }
   features:    { title: Built on your contacts, description: "No second database and no account: your family is already in your phone." }
   support:     { title: Support, description: "Something not working, or an idea? Write to apps@t-schmutz.de. I read every message." }
-  download:    { title: Family Tree is coming soon, text: "Family Tree will soon be on the App Store for iPhone and iPad. Family Tree Pro, a one-time in-app purchase, adds the PDF export, dates of death and quiet birthdays." }
+  download:    { title: Get Family Tree, text: "On the App Store for iPhone and iPad. Family Tree Pro, a one-time in-app purchase, adds the PDF export, dates of death and quiet birthdays." }
+  download_preorder: { title: Pre-order Family Tree, text: "Family Tree comes to the App Store for iPhone and iPad. Pre-order it now, and it downloads on release day. Family Tree Pro, a one-time in-app purchase, adds the PDF export, dates of death and quiet birthdays." }
 features:
   - { icon: diagram-3,       title: Built on your contacts,  text: "Mother, father, son, daughter, spouse and partner entries become a real family tree. Relatives you already entered show up right away, and the tree follows every change." }
   - { icon: people,          title: Explore the tree,        text: "Generations as rows, parents above and children below. Tap anyone to put them at the center, show ancestors, descendants or both, and see brothers and sisters through shared parents." }

@@ -12,7 +12,8 @@ apps.t-schmutz.de.
 ## How it deploys
 
 A push to `main` deploys the site through GitHub Pages' classic Jekyll build ("Deploy from a branch").
-There is no GitHub Actions workflow; Pages builds with its own pinned versions (Jekyll 3.10, the
+The only GitHub Actions workflow, `.github/workflows/rebuild.yml`, asks Pages to rebuild every night (see
+"Before an app is on the App Store"). Pages builds with its own pinned versions (Jekyll 3.10, the
 `github-pages` gem and its whitelisted plugins; this site uses `jekyll-sitemap`).
 
 The site currently lives under the `baseurl` `/apps`. Every internal link and asset goes through
@@ -55,7 +56,7 @@ engine/scripts/jekyll.sh build && node engine/scripts/check-site.mjs
   an app that is not released yet (`coming_soon: true`) has no Smart App Banner;
 - every screenshot is at most 200 KiB;
 - every app's accent colour, as text, has a contrast of at least 4.5:1 in light and dark mode, and the
-  text on accent-coloured buttons too;
+  text on accent-coloured buttons too (or on the `button` colour, if the app sets one);
 - no file is larger than 2 MiB.
 
 ## Where content lives
@@ -100,7 +101,9 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 1. Pick an id, for example `my-app`. It becomes the URL `/my-app/` and the asset folder.
 2. Copy `data/apps/easy-dice.md` to `data/apps/my-app.md` and fill in its front matter: `order` (position
    on the main page), `app_name`, `title`, `description`, `tagline`, `accent`, the `icon*` paths, `app_store_id`,
-   `app_store_url`, `hero`, `sections`, `features`, `faq` and `screenshots`.
+   `app_store_url`, `hero`, `sections`, `features`, `faq` and `screenshots`. The buttons are in the accent
+   colour with black text; to give them other colours, for example the icon's, set both `button` and
+   `on_button` (see `data/apps/family-tree.md`).
 3. Make the icons from the 1024 px App Store icon:
 
    ```sh
@@ -141,8 +144,19 @@ example Easy Dice's Settings). They keep the paths of the old WordPress site and
 
 Set `coming_soon: true` and leave out `app_store_id` and `app_store_url` (see `data/apps/family-tree.md`).
 The page and the main page then show "Coming soon" in place of the App Store badge, and the "Get the app"
-button is hidden. Once the app is released, add both fields, remove the flag, and move the page in
-`engine/scripts/check-site.mjs` to the list of pages with a Smart App Banner.
+button is hidden.
+
+Once it is up for pre-order, add both fields, remove the flag, set `release_date` (for example
+`release_date: 2026-12-20`), add `sections.download_preorder` (`title`, `text`), and move the page in
+`engine/scripts/check-site.mjs` to the list of pages with a Smart App Banner (see `data/apps/family-tree.md`).
+Until that date the page shows "Pre-Order Now" and the release date in place of the App Store badge and
+the "Get the app" button, the download card is made from `sections.download_preorder`, and the main page
+shows a "Pre-order" label. From the release date on (in the `timezone` of `_config.yml`), it looks like
+any other app.
+
+Pages only rebuilds the site on a push, so `.github/workflows/rebuild.yml` asks it to rebuild every
+night shortly after midnight (Berlin time); the switch then happens without a push. It can also be run by
+hand under Actions. GitHub pauses scheduled workflows in a repository without activity for 60 days.
 
 ### When an app leaves the App Store
 

@@ -6,6 +6,9 @@ description: >-
   Small, focused apps for iPhone, iPad and Apple Watch by Alexander Schmutz, an iOS developer in
   Stuttgart, Germany.
 
+# The day of the build decides whether an app with a release_date is still up for pre-order.
+timezone: Europe/Berlin
+
 url: https://alschmut.github.io
 # The site is served from https://alschmut.github.io/apps/.
 # For a custom domain, emptying baseurl (baseurl: "") is all that is needed; add the domain to CNAME.

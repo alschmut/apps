@@ -17,6 +17,11 @@
       <p class="app-tile-status">{% include icon.html name="archive" size=12 %}No longer available</p>
       {%- elsif app.coming_soon %}
       <p class="app-tile-status">{% include icon.html name="hourglass-split" size=12 %}Coming soon</p>
+      {%- else %}
+      {%- include release-state.html app=app %}
+      {%- if preorder %}
+      <p class="app-tile-status">{% include icon.html name="calendar3" size=12 %}Pre-order</p>
+      {%- endif %}
       {%- endif %}
     </div>
     <h3 id="app-{{ app_id }}">{{ app.app_name }}</h3>

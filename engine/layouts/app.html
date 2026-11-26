@@ -163,11 +163,14 @@ body_class: app-page
   </div>
 </section>
 {%- else %}
+{%- include release-state.html %}
+{%- assign download = page.sections.download %}
+{%- if preorder and page.sections.download_preorder %}{% assign download = page.sections.download_preorder %}{% endif %}
 <section id="download" class="download-section container">
   <div class="download-card glass">
     <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
-    <h2>{{ page.sections.download.title }}</h2>
-    <p class="download-text">{{ page.sections.download.text }}</p>
+    <h2>{{ download.title }}</h2>
+    <p class="download-text">{{ download.text }}</p>
     {%- if page.coming_soon %}
     <p class="store-note glass">
       {% include icon.html name="hourglass-split" size=16 %}

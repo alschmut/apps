@@ -171,11 +171,11 @@ check(
 );
 
 // Smart App Banner on the app pages only
-for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '6499500073']]) {
+for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '6499500073'], ['family-tree', '6814184164']]) {
   const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
   check((html.get(`${page}/index.html`) ?? '').includes(banner), `${page}/index.html has the Smart App Banner`, 'missing');
 }
-for (const page of ['index.html', 'app-analytics/index.html', 'family-tree/index.html']) {
+for (const page of ['index.html', 'app-analytics/index.html']) {
   check(!(html.get(page) ?? '').includes('name="apple-itunes-app"'), `${page} has no Smart App Banner`, 'found one');
 }
 
@@ -217,7 +217,10 @@ for (const appFile of appFiles) {
       return [mode, contrast(ink, tint)];
     }),
   );
-  const onAccentRatio = contrast(hex(ON_ACCENT), accent);
+  // With button and on_button the buttons have their own colours in place of the accent.
+  const button = field(data, 'button') && hex(field(data, 'button'));
+  const onButton = field(data, 'on_button') && hex(field(data, 'on_button'));
+  const onAccentRatio = button && onButton ? contrast(onButton, button) : contrast(hex(ON_ACCENT), accent);
   const ok = ratios.light >= MIN_CONTRAST && ratios.dark >= MIN_CONTRAST && onAccentRatio >= MIN_CONTRAST;
   check(
     ok,

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 {% include head.html %}
-<body class="{{ layout.body_class }}{% if page.accent %} accent-scope{% endif %}"{% if page.accent %} style="--accent: {{ page.accent }}"{% endif %}>
+<body class="{{ layout.body_class }}{% if page.accent %} accent-scope{% endif %}"{% if page.accent %} style="--accent: {{ page.accent }}{% if page.button %}; --button: {{ page.button }}; --on-button: {{ page.on_button }}{% endif %}"{% endif %}>
   <a class="skip-link" href="#main">Skip to content</a>
   {%- if layout.header == "site" %}
   {% include site-header.html %}

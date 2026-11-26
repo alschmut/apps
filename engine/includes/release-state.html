@@ -1,0 +1,13 @@
+{%- comment -%}
+  Sets `preorder` for include.app (the current page if left out): true while the app has a
+  release_date that is still ahead on the day the site is built (in the timezone of _config.yml).
+  From the release date on, the app looks like any other app on the App Store. A daily GitHub
+  Actions job (.github/workflows/rebuild.yml) rebuilds the site, so the switch happens on its own.
+{%- endcomment -%}
+{%- assign release_app = include.app | default: page -%}
+{%- assign preorder = false -%}
+{%- if release_app.release_date -%}
+  {%- assign release_day = release_app.release_date | date: '%Y-%m-%d' -%}
+  {%- assign build_day = site.time | date: '%Y-%m-%d' -%}
+  {%- if build_day < release_day -%}{%- assign preorder = true -%}{%- endif -%}
+{%- endif -%}
