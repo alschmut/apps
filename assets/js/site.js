@@ -1,6 +1,14 @@
 // The site's only script, loaded with defer. Everything works without it: the
 // carousel scrolls by touch or trackpad.
 (() => {
+  // The top bar turns slightly frosted once the page scrolls under it.
+  const topbar = document.querySelector('.topbar');
+  if (topbar) {
+    const update = () => topbar.classList.toggle('is-scrolled', window.scrollY > 4);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
   // Screenshot carousel arrows (ported from Karacho's Screenshots.astro).
   // With an iPhone / iPad picker there is one row per device; the arrows scroll the visible one.
   const scrollers = [...document.querySelectorAll('.screenshots-scroll')];

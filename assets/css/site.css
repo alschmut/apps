@@ -68,7 +68,7 @@
     --gutter: clamp(1.25rem, 5vw, 2.5rem);
     --topbar-height: 3.5rem;
     /* Below the status bar or the Dynamic Island when the page runs edge to edge (viewport-fit=cover). */
-    --topbar-offset: calc(0.75rem + env(safe-area-inset-top, 0px));
+    --topbar-offset: env(safe-area-inset-top, 0px);
     --section-space: clamp(4.5rem, 10vw, 7rem);
 
     --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -393,13 +393,21 @@ button {
    4. Top bars: slim site header and sticky app header
    ========================================== */
 
-/* A floating glass capsule. */
+/* A full-width bar, transparent at the top of the page. Once the page scrolls under it
+   (site.js sets .is-scrolled), it turns slightly frosted with a hairline below. */
 .topbar {
     position: sticky;
-    top: var(--topbar-offset);
+    top: 0;
     z-index: 1000;
-    height: var(--topbar-height);
-    margin: var(--topbar-offset) var(--gutter) 0;
+    padding-top: var(--topbar-offset);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.topbar.is-scrolled {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
 }
 
 .topbar-inner {
@@ -407,11 +415,7 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 0 1.5rem;
-    max-width: calc(var(--content-width) - 2 * var(--gutter));
     min-height: var(--topbar-height);
-    padding-inline: 1.25rem 0.5rem;
-    background: var(--glass-fill-strong);
-    border-radius: 999px;
 }
 
 .app-header {
@@ -1356,6 +1360,25 @@ button {
 
 .prose td {
     color: var(--text-muted);
+}
+
+/* On a phone the sheet runs from edge to edge, so the text gets almost the full width. */
+@media (max-width: 40rem) {
+    .prose {
+        margin-top: 0.5rem;
+        padding-inline: 0;
+    }
+
+    .prose-sheet {
+        --sheet-padding: 1.25rem;
+        padding-block: 2rem;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .prose-sheet::before {
+        content: none;
+    }
 }
 
 /* On a phone the table runs to the sheet's edges, like the screenshot carousel, so it reads as
