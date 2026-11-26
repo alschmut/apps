@@ -1325,7 +1325,7 @@ button {
 /* On a phone the sheet runs from edge to edge, so the text gets almost the full width. */
 @media (max-width: 40rem) {
     .prose {
-        margin-top: 0.5rem;
+        margin-top: 0;
         padding-inline: 0;
     }
 
