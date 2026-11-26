@@ -746,9 +746,8 @@ button {
     aspect-ratio: 1421 / 2385;
 }
 
-/* A small, soft glow in the app's colour. */
+/* A neutral shadow, not a glow in the app's colour: the real frame already sets the phone apart. */
 .app-tile-preview .iphone {
-    --iphone-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 30%, transparent);
     width: 100%;
 }
 
@@ -1039,7 +1038,7 @@ button {
 
 .hero-image,
 .hero-side {
-    --iphone-shadow: 0 24px 36px color-mix(in srgb, var(--accent) 25%, rgb(0 0 0 / 0.25));
+    --iphone-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 18%, rgb(0 0 0 / 0.25));
     position: absolute;
     top: 0;
     width: 264px;
