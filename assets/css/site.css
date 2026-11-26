@@ -1,14 +1,14 @@
 /* ==========================================================================
    site.css: the one stylesheet of the site, served as-is (no Sass).
 
-   Design: liquid glass. A soft, slowly drifting colour wallpaper lies behind
-   every page (tinted with the app's accent on app pages), and the content
-   floats on frosted glass panels with a light rim. Clean type, generous
+   Design: a plain background, with a few sections set off by a faint tint
+   of the accent (the app's colour on app pages). Cards are light panels
+   with a soft shadow. Clean type, generous
    space, large radii.
 
    Sections:
      1. Tokens              6. Home: hero, app tiles, contact
-     2. Base, wallpaper     7. App hero
+     2. Base                7. App hero
      3. Glass, buttons      8. Section header, download card, store badges
      4. Top bars            9. Prose pages
      5. Chips              10. Footers
@@ -31,7 +31,7 @@
     --border: #e4e1ec;
 
     /* Glass: a translucent fill, a light rim and a soft shadow. */
-    --glass-fill: rgb(255 255 255 / 0.42);
+    --glass-fill: rgb(255 255 255 / 0.8);
     --glass-fill-strong: rgb(255 255 255 / 0.72);
     /* Hovered glass: a little more frosted than --glass-fill. */
     --glass-fill-hover: color-mix(in srgb, var(--glass-fill-strong) 35%, var(--glass-fill));
@@ -45,17 +45,12 @@
     /* The frame around screenshots, dark like an iPhone's bezel. */
     --shot-frame: #1f1e26;
 
-    /* The wallpaper colours. On app pages they come from the accent. */
-    --wall-1: #ffd66b;
-    --wall-2: #b9a4ff;
-    --wall-3: #8fd3ff;
-    --wall-4: #ffa8c5;
-    --wall-strength: 80%;
 
     /* Accent: set per app with style="--accent: …" on an .accent-scope element. */
     --accent: #6e5bff;
     --on-accent: #000;
     --tint-strength: 7%;
+    --section-tint-strength: 4%;
     --accent-ink-mix: 45%;
     --accent-ink-base: #000;
 
@@ -84,7 +79,7 @@
         --text-muted: #a9a6b8;
         --border: #2f2d3c;
 
-        --glass-fill: rgb(255 255 255 / 0.06);
+        --glass-fill: rgb(255 255 255 / 0.05);
         --glass-fill-strong: rgb(40 38 52 / 0.72);
         --glass-rim: rgb(255 255 255 / 0.28);
         --glass-rim-soft: rgb(255 255 255 / 0.04);
@@ -94,9 +89,8 @@
 
         --shot-frame: #3a3846;
 
-        --wall-strength: 42%;
-
         --tint-strength: 13%;
+        --section-tint-strength: 6%;
         --accent-ink-mix: 80%;
         --accent-ink-base: #fff;
     }
@@ -109,18 +103,12 @@
     --accent-ink: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--accent-ink-base));
     --accent-tint: color-mix(in srgb, var(--accent) var(--tint-strength), var(--bg));
     --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
-}
-
-/* On an app page the wallpaper takes the app's colour. */
-.app-page {
-    --wall-1: var(--accent);
-    --wall-2: color-mix(in srgb, var(--accent) 55%, #ff7ab8);
-    --wall-3: color-mix(in srgb, var(--accent) 35%, #8fd3ff);
-    --wall-4: color-mix(in srgb, var(--accent) 70%, #fff);
+    /* The background of the few tinted sections: fainter than --accent-tint. */
+    --section-tint: color-mix(in srgb, var(--accent) var(--section-tint-strength), var(--bg));
 }
 
 /* ==========================================
-   2. Base and wallpaper
+   2. Base
    ========================================== */
 
 *,
@@ -134,7 +122,7 @@ html {
     text-size-adjust: 100%;
     background: var(--bg);
     scroll-behavior: smooth;
-    /* The page runs edge to edge (viewport-fit=cover), so the wallpaper also fills the strips
+    /* The page runs edge to edge (viewport-fit=cover), so the background also fills the strips
        beside the notch of an iPhone held sideways; the content stays clear of them. */
     padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
     /* Anchors stop below the sticky top bar. */
@@ -157,28 +145,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
-}
-
-/* The wallpaper: four large, soft colour fields that drift very slowly. It is fixed, so the
-   glass panels show different colours as the page scrolls under them. */
-body::before {
-    content: '';
-    position: fixed;
-    inset: -20vmax;
-    z-index: -1;
-    background:
-        radial-gradient(38vmax 30vmax at 18% 22%, color-mix(in srgb, var(--wall-1) var(--wall-strength), transparent), transparent 70%),
-        radial-gradient(34vmax 30vmax at 82% 18%, color-mix(in srgb, var(--wall-2) var(--wall-strength), transparent), transparent 70%),
-        radial-gradient(40vmax 32vmax at 75% 80%, color-mix(in srgb, var(--wall-3) var(--wall-strength), transparent), transparent 70%),
-        radial-gradient(30vmax 26vmax at 22% 85%, color-mix(in srgb, var(--wall-4) var(--wall-strength), transparent), transparent 70%);
-    filter: blur(20px);
-    animation: drift 40s ease-in-out infinite alternate;
-    pointer-events: none;
-}
-
-@keyframes drift {
-    from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-    to { transform: translate3d(-4vmax, 3vmax, 0) rotate(8deg) scale(1.08); }
 }
 
 main {
@@ -283,10 +249,6 @@ button {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
-    }
-
-    body::before {
-        animation: none;
     }
 
     *,
@@ -557,6 +519,8 @@ button {
    ========================================== */
 
 .home-hero {
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    background: var(--section-tint);
     padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2.5rem, 6vw, 4rem);
 }
 
@@ -935,7 +899,8 @@ button {
    ========================================== */
 
 .app-hero {
-    padding: calc(var(--topbar-height) + var(--topbar-offset) + clamp(2.75rem, 6.5vw, 4rem)) 0 0;
+    padding: calc(var(--topbar-height) + var(--topbar-offset) + clamp(2.75rem, 6.5vw, 4rem)) 0 clamp(2.5rem, 6vw, 4rem);
+    background: var(--section-tint);
     text-align: center;
     overflow-x: clip;
 }
@@ -1486,7 +1451,9 @@ button {
    ========================================== */
 
 .features-section {
-    padding-top: var(--section-space);
+    margin-top: var(--section-space);
+    padding-block: var(--section-space);
+    background: var(--section-tint);
 }
 
 .features-grid {
