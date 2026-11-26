@@ -355,17 +355,12 @@ button {
    4. Top bars: slim site header and sticky app header
    ========================================== */
 
-/* A full-width bar, transparent at the top of the page. Once the page scrolls under it
-   (site.js sets .is-scrolled), it turns slightly frosted with a hairline below. */
+/* A full-width, slightly frosted bar with a hairline below. */
 .topbar {
     position: sticky;
     top: 0;
     z-index: 1000;
     padding-top: var(--topbar-offset);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.topbar.is-scrolled {
     background: color-mix(in srgb, var(--bg) 72%, transparent);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
     backdrop-filter: blur(14px) saturate(160%);
