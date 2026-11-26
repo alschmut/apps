@@ -1088,7 +1088,7 @@ button {
 
 @media (min-width: 992px) {
     .app-hero {
-        padding-top: calc(var(--topbar-height) + var(--topbar-offset) + 6rem);
+        padding-top: calc(var(--topbar-height) + var(--topbar-offset) + 4.5rem);
         text-align: left;
     }
 
