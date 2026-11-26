@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 1
 app_name: Family Tree
 title: "Family Tree: Your family tree from Contacts"  # <title>
 description: >-                                     # meta description + app row text

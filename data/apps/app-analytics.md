@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 4
 app_name: App Analytics
 title: "App Analytics: A past app for Microsoft App Center"  # <title>
 description: >-                                     # meta description + app row text

@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 3
 app_name: Tear Tales
 title: "Tear Tales: Document your crying moments"  # <title>
 description: >-                                     # meta description + app row text

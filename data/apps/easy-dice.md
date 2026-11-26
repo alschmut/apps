@@ -1,5 +1,5 @@
 ---
-order: 1
+order: 2
 app_name: Easy Dice
 title: "Easy Dice: Simple, modern dice"           # <title>
 description: >-                                     # meta description + app row text
