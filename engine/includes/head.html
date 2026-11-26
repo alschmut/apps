@@ -1,16 +1,21 @@
 {%- assign owner = site.data.site.owner -%}
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- assign languages = site.data.site.languages -%}
+{%- include lang-path.html -%}
 {%- assign is_app = false -%}
 {%- if page.layout == "app" -%}{%- assign is_app = true -%}{%- endif -%}
 {%- if is_app -%}
   {%- assign page_title = page.title -%}
   {%- assign app_id = page.path | split: '/' | last | remove: '.md' -%}
   {%- assign app_dir = '/assets/apps/' | append: app_id -%}
-  {%- assign social_image = app_dir | append: '/screenshots/' | append: page.screenshots[0].file -%}
+  {%- assign social_dir = app_dir | append: '/screenshots/' -%}
+  {%- if page.screenshots_lang -%}{%- assign social_dir = social_dir | append: page.screenshots_lang | append: '/' -%}{%- endif -%}
+  {%- assign social_image = social_dir | append: page.screenshots[0].file -%}
 {%- else -%}
   {%- assign page_title = page.title | append: ' — ' | append: owner.name -%}
   {%- assign social_image = owner.portrait -%}
 {%- endif -%}
-{%- assign page_description = page.description | default: site.description | strip_newlines | strip -%}
+{%- assign page_description = page.description | default: t.site_description | strip_newlines | strip -%}
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -22,9 +27,20 @@
 {%- else %}
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
+{%- if neutral_path %}
+{%- for language in languages %}
+  <link rel="alternate" hreflang="{{ language.code }}" href="{{ '/' | append: language.code | append: neutral_path | absolute_url }}">
+{%- endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ neutral_path | absolute_url }}">
+{%- endif %}
 {%- endif %}
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:site_name" content="{{ t.site_title | escape }}">
+{%- for language in languages %}
+{%- if language.code == page.lang %}
+  <meta property="og:locale" content="{{ language.locale }}">
+{%- endif %}
+{%- endfor %}
   <meta property="og:title" content="{{ page_title | escape }}">
   <meta property="og:description" content="{{ page_description | escape }}">
   <meta property="og:image" content="{{ social_image | absolute_url }}">

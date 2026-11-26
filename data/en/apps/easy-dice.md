@@ -44,7 +44,7 @@ faq:
   - q: Can I turn off the sound or the vibration?
     a: "Yes. Settings has a switch for each: sounds, announce sum, vibration, dark dice, show sum, the dice button, and keeping the display awake."
   - q: Do you collect data about me?
-    a: Easy Dice has no account. It uses usage analytics, which you can switch off in Settings, and crash reports to improve the app, and the free version shows ads. The [privacy policy](/privacy-policy/) explains each service.
+    a: Easy Dice has no account. It uses usage analytics, which you can switch off in Settings, and crash reports to improve the app, and the free version shows ads. The [privacy policy](/en/privacy-policy/) explains each service.
   - q: How do I get in touch?
     a: Write to [apps@t-schmutz.de](mailto:apps@t-schmutz.de), or use "Give feedback" in the app's Settings.
 screenshots:

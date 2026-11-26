@@ -1,6 +1,6 @@
 ---
 layout: prose
-permalink: /impressum/
+permalink: /en/impressum/
 title: Impressum
 description: Legally required provider identification (Impressum) for the apps and website of Alexander Schmutz.
 ---

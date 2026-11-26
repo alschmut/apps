@@ -3,9 +3,12 @@ layout: base
 header: app
 body_class: app-page
 ---
+{%- assign t = site.data.i18n[page.lang] -%}
 {%- assign app_id = page.path | split: '/' | last | remove: '.md' -%}
 {%- assign app_dir = '/assets/apps/' | append: app_id -%}
 {%- assign shots_dir = app_dir | append: '/screenshots/' -%}
+{%- comment -%} With screenshots_lang (such as de) the screenshots are in screenshots/<lang>/, under the same names. {%- endcomment -%}
+{%- if page.screenshots_lang -%}{%- assign shots_dir = shots_dir | append: page.screenshots_lang | append: '/' -%}{%- endif -%}
 {%- comment -%}
   With framed_screenshots the carousel shows the framed App Store screenshots in screenshots/framed/;
   the hero and the main page keep the plain ones.
@@ -42,12 +45,12 @@ body_class: app-page
       {%- if page.discontinued %}
       <p class="store-note glass hero-cta">
         {% include icon.html name="archive" size=16 %}
-        <span>No longer on the App Store</span>
+        <span>{{ t.app.no_longer_on_store }}</span>
       </p>
       {%- elsif page.coming_soon %}
       <p class="store-note glass hero-cta">
         {% include icon.html name="hourglass-split" size=16 %}
-        <span>Coming soon to the App Store</span>
+        <span>{{ t.app.coming_soon_to_store }}</span>
       </p>
       {%- else %}
       <div class="store-badges hero-cta">
@@ -81,20 +84,20 @@ body_class: app-page
     {%- if page.screenshots_ipad %}
     {%- comment -%} Radio buttons, so the picker works without JS (see .device-picker). {%- endcomment %}
     <fieldset class="device-picker glass">
-      <legend class="sr-only">Screenshots for</legend>
+      <legend class="sr-only">{{ t.app.screenshots_for }}</legend>
       <label><input type="radio" name="device" value="iphone" checked><span>iPhone</span></label>
       <label><input type="radio" name="device" value="ipad"><span>iPad</span></label>
     </fieldset>
     {%- endif %}
     <div class="screenshots-container">
-      <button type="button" class="carousel-arrow carousel-prev glass" aria-label="Previous screenshot">
+      <button type="button" class="carousel-arrow carousel-prev glass" aria-label="{{ t.app.previous_screenshot }}">
         {% include icon.html name="chevron-left" size=18 %}
       </button>
       {% include screenshot-list.html shots=page.screenshots dir=carousel_dir device="iphone" width=600 height=iphone_height framed=page.framed_screenshots %}
       {%- if page.screenshots_ipad %}
       {% include screenshot-list.html shots=page.screenshots_ipad dir=carousel_dir device="ipad" width=ipad_width height=ipad_height framed=page.framed_screenshots %}
       {%- endif %}
-      <button type="button" class="carousel-arrow carousel-next glass" aria-label="Next screenshot">
+      <button type="button" class="carousel-arrow carousel-next glass" aria-label="{{ t.app.next_screenshot }}">
         {% include icon.html name="chevron-right" size=18 %}
       </button>
     </div>
@@ -135,7 +138,7 @@ body_class: app-page
       {%- if support_email %}
       <a class="button button-glass glass" href="{{ support_email.href }}">
         {% include icon.html name="email" size=16 %}
-        <span>Write to me</span>
+        <span>{{ t.app.write_to_me }}</span>
       </a>
       {%- endif %}
     </div>
@@ -159,8 +162,8 @@ body_class: app-page
     <img class="download-icon" src="{{ page.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
     <h2>{{ page.sections.retired.title }}</h2>
     <p class="download-text">{{ page.sections.retired.text }}</p>
-    <a class="button button-glass glass" href="{{ '/#apps' | relative_url }}">
-      <span>See my current apps</span>
+    <a class="button button-glass glass" href="{{ '/' | append: page.lang | append: '/#apps' | relative_url }}">
+      <span>{{ t.app.see_current_apps }}</span>
       {% include icon.html name="arrow-right" size=16 %}
     </a>
   </div>
@@ -177,7 +180,7 @@ body_class: app-page
     {%- if page.coming_soon %}
     <p class="store-note glass">
       {% include icon.html name="hourglass-split" size=16 %}
-      <span>Coming soon to the App Store</span>
+      <span>{{ t.app.coming_soon_to_store }}</span>
     </p>
     {%- else %}
     <div class="store-badges">

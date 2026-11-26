@@ -4,5 +4,9 @@ layout: prose
 <div class="not-found">
   <p class="not-found-code" aria-hidden="true">404</p>
 {{ content }}
-  <p><a href="{{ '/' | relative_url }}">← Back to the apps</a></p>
+  <p>
+{%- for language in site.data.site.languages %}
+    <a href="{{ '/' | append: language.code | append: '/' | relative_url }}" hreflang="{{ language.code }}" lang="{{ language.code }}">{{ site.data.i18n[language.code].not_found.back }}</a>{% unless forloop.last %}<br>{% endunless %}
+{%- endfor %}
+  </p>
 </div>

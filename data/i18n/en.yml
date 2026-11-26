@@ -1,0 +1,66 @@
+# The English texts of the templates in engine/. data/i18n/de.yml has the same keys.
+site_title: Alexander Schmutz — Apps
+site_description: >-
+  Small, focused apps for iPhone, iPad and Apple Watch by Alexander Schmutz, an iOS developer in
+  Stuttgart, Germany.
+skip_link: Skip to content
+language: Language
+nav_main: Main
+owner:
+  tagline: iOS developer in Stuttgart, Germany
+  greeting: Hello, I'm Alex
+  intro: >-
+    I build small, focused apps for iPhone, iPad and Apple Watch in my free time:
+    simple to use, quick to open, and made with care.
+  portrait_alt: Portrait of Alexander Schmutz
+home:
+  apps: Apps
+  past_projects: Past projects
+  past_projects_lead: Apps that are no longer on the App Store.
+contact:
+  title: Say hello
+  lead: Questions about an app, feedback, or an idea? Any of these reach me.
+  labels: { email: Email, github: GitHub, linkedin: LinkedIn }
+legal:
+  nav: Legal
+  impressum: Impressum
+  privacy: Privacy Policy
+site_header:
+  apps: Apps
+  contact: Contact
+app_header:
+  more_apps: More apps
+  apps: Apps
+  screenshots: Screenshots
+  features: Features
+  support: Support
+  get_app: Get the app
+  preorder_now: Pre-Order Now
+app_tile:
+  no_longer_available: No longer available
+  coming_soon: Coming soon
+  preorder: Pre-order
+  learn_more: Learn more
+  learn_more_about: about
+app:
+  no_longer_on_store: No longer on the App Store
+  coming_soon_to_store: Coming soon to the App Store
+  screenshots_for: Screenshots for
+  previous_screenshot: Previous screenshot
+  next_screenshot: Next screenshot
+  write_to_me: Write to me
+  see_current_apps: See my current apps
+badge:
+  download: Download on the App Store
+  download_black: /assets/images/app-store-download-black.svg
+  download_white: /assets/images/app-store-download-white.svg
+  preorder: Pre-order on the App Store
+  preorder_black: /assets/images/app-store-preorder-black.svg
+  preorder_white: /assets/images/app-store-preorder-white.svg
+  arrives_on: Arrives on
+# A date such as 20 December 2026: the day, the month name and the year.
+date:
+  format: "%d %M %Y"
+  months: [January, February, March, April, May, June, July, August, September, October, November, December]
+not_found:
+  back: ← Back to the apps

@@ -1,0 +1,28 @@
+{%- comment -%}
+  The language menu: a <details> disclosure, so it opens without JavaScript (assets/js/site.js closes
+  it on a click outside or Escape, and remembers the chosen language for the old paths without a
+  language, see engine/layouts/redirect.html). Each entry links to the same page in that language.
+  It sits in the footer and shows the current language; the menu opens upwards.
+{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang] -%}
+{%- include lang-path.html -%}
+{%- assign current = site.data.site.languages | where: "code", page.lang | first -%}
+<details class="lang-menu">
+  <summary class="lang-menu-text" aria-label="{{ t.language }}: {{ current.name }}">
+    {% include icon.html name="globe" size=14 %}
+    <span>{{ current.name }}</span>
+    {% include icon.html name="chevron-down" size=10 class="lang-menu-chevron" %}
+  </summary>
+  <ul class="lang-menu-list" role="list">
+    {%- for language in site.data.site.languages %}
+    {%- assign target = '/' | append: language.code | append: neutral_path %}
+    {%- unless neutral_path %}{% assign target = '/' | append: language.code | append: '/' %}{% endunless %}
+    <li>
+      <a class="lang-menu-item" href="{{ target | relative_url }}" hreflang="{{ language.code }}" lang="{{ language.code }}" data-lang="{{ language.code }}"{% if language.code == page.lang %} aria-current="true"{% endif %}>
+        <span>{{ language.name }}</span>
+        {%- if language.code == page.lang %}{% include icon.html name="check" size=16 %}{% endif %}
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</details>

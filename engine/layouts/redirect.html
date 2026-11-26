@@ -1,0 +1,47 @@
+{%- comment -%}
+  An old path without a language (/, /impressum/, /easy-dice/, …; see data/redirects/). These paths
+  are linked from App Store Connect and from inside the apps, so they keep working: the page sends
+  the visitor on to the same page in /en/ or /de/, keeping a #fragment such as #support.
+  The language is the one chosen last in a language menu (see assets/js/site.js), else the first
+  English or German language of the browser, else the first language of data/site.yml.
+  Without JavaScript the page goes to the fallback language.
+{%- endcomment -%}
+{%- assign languages = site.data.site.languages -%}
+{%- assign fallback = languages[0].code -%}
+{%- assign fallback_url = '/' | append: fallback | append: page.url | relative_url -%}
+<!doctype html>
+<html lang="{{ fallback }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.data.i18n[fallback].site_title | escape }}</title>
+  <meta name="robots" content="noindex">
+{%- for language in languages %}
+  <link rel="alternate" hreflang="{{ language.code }}" href="{{ '/' | append: language.code | append: page.url | absolute_url }}">
+{%- endfor %}
+  <script>
+    (function () {
+      var codes = [{% for language in languages %}'{{ language.code }}'{% unless forloop.last %}, {% endunless %}{% endfor %}];
+      var pick = null;
+      try { pick = localStorage.getItem('lang'); } catch (error) {}
+      if (codes.indexOf(pick) < 0) {
+        pick = '{{ fallback }}';
+        var preferred = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < preferred.length; i += 1) {
+          var code = String(preferred[i]).slice(0, 2).toLowerCase();
+          if (codes.indexOf(code) >= 0) { pick = code; break; }
+        }
+      }
+      location.replace('{{ site.baseurl }}/' + pick + '{{ page.url }}' + location.search + location.hash);
+    })();
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url={{ fallback_url }}"></noscript>
+</head>
+<body>
+  <p>
+{%- for language in languages %}
+    <a href="{{ '/' | append: language.code | append: page.url | relative_url }}" hreflang="{{ language.code }}" lang="{{ language.code }}">{{ language.name }}</a>{% unless forloop.last %} ·{% endunless %}
+{%- endfor %}
+  </p>
+</body>
+</html>

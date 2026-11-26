@@ -1,0 +1,3 @@
+---
+permalink: /app-analytics/
+---

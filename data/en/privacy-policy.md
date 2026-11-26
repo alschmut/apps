@@ -1,19 +1,19 @@
 ---
 layout: prose
-permalink: /privacy-policy/
+permalink: /en/privacy-policy/
 title: Privacy Policy
 description: "What the apps of Alexander Schmutz, such as Easy Dice, Tear Tales and Family Tree, and this website collect, which services receive data, and your rights."
 ---
 
 # Privacy Policy
 
-<p class="updated">Last updated: 25 November 2026</p>
+<p class="updated">Last updated: 26 November 2026</p>
 
 This is one privacy policy for this website and for all of my apps. It explains what each app and the
 website collect, which services receive data, why, and what you can do about it.
 
 I am the controller responsible for the processing described here; my name and postal address are given
-in the [Impressum]({{ '/impressum/' | relative_url }}). My apps have no accounts and no login, and there is
+in the [Impressum]({{ '/en/impressum/' | relative_url }}). My apps have no accounts and no login, and there is
 no server of mine behind them: the only data that leaves your device goes to the services named below.
 
 ## This website
@@ -26,7 +26,9 @@ Art. 6(1)(f) GDPR; my legitimate interest is a website that can be delivered rel
 information is in the [GitHub General Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
 
 The website sets no cookies, uses no analytics, and loads nothing from third parties: no fonts, no
-scripts and no images from other servers.
+scripts and no images from other servers. When you pick a language in the language menu, your browser
+remembers that choice locally (in local storage), so the website greets you in that language next time. It
+is never sent anywhere, and you can delete it at any time with your browser's website data.
 
 ## Which app uses what
 
@@ -92,7 +94,7 @@ through ads without tracking. The United Kingdom has an EU adequacy decision. Mo
 
 ## In-app purchases
 
-Easy Dice Pro, Tear Tales Pro, and any purchase I may offer in future, are handled entirely by Apple through the App
+Easy Dice Pro, Tear Tales Pro, Family Tree Pro, and any purchase I may offer in future, are handled entirely by Apple through the App
 Store. I receive no payment details and no personal information about you, only anonymous sales reports
 from Apple. To know whether a purchase is unlocked, the app asks the App Store on your device. Apple's
 handling of your data is described in [Apple's Privacy Policy](https://www.apple.com/legal/privacy/).
@@ -136,4 +138,4 @@ If this policy changes, the new version appears on this page with a new date at 
 ## Contact
 
 Alexander Schmutz · [apps@t-schmutz.de](mailto:apps@t-schmutz.de). The controller and postal address
-required by § 5 DDG are given in the [Impressum]({{ '/impressum/' | relative_url }}).
+required by § 5 DDG are given in the [Impressum]({{ '/en/impressum/' | relative_url }}).

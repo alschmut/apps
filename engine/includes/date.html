@@ -1,0 +1,10 @@
+{%- comment -%}
+  A date in the language of the page, such as "20 December 2026" or "20. Dezember 2026"
+  (date.format and date.months in data/i18n/<code>.yml). Parameter: date.
+{%- endcomment -%}
+{%- assign date_texts = site.data.i18n[page.lang].date -%}
+{%- assign date_day = include.date | date: '%-d' -%}
+{%- assign date_month = include.date | date: '%-m' | minus: 1 -%}
+{%- assign date_month_name = date_texts.months[date_month] -%}
+{%- assign date_year = include.date | date: '%Y' -%}
+{{- date_texts.format | replace: '%d', date_day | replace: '%M', date_month_name | replace: '%Y', date_year -}}

@@ -52,7 +52,7 @@ faq:
   - q: What does Family Tree Pro include?
     a: A one-time purchase, no subscription, that supports the app's development. It adds the PDF export, dates of death and quiet birthdays, and every future feature, and is shared with your Family Sharing group.
   - q: Do you collect data about me?
-    a: Family Tree has no account, and your contacts are never sent to us; they sync only through your own iCloud. Usage data and crash reports help improve the app, never contain names, and can be turned off in Settings. The [privacy policy](/privacy-policy/) explains each service.
+    a: Family Tree has no account, and your contacts are never sent to us; they sync only through your own iCloud. Usage data and crash reports help improve the app, never contain names, and can be turned off in Settings. The [privacy policy](/en/privacy-policy/) explains each service.
   - q: How do I get in touch?
     a: Write to [apps@t-schmutz.de](mailto:apps@t-schmutz.de), or use Feedback in the app's Settings.
 # The carousel shows the framed App Store screenshots in screenshots/framed/, without captions; the

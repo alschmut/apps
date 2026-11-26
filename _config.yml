@@ -1,5 +1,6 @@
-# Site settings. The content lives in data/: site.yml (owner, contact, legal), apps/<id>.md (one file per
-# app) and one Markdown file per other page. engine/ turns it into the site.
+# Site settings. The content lives in data/: site.yml (owner, contact, legal, languages), i18n/<code>.yml
+# (the texts of the templates in each language), and per language <code>/apps/<id>.md (one file per app)
+# and one Markdown file per other page. engine/ turns it into the site.
 
 title: Alexander Schmutz — Apps
 description: >-
@@ -30,17 +31,42 @@ layouts_dir: engine/layouts
 includes_dir: engine/includes
 data_dir: data
 
-# Every file in data/apps/ is an app page at /<file name>/.
+# Every page in data/<code>/ is in that language; every file in data/<code>/apps/ is an app page at
+# /<code>/<file name>/. data/redirects/ holds the old paths without a language (/, /impressum/, …),
+# which send the visitor to /en/ or /de/.
 defaults:
   - scope:
-      path: data/apps
+      path: data/en
+    values:
+      lang: en
+  - scope:
+      path: data/de
+    values:
+      lang: de
+  - scope:
+      path: data/en/apps
     values:
       layout: app
-      permalink: /:basename/
+      permalink: /en/:basename/
+  - scope:
+      path: data/de/apps
+    values:
+      layout: app
+      permalink: /de/:basename/
+  - scope:
+      path: data/redirects
+    values:
+      layout: redirect
+      sitemap: false
+  - scope:
+      path: data/404.md
+    values:
+      lang: en
 
 # data/*.yml is read as site.data, not published. engine/ is published only for robots.txt.
 exclude:
   - data/*.yml
+  - data/i18n
   - engine/layouts
   - engine/includes
   - engine/scripts

@@ -1,0 +1,67 @@
+# Die deutschen Texte der Templates in engine/. data/i18n/en.yml hat dieselben Schlüssel.
+site_title: Alexander Schmutz — Apps
+site_description: >-
+  Kleine, durchdachte Apps für iPhone, iPad und Apple Watch von Alexander Schmutz, iOS-Entwickler in
+  Stuttgart.
+skip_link: Zum Inhalt springen
+language: Sprache
+nav_main: Hauptnavigation
+owner:
+  tagline: iOS-Entwickler in Stuttgart
+  greeting: Hallo, ich bin Alex
+  intro: >-
+    In meiner Freizeit entwickle ich kleine, durchdachte Apps für iPhone, iPad und Apple Watch:
+    einfach zu bedienen, schnell geöffnet und mit Liebe gemacht.
+  portrait_alt: Porträt von Alexander Schmutz
+home:
+  apps: Apps
+  past_projects: Frühere Projekte
+  past_projects_lead: Apps, die es nicht mehr im App Store gibt.
+contact:
+  title: Sag hallo
+  lead: Fragen zu einer App, Feedback oder eine Idee? Hier erreichst du mich.
+  labels: { email: E-Mail, github: GitHub, linkedin: LinkedIn }
+legal:
+  nav: Rechtliches
+  impressum: Impressum
+  privacy: Datenschutz
+site_header:
+  apps: Apps
+  contact: Kontakt
+app_header:
+  more_apps: Weitere Apps
+  apps: Apps
+  screenshots: Screenshots
+  features: Funktionen
+  support: Support
+  get_app: App laden
+  preorder_now: Jetzt vorbestellen
+app_tile:
+  no_longer_available: Nicht mehr verfügbar
+  coming_soon: Bald verfügbar
+  preorder: Vorbestellbar
+  learn_more: Mehr erfahren
+  learn_more_about: über
+app:
+  no_longer_on_store: Nicht mehr im App Store
+  coming_soon_to_store: Bald im App Store
+  screenshots_for: Screenshots für
+  previous_screenshot: Vorheriger Screenshot
+  next_screenshot: Nächster Screenshot
+  write_to_me: Schreib mir
+  see_current_apps: Zu meinen aktuellen Apps
+badge:
+  download: Laden im App Store
+  download_black: /assets/images/app-store-download-black-de.svg
+  download_white: /assets/images/app-store-download-white-de.svg
+  # Apple has no German pre-order badge, so the English one stays.
+  preorder: Im App Store vorbestellen
+  preorder_black: /assets/images/app-store-preorder-black.svg
+  preorder_white: /assets/images/app-store-preorder-white.svg
+  arrives_on: Erscheint am
+# Ein Datum wie 20. Dezember 2026: der Tag, der Monatsname und das Jahr.
+date:
+  format: "%d. %M %Y"
+  months: [Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+not_found:
+  back: ← Zurück zu den Apps

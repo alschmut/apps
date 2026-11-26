@@ -1,8 +1,9 @@
+{%- assign t = site.data.i18n[page.lang] -%}
 <!doctype html>
-<html lang="en">
+<html lang="{{ page.lang }}">
 {% include head.html %}
 <body class="{{ layout.body_class }}{% if page.accent %} accent-scope{% endif %}"{% if page.accent %} style="--accent: {{ page.accent }}{% if page.button %}; --button: {{ page.button }}; --on-button: {{ page.on_button }}{% endif %}"{% endif %}>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">{{ t.skip_link }}</a>
   {%- if layout.header == "site" %}
   {% include site-header.html %}
   {%- elsif layout.header == "app" %}

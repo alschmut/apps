@@ -44,7 +44,7 @@ faq:
   - q: Can I export my records?
     a: Yes, with Tear Tales Pro. Under Import and Export in Settings you can save your records as a CSV table, a JSON file or plain text, and import them again from a CSV or JSON file in the same format.
   - q: Do you collect data about me?
-    a: Tear Tales has no account. It uses usage analytics, which you can switch off in Settings, and crash reports to improve the app, and the free version shows a sponsor banner. The content of your records is never sent to me. The [privacy policy](/privacy-policy/) explains each service.
+    a: Tear Tales has no account. It uses usage analytics, which you can switch off in Settings, and crash reports to improve the app, and the free version shows a sponsor banner. The content of your records is never sent to me. The [privacy policy](/en/privacy-policy/) explains each service.
   - q: How do I get in touch?
     a: Write to [apps@t-schmutz.de](mailto:apps@t-schmutz.de), or use "Give feedback" in the app's Settings.
 # The carousel shows the framed App Store screenshots in screenshots/framed/, without captions; the

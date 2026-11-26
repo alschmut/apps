@@ -4,20 +4,21 @@ header: none
 body_class: home
 ---
 {%- assign data = site.data.site -%}
+{%- assign t = site.data.i18n[page.lang] -%}
 <header class="home-hero">
   <div class="container home-hero-inner">
-    <img class="portrait" src="{{ data.owner.portrait | relative_url }}" alt="Portrait of {{ data.owner.name }}" width="200" height="200" fetchpriority="high">
+    <img class="portrait" src="{{ data.owner.portrait | relative_url }}" alt="{{ t.owner.portrait_alt }}" width="200" height="200" fetchpriority="high">
     <div class="home-hero-text">
-      <p class="chip glass">{{ data.owner.tagline }}</p>
-      <h1>{{ data.owner.greeting }}</h1>
-      <p class="home-intro">{{ data.owner.intro }}</p>
+      <p class="chip glass">{{ t.owner.tagline }}</p>
+      <h1>{{ t.owner.greeting }}</h1>
+      <p class="home-intro">{{ t.owner.intro }}</p>
     </div>
   </div>
 </header>
 
 <section id="apps" class="apps container" aria-labelledby="apps-heading">
-  <h2 class="section-title" id="apps-heading">Apps</h2>
-  {%- assign apps = site.pages | where: "layout", "app" | sort: "order" -%}
+  <h2 class="section-title" id="apps-heading">{{ t.home.apps }}</h2>
+  {%- assign apps = site.pages | where: "layout", "app" | where: "lang", page.lang | sort: "order" -%}
   {%- assign current_apps = apps | where_exp: "app", "app.discontinued != true" -%}
   {%- assign past_apps = apps | where: "discontinued", true %}
   <ul class="app-grid" role="list">
@@ -29,8 +30,8 @@ body_class: home
 {%- if past_apps.size > 0 %}
 
 <section id="past-projects" class="apps past-apps container" aria-labelledby="past-projects-heading">
-  <h2 class="section-title" id="past-projects-heading">Past projects</h2>
-  <p class="section-lead">Apps that are no longer on the App Store.</p>
+  <h2 class="section-title" id="past-projects-heading">{{ t.home.past_projects }}</h2>
+  <p class="section-lead">{{ t.home.past_projects_lead }}</p>
   <ul class="app-grid" role="list">
     {%- for app in past_apps %}
     {% include app-row.html app=app %}
@@ -41,15 +42,15 @@ body_class: home
 
 <section id="contact" class="contact container" aria-labelledby="contact-heading">
   <div class="contact-card glass">
-    <h2 class="section-title" id="contact-heading">Say hello</h2>
-    <p class="contact-lead">{{ data.contact.lead }}</p>
+    <h2 class="section-title" id="contact-heading">{{ t.contact.title }}</h2>
+    <p class="contact-lead">{{ t.contact.lead }}</p>
     <ul class="contact-links" role="list">
       {%- for channel in data.contact.channels %}
       <li>
         <a class="contact-link glass" href="{{ channel.href }}"{% if channel.href contains 'http' %} rel="me noopener"{% endif %}>
           <span class="contact-glyph">{% include icon.html name=channel.id size=18 %}</span>
           <span class="contact-labels">
-            <span class="contact-label">{{ channel.label }}</span>
+            <span class="contact-label">{{ t.contact.labels[channel.id] }}</span>
             <span class="contact-handle">{{ channel.handle }}</span>
           </span>
         </a>

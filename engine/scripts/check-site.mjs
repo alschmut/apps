@@ -24,14 +24,15 @@ const MODES = {
 const ON_ACCENT = '#000000';
 const MIN_CONTRAST = 4.5;
 
+// Every language has its pages under /<code>/; the paths without a language are redirects to them.
+const LANGUAGES = ['en', 'de'];
+const PAGES = ['', 'easy-dice/', 'tear-tales/', 'app-analytics/', 'family-tree/', 'privacy-policy/', 'impressum/'];
+const APP_STORE_IDS = { 'easy-dice': '1514806286', 'tear-tales': '6499500073', 'family-tree': '6814184164' };
+const NO_BANNER = ['', 'app-analytics/'];
+
 const expectedFiles = [
-  'index.html',
-  'easy-dice/index.html',
-  'tear-tales/index.html',
-  'app-analytics/index.html',
-  'family-tree/index.html',
-  'privacy-policy/index.html',
-  'impressum/index.html',
+  ...LANGUAGES.flatMap((lang) => PAGES.map((page) => `${lang}/${page}index.html`)),
+  ...PAGES.map((page) => `${page}index.html`),
   '404.html',
   'sitemap.xml',
   'robots.txt',
@@ -73,6 +74,8 @@ for (const entry of absentPaths) {
 
 const htmlFiles = files.filter((file) => file.endsWith('.html'));
 const html = new Map(await Promise.all(htmlFiles.map(async (file) => [file, await read(file)])));
+const langOf = (file) => LANGUAGES.find((lang) => file.startsWith(`${lang}/`));
+const isRedirect = (file) => (html.get(file) ?? '').includes('location.replace(');
 const css = fileSet.has('assets/css/site.css') ? await read('assets/css/site.css') : '';
 
 // Internal links: href, src and srcset
@@ -158,25 +161,56 @@ for (const [, url] of css.matchAll(/@import\s+(?:url\()?\s*['"]?([^'")\s;]+)/gi)
 thirdParty.forEach((problem) => fail(`third party   ${problem}`));
 check(thirdParty.length === 0, `${thirdParty.length} third-party scripts, stylesheets, fonts or images`);
 
-// Legal links on every page but the 404 page
-const legalTargets = [`${baseurl}/impressum/`, `${baseurl}/privacy-policy/`];
-const missingLegal = [...html]
-  .filter(([file]) => file !== '404.html')
-  .filter(([, content]) => !legalTargets.every((target) => content.includes(`href="${target}"`)))
-  .map(([file]) => file);
+// Legal links in the page's language on every page but the 404 page and the redirects
+const languagePages = [...html.keys()].filter((file) => langOf(file));
+const missingLegal = languagePages.filter((file) => {
+  const lang = langOf(file);
+  return ![`${baseurl}/${lang}/impressum/`, `${baseurl}/${lang}/privacy-policy/`].every((target) =>
+    html.get(file).includes(`href="${target}"`),
+  );
+});
 check(
   missingLegal.length === 0,
-  `${html.size - 1} pages link to the Impressum and the privacy policy`,
+  `${languagePages.length} pages link to the Impressum and the privacy policy in their language`,
   `missing in ${missingLegal.join(', ')}`,
 );
 
-// Smart App Banner on the app pages only
-for (const [page, appId] of [['easy-dice', '1514806286'], ['tear-tales', '6499500073'], ['family-tree', '6814184164']]) {
-  const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
-  check((html.get(`${page}/index.html`) ?? '').includes(banner), `${page}/index.html has the Smart App Banner`, 'missing');
+// Languages: html lang, a language menu that links to the same page in every language, and the old
+// paths without a language redirect to it
+const languageProblems = [];
+for (const file of languagePages) {
+  const lang = langOf(file);
+  const content = html.get(file);
+  const neutral = file.slice(lang.length).replace(/index\.html$/, '');
+  if (!content.includes(`<html lang="${lang}">`)) languageProblems.push(`${file}: no <html lang="${lang}">`);
+  for (const other of LANGUAGES) {
+    if (!content.includes(`class="lang-menu-item" href="${baseurl}/${other}${neutral}"`)) {
+      languageProblems.push(`${file}: the language menu does not link to /${other}${neutral}`);
+    }
+  }
 }
-for (const page of ['index.html', 'app-analytics/index.html']) {
-  check(!(html.get(page) ?? '').includes('name="apple-itunes-app"'), `${page} has no Smart App Banner`, 'found one');
+for (const page of PAGES) {
+  const file = `${page}index.html`;
+  if (!isRedirect(file) || !(html.get(file) ?? '').includes(`'${baseurl}/' + pick + '/${page}'`)) {
+    languageProblems.push(`${file}: does not redirect to /<language>/${page}`);
+  }
+}
+languageProblems.forEach((problem) => fail(`languages   ${problem}`));
+if (languageProblems.length === 0) {
+  pass(`${languagePages.length} pages in ${LANGUAGES.join(' and ')} link to each other; ${PAGES.length} old paths redirect`);
+}
+
+// Smart App Banner on the app pages only
+for (const lang of LANGUAGES) {
+  for (const [page, appId] of Object.entries(APP_STORE_IDS)) {
+    const banner = `<meta name="apple-itunes-app" content="app-id=${appId}">`;
+    const file = `${lang}/${page}/index.html`;
+    check((html.get(file) ?? '').includes(banner), `${file} has the Smart App Banner`, 'missing');
+  }
+  for (const page of NO_BANNER) {
+    const file = `${lang}/${page}index.html`;
+    check(!(html.get(file) ?? '').includes('name="apple-itunes-app"'), `${file} has no Smart App Banner`, 'found one');
+  }
 }
 
 // Accent contrast of every app, computed like color-mix(in srgb, …)
@@ -198,12 +232,49 @@ const contrast = (a, b) => {
 const frontMatter = (source) => source.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
 const field = (source, key) => source.match(new RegExp(`^${key}:\\s*["']?(#[0-9a-fA-F]{3,6})["']?`, 'm'))?.[1];
 
-const appsDir = path.join(root, 'data', 'apps');
-const appFiles = existsSync(appsDir) ? (await readdir(appsDir)).filter((file) => file.endsWith('.md')).sort() : [];
-check(appFiles.length > 0, `${appFiles.length} apps in data/apps/`, 'none found');
-for (const appFile of appFiles) {
-  const slug = appFile.replace(/\.md$/, '');
-  const data = frontMatter(await readFile(path.join(appsDir, appFile), 'utf8'));
+// The app files of every language, as "<lang>/apps/<id>.md" relative to data/.
+const appFiles = [];
+for (const lang of LANGUAGES) {
+  const dir = path.join(root, 'data', lang, 'apps');
+  const names = existsSync(dir) ? (await readdir(dir)).filter((file) => file.endsWith('.md')).sort() : [];
+  appFiles.push(...names.map((name) => `${lang}/apps/${name}`));
+}
+const slugOf = (appFile) => path.basename(appFile, '.md');
+const langOfApp = (appFile) => appFile.split('/')[0];
+const readApp = async (appFile) => frontMatter(await readFile(path.join(root, 'data', appFile), 'utf8'));
+check(appFiles.length > 0, `${appFiles.length} app files in data/<language>/apps/`, 'none found');
+
+// Every app in every language, with the same facts: only the texts differ.
+const SHARED_KEYS = ['order', 'app_name', 'accent', 'button', 'on_button', 'icon', 'icon_touch', 'icon_favicon', 'app_store_id',
+  'app_store_url', 'release_date', 'discontinued', 'coming_soon', 'framed_screenshots', 'ipad_landscape'];
+const facts = (data) => ({
+  ...Object.fromEntries(SHARED_KEYS.map((key) => [key, data.match(new RegExp(`^${key}:\\s*(.*?)\\s*(#.*)?$`, 'm'))?.[1] ?? ''])),
+  hero_image: data.match(/^\s+image:\s*["']?([^"'\s#]+)/m)?.[1] ?? '',
+  files: [...data.matchAll(/\bfile:\s*["']?([^"'\s,}]+)/g)].map((match) => match[1]).join(' '),
+});
+const slugs = [...new Set(appFiles.map(slugOf))].sort();
+for (const slug of slugs) {
+  const problems = [];
+  const [first, ...others] = LANGUAGES;
+  if (!appFiles.includes(`${first}/apps/${slug}.md`)) problems.push(`data/${first}/apps/${slug}.md missing`);
+  for (const lang of others) {
+    const appFile = `${lang}/apps/${slug}.md`;
+    if (!appFiles.includes(appFile)) {
+      problems.push(`data/${appFile} missing`);
+      continue;
+    }
+    if (problems.length > 0) continue;
+    const a = facts(await readApp(`${first}/apps/${slug}.md`));
+    const b = facts(await readApp(appFile));
+    const differ = Object.keys(a).filter((key) => a[key] !== b[key]);
+    if (differ.length > 0) problems.push(`data/${appFile} differs from data/${first}/apps/${slug}.md in ${differ.join(', ')}`);
+  }
+  check(problems.length === 0, `${slug}: one file per language with the same facts`, problems.join('; '));
+}
+
+for (const appFile of appFiles.filter((file) => langOfApp(file) === LANGUAGES[0])) {
+  const slug = slugOf(appFile);
+  const data = await readApp(appFile);
   const accentValue = field(data, 'accent');
   const accent = accentValue && hex(accentValue);
   if (!accent) {
@@ -235,8 +306,9 @@ const jpgsIn = async (dir) =>
 const sameSet = (a, b) => a.length === b.length && a.every((value, i) => value === b[i]);
 const kib = (bytes) => `${Math.round(bytes / 1024)} KiB`;
 for (const appFile of appFiles) {
-  const slug = appFile.replace(/\.md$/, '');
-  const data = frontMatter(await readFile(path.join(appsDir, appFile), 'utf8'));
+  const slug = slugOf(appFile);
+  const lang = langOfApp(appFile);
+  const data = await readApp(appFile);
 
   // screenshots: lists the plain iPhone screenshots; screenshots_ipad: the iPad ones of the carousel.
   // With framed_screenshots: true the carousel's files are in screenshots/framed/.
@@ -247,7 +319,9 @@ for (const appFile of appFiles) {
   const ipadFiles = filesIn('screenshots_ipad');
   const framed = /^framed_screenshots:\s*true\b/m.test(data);
   const listed = (framed ? iphoneFiles : [...iphoneFiles, ...ipadFiles]).sort();
-  const shotsDir = path.join(root, 'assets', 'apps', slug, 'screenshots');
+  // With screenshots_lang (such as de) the screenshots are in screenshots/<lang>/.
+  const shotsLang = data.match(/^screenshots_lang:\s*["']?([a-z]+)/m)?.[1];
+  const shotsDir = path.join(root, 'assets', 'apps', slug, 'screenshots', ...(shotsLang ? [shotsLang] : []));
   const framedDir = path.join(shotsDir, 'framed');
   const shotFiles = await jpgsIn(shotsDir);
   const framedFiles = await jpgsIn(framedDir);
@@ -260,11 +334,11 @@ for (const appFile of appFiles) {
   if (!heroImage || !iphoneFiles.includes(heroImage)) problems.push(`hero.image "${heroImage ?? ''}" is not one of them`);
   check(
     problems.length === 0,
-    `${listed.length + framedListed.length} screenshot files match the screenshots of data/apps/${appFile}`,
+    `${listed.length + framedListed.length} screenshot files match the screenshots of data/${appFile}`,
     problems.join('; '),
   );
 
-  const page = `${slug}/index.html`;
+  const page = `${lang}/${slug}/index.html`;
   const content = html.get(page) ?? '';
   const ids = /^discontinued:\s*true\b/m.test(data) ? pastAppPageIds : appPageIds;
   const missingIds = ids.filter((id) => !hasId(content, id));
@@ -274,13 +348,14 @@ for (const appFile of appFiles) {
     html.has(page) ? `missing #${missingIds.join(', #')}` : 'page missing',
   );
 
+  if (lang !== LANGUAGES[0] && !shotsLang) continue; // same screenshots as the first language
   const sizeOf = async (file) => (await stat(file)).size;
   const allShots = [...shotFiles.map((file) => path.join(shotsDir, file)), ...framedFiles.map((file) => path.join(framedDir, file))];
   const shotSizes = await Promise.all(allShots.map(sizeOf));
   const bigShots = allShots.filter((_, i) => shotSizes[i] > screenshotLimit).map((file) => path.relative(shotsDir, file));
   check(
     bigShots.length === 0,
-    `${slug}: largest screenshot ${kib(Math.max(0, ...shotSizes))} (limit 200 KiB)`,
+    `${shotsLang ? `${slug} (${shotsLang})` : slug}: largest screenshot ${kib(Math.max(0, ...shotSizes))} (limit 200 KiB)`,
     `too large: ${bigShots.join(', ')}`,
   );
 }

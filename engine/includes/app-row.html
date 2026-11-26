@@ -5,8 +5,10 @@
   (see .app-tile-link::after).
 {%- endcomment -%}
 {%- assign app = include.app -%}
+{%- assign t = site.data.i18n[page.lang] -%}
 {%- assign app_id = app.path | split: '/' | last | remove: '.md' -%}
 {%- assign shots_dir = '/assets/apps/' | append: app_id | append: '/screenshots/' -%}
+{%- if app.screenshots_lang -%}{%- assign shots_dir = shots_dir | append: app.screenshots_lang | append: '/' -%}{%- endif -%}
 {%- assign shot = shots_dir | append: app.hero.image -%}
 {%- assign second_shot = app.screenshots | where_exp: "s", "s.file != app.hero.image" | first -%}
 <li class="app-tile glass accent-scope" style="--accent: {{ app.accent }}">
@@ -14,13 +16,13 @@
     <div class="app-tile-top">
       <img class="app-tile-icon" src="{{ app.icon | relative_url }}" alt="" width="128" height="128" loading="lazy" decoding="async">
       {%- if app.discontinued %}
-      <p class="app-tile-status">{% include icon.html name="archive" size=12 %}No longer available</p>
+      <p class="app-tile-status">{% include icon.html name="archive" size=12 %}{{ t.app_tile.no_longer_available }}</p>
       {%- elsif app.coming_soon %}
-      <p class="app-tile-status">{% include icon.html name="hourglass-split" size=12 %}Coming soon</p>
+      <p class="app-tile-status">{% include icon.html name="hourglass-split" size=12 %}{{ t.app_tile.coming_soon }}</p>
       {%- else %}
       {%- include release-state.html app=app %}
       {%- if preorder %}
-      <p class="app-tile-status">{% include icon.html name="calendar3" size=12 %}Pre-order</p>
+      <p class="app-tile-status">{% include icon.html name="calendar3" size=12 %}{{ t.app_tile.preorder }}</p>
       {%- endif %}
       {%- endif %}
     </div>
@@ -28,7 +30,7 @@
     <p class="app-tile-tagline">{{ app.tagline }}</p>
     <p class="app-tile-description">{{ app.description }}</p>
     <a class="app-tile-link" href="{{ app.url | relative_url }}">
-      <span>Learn more<span class="sr-only"> about {{ app.app_name }}</span></span>
+      <span>{{ t.app_tile.learn_more }}<span class="sr-only"> {{ t.app_tile.learn_more_about }} {{ app.app_name }}</span></span>
       {% include icon.html name="arrow-right" size=16 %}
     </a>
   </div>

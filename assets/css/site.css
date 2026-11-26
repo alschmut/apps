@@ -13,6 +13,7 @@
      4. Top bars            9. Prose pages
      5. Chips              10. Footers
                            11. Features  12. Screenshots  13. FAQ
+                           14. Language menu
    ========================================================================== */
 
 /* ==========================================
@@ -1432,9 +1433,10 @@ button {
     color: var(--text-muted);
 }
 
-/* One line, also on a phone. */
+/* One line; on a narrow phone the links and the language menu move below the copyright. */
 .site-footer-inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0 1rem;
@@ -1448,6 +1450,12 @@ button {
     white-space: nowrap;
 }
 
+.footer-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .footer-links {
     display: flex;
     gap: 1rem;
@@ -1458,6 +1466,7 @@ button {
         font-size: 0.75rem;
     }
 
+    .footer-end,
     .footer-links {
         gap: 0.75rem;
     }
@@ -1831,4 +1840,101 @@ button {
 .faq-answer {
     margin: 0;
     color: var(--text-muted);
+}
+
+/* ==========================================
+   14. Language menu
+   ========================================== */
+
+/* A <details> disclosure in the footer (engine/includes/lang-menu.html): the language name, and a
+   list that opens upwards over the page. */
+.lang-menu {
+    position: relative;
+}
+
+.lang-menu > summary {
+    list-style: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.lang-menu > summary::-webkit-details-marker {
+    display: none;
+}
+
+.lang-menu-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.lang-menu-text:hover,
+.lang-menu[open] > .lang-menu-text {
+    color: var(--text);
+}
+
+.lang-menu-chevron {
+    transition: transform 0.2s ease;
+}
+
+.lang-menu[open] .lang-menu-chevron {
+    transform: rotate(180deg);
+}
+
+.lang-menu-list {
+    position: absolute;
+    bottom: calc(100% + 0.25rem);
+    right: 0;
+    z-index: 1100;
+    min-width: 11rem;
+    margin: 0;
+    padding: 0.35rem;
+    list-style: none;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--glass-shadow-lift), inset 0 0 0 1px var(--glass-edge);
+    animation: lang-menu-in 0.18s ease-out;
+}
+
+@keyframes lang-menu-in {
+    from { opacity: 0; transform: translateY(4px) scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lang-menu-list {
+        animation: none;
+    }
+}
+
+.lang-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 0.6rem;
+}
+
+.lang-menu-item:hover,
+.lang-menu-item:focus-visible {
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.lang-menu-item[aria-current] {
+    font-weight: 650;
+}
+
+.lang-menu-item .icon {
+    color: var(--accent-ink);
 }

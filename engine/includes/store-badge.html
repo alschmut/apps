@@ -1,17 +1,18 @@
+{%- assign t = site.data.i18n[page.lang] -%}
 {%- include release-state.html -%}
 {%- if preorder -%}
 <a class="store-badge-link" href="{{ page.app_store_url }}" rel="noopener">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="{{ '/assets/images/app-store-preorder-white.svg' | relative_url }}">
-    <img class="store-badge" src="{{ '/assets/images/app-store-preorder-black.svg' | relative_url }}" alt="Pre-order on the App Store" width="150" height="50">
+    <source media="(prefers-color-scheme: dark)" srcset="{{ t.badge.preorder_white | relative_url }}">
+    <img class="store-badge" src="{{ t.badge.preorder_black | relative_url }}" alt="{{ t.badge.preorder }}" width="150" height="50">
   </picture>
 </a>
-<p class="release-note">{% include icon.html name="calendar3" size=14 %}Arrives on {{ page.release_date | date: '%-d %B %Y' }}</p>
+<p class="release-note">{% include icon.html name="calendar3" size=14 %}{{ t.badge.arrives_on }} {% include date.html date=page.release_date %}</p>
 {%- else -%}
 <a class="store-badge-link" href="{{ page.app_store_url }}" rel="noopener">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="{{ '/assets/images/app-store-download-white.svg' | relative_url }}">
-    <img class="store-badge" src="{{ '/assets/images/app-store-download-black.svg' | relative_url }}" alt="Download on the App Store" width="150" height="50">
+    <source media="(prefers-color-scheme: dark)" srcset="{{ t.badge.download_white | relative_url }}">
+    <img class="store-badge" src="{{ t.badge.download_black | relative_url }}" alt="{{ t.badge.download }}" width="150" height="50">
   </picture>
 </a>
 {%- endif -%}

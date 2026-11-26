@@ -1,8 +1,9 @@
+{%- assign t = site.data.i18n[page.lang] -%}
 <header class="topbar app-header">
-  <nav class="container topbar-inner" aria-label="Main">
-    <a class="home-link" href="{{ '/' | relative_url }}" title="More apps">
+  <nav class="container topbar-inner" aria-label="{{ t.nav_main }}">
+    <a class="home-link" href="{{ '/' | append: page.lang | append: '/' | relative_url }}" title="{{ t.app_header.more_apps }}">
       {% include icon.html name="chevron-left" size=14 %}
-      <span>Apps</span>
+      <span>{{ t.app_header.apps }}</span>
     </a>
     <span class="brand-name">{{ page.app_name }}</span>
     {%- comment -%}
@@ -10,14 +11,14 @@
       "Get the app" button shows (see .nav-section).
     {%- endcomment %}
     <ul class="nav-list">
-      <li class="nav-section"><a class="nav-link" href="#screenshots">Screenshots</a></li>
-      <li class="nav-section"><a class="nav-link" href="#features">Features</a></li>
+      <li class="nav-section"><a class="nav-link" href="#screenshots">{{ t.app_header.screenshots }}</a></li>
+      <li class="nav-section"><a class="nav-link" href="#features">{{ t.app_header.features }}</a></li>
       {%- unless page.discontinued %}
-      <li class="nav-section"><a class="nav-link" href="#support">Support</a></li>
+      <li class="nav-section"><a class="nav-link" href="#support">{{ t.app_header.support }}</a></li>
       {%- endunless %}
       {%- if page.app_store_url %}
       {%- include release-state.html %}
-      <li><a class="button button-small button-accent" href="{{ page.app_store_url }}" rel="noopener">{% if preorder %}Pre-Order Now{% else %}Get the app{% endif %}</a></li>
+      <li><a class="button button-small button-accent" href="{{ page.app_store_url }}" rel="noopener">{% if preorder %}{{ t.app_header.preorder_now }}{% else %}{{ t.app_header.get_app }}{% endif %}</a></li>
       {%- endif %}
     </ul>
   </nav>

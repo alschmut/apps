@@ -1,0 +1,9 @@
+{%- comment -%}
+  Sets `neutral_path`: the path of this page without its language (/impressum/ for /de/impressum/,
+  / for /de/), from which the same page in another language is /<code><neutral_path>. It stays empty
+  for a page without a language in its path, such as the 404 page.
+{%- endcomment -%}
+{%- assign lang_prefix = '/' | append: page.lang | append: '/' -%}
+{%- assign lang_start = page.url | slice: 0, lang_prefix.size -%}
+{%- assign neutral_path = nil -%}
+{%- if lang_start == lang_prefix -%}{%- assign neutral_path = page.url | remove_first: lang_prefix | prepend: '/' -%}{%- endif -%}
