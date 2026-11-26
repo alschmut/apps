@@ -15,8 +15,8 @@ icon_touch: /assets/apps/family-tree/icon-180.png
 icon_favicon: /assets/apps/family-tree/icon-64.png
 app_store_id: "6814184164"
 app_store_url: https://apps.apple.com/app/id6814184164
-# Until this date the app is up for pre-order: "Pre-Order Now" in place of the App Store badge and
-# the "Get the app" button, and sections.download_preorder in place of sections.download.
+# Until this date the app is up for pre-order: the pre-order badge in place of the download badge,
+# "Pre-Order Now" in place of the "Get the app" button, and sections.download_preorder in place of sections.download.
 release_date: 2026-12-20
 hero:
   title: Your contacts, as a family tree.

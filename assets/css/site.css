@@ -1205,7 +1205,7 @@ button {
     margin: 0;
 }
 
-/* Before the release date: the "Pre-Order Now" button and the release date beside it. */
+/* Before the release date: the pre-order badge and the release date beside it. */
 .store-badges:has(.release-note) {
     align-items: center;
 }

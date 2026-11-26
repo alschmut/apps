@@ -149,8 +149,8 @@ button is hidden.
 Once it is up for pre-order, add both fields, remove the flag, set `release_date` (for example
 `release_date: 2026-12-20`), add `sections.download_preorder` (`title`, `text`), and move the page in
 `engine/scripts/check-site.mjs` to the list of pages with a Smart App Banner (see `data/apps/family-tree.md`).
-Until that date the page shows "Pre-Order Now" and the release date in place of the App Store badge and
-the "Get the app" button, the download card is made from `sections.download_preorder`, and the main page
+Until that date the page shows the "Pre-order on the App Store" badge with "Arrives on" and the release date
+in place of the download badge, "Pre-Order Now" in place of the "Get the app" button, the download card is made from `sections.download_preorder`, and the main page
 shows a "Pre-order" label. From the release date on (in the `timezone` of `_config.yml`), it looks like
 any other app.
 
