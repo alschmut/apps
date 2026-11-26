@@ -64,7 +64,7 @@
     --topbar-height: 3.5rem;
     /* Below the status bar or the Dynamic Island when the page runs edge to edge (viewport-fit=cover). */
     --topbar-offset: env(safe-area-inset-top, 0px);
-    --section-space: clamp(4.5rem, 10vw, 7rem);
+    --section-space: clamp(3rem, 6vw, 4.5rem);
 
     --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -1130,7 +1130,7 @@ button {
 
 .section-header {
     max-width: 40rem;
-    margin: 0 auto 3rem;
+    margin: 0 auto 2rem;
     text-align: center;
 }
 
@@ -1530,7 +1530,7 @@ button {
 }
 
 .screenshots-container {
-    --shot-width: 260px;
+    --shot-width: 230px;
     position: relative;
 }
 
