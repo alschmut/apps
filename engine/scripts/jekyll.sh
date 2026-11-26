@@ -9,6 +9,7 @@ CMD="${1:-build}"
 shift 2>/dev/null || true
 PORTS=""
 ARGS="$*"
+PRELOAD=""
 
 case "$CMD" in
   build) ;;
@@ -17,6 +18,8 @@ case "$CMD" in
     # Inside the container Jekyll would bind to 127.0.0.1, and file events
     # don't cross the bind mount reliably.
     ARGS="--host 0.0.0.0 --force_polling $ARGS"
+    # Redirect /apps to /apps/, as GitHub Pages does.
+    PRELOAD="RUBYOPT=-r./engine/scripts/serve-baseurl-slash.rb"
     ;;
   *)
     echo "usage: $0 build|serve [jekyll options]" >&2
@@ -33,4 +36,4 @@ if [ -t 0 ] && [ -t 1 ]; then TTY="-it"; fi
 # shellcheck disable=SC2086
 exec docker run --rm ${TTY} -v "$PWD":/srv/site -v easydice-web-gems:/usr/local/bundle -w /srv/site \
   -e PAGES_REPO_NWO=alschmut/apps \
-  ${PORTS} ruby:3.3 sh -c "bundle install --quiet && bundle exec jekyll $CMD $ARGS"
+  ${PORTS} ruby:3.3 sh -c "bundle install --quiet && ${PRELOAD} bundle exec jekyll $CMD $ARGS"
